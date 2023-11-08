@@ -45,7 +45,8 @@ if __name__ == "__main__":
     import os
 
     SCOPES = [
-        'https://www.googleapis.com/auth/youtube.readonly',  # get livestream data
+        # get livestream data
+        'https://www.googleapis.com/auth/youtube.readonly',
         # modify livestream description
         'https://www.googleapis.com/auth/youtube.force-ssl',
     ]

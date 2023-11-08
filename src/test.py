@@ -43,8 +43,8 @@ if __name__ == "__main__":
 
 
     SCOPES = [
-        'https://www.googleapis.com/auth/youtube.readonly',
-        'https://www.googleapis.com/auth/youtube.force-ssl',
+        'https://www.googleapis.com/auth/youtube.readonly',  # get livestream data
+        'https://www.googleapis.com/auth/youtube.force-ssl', # modify livestream description
     ]
     if os.path.exists('token.json'):
         flow = InstalledAppFlow.from_client_secrets_file('token.json', scopes=SCOPES)

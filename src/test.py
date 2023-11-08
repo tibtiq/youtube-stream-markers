@@ -64,4 +64,6 @@ if __name__ == "__main__":
     livestream_data = get_livestream_data(credentials)
     print(livestream_data)
     update_livestream_description(
-        credentials, livestream_data, 'IT WORKED AGAIN')
+        credentials, livestream_data,
+        'IT WORKED AGAIN',
+    )

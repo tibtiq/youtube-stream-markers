@@ -27,3 +27,7 @@ Create a Google Cloud Console project and now the project is selected
     Create credentials -> OAuth client ID
     - Application type: Desktop app
     Download client secret as json
+
+
+# Sources
+- [Youtube Live Streaming API](https://developers.google.com/youtube/v3/live/docs/liveBroadcasts)

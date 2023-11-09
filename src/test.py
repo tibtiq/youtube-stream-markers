@@ -6,27 +6,27 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 
 
 @dataclass
-class LivestreamData:
-    """Represents relevant data for a livestream.
+class broadcastData:
+    """Represents relevant data for a broadcast.
 
     Attributes:
-        livestream_id: ID of livestream. Required for youtube live API calls.
-        livestream_description: Description of the livestream
+        broadcast_id: ID of broadcast. Required for youtube live API calls.
+        broadcast_description: Description of the broadcast
         scheduled_start_time: Scheduled start time of stream. Required for youtube live API calls.
     """
-    livestream_id: str
-    livestream_description: str
+    broadcast_id: str
+    broadcast_description: str
     scheduled_start_time: str
 
 
-def get_livestream_data(credentials: Credentials) -> LivestreamData:
-    """Gets relevant data from the latest livestream.
+def get_broadcast_data(credentials: Credentials) -> broadcastData:
+    """Gets relevant data from the latest broadcast.
 
     Args:
         credentials (Credentials): Credentials used for making youtube live API calls.
 
     Returns:
-        LivestreamData: Data containing relevant information to make API call.
+        broadcastData: Data containing relevant information to make API call.
     """
     with build('youtube', 'v3', credentials=credentials) as service:
         # pylint: disable=no-member
@@ -39,30 +39,30 @@ def get_livestream_data(credentials: Credentials) -> LivestreamData:
     # get latest broadcast
     latest_broadcast = response['items'][0]
 
-    return LivestreamData(
+    return broadcastData(
         latest_broadcast['id'],
         latest_broadcast['snippet']['description'],
         latest_broadcast['snippet']['publishedAt'],
     )
 
 
-def update_livestream_description(credentials: Credentials, livestream_data: LivestreamData, new_description: str) -> None:
-    """Updates livestream description with new description.
+def update_broadcast_description(credentials: Credentials, broadcast_data: broadcastData, new_description: str) -> None:
+    """Updates broadcast description with new description.
 
     Args:
         credentials (Credentials): Credentials used for making youtube live API calls.
-        livestream_data (LivestreamData): Data containing relevant information to make API call.
-        new_description (str): Text to replace livestream's current description.
+        broadcast_data (broadcastData): Data containing relevant information to make API call.
+        new_description (str): Text to replace broadcast's current description.
     """
     with build('youtube', 'v3', credentials=credentials) as service:
         # pylint: disable=no-member
         response = service.liveBroadcasts().update(
             part='snippet',
             body={
-                'id': livestream_data.livestream_id,
+                'id': broadcast_data.broadcast_id,
                 'snippet': {
                     # required
-                    'scheduledStartTime': livestream_data.scheduled_start_time,
+                    'scheduledStartTime': broadcast_data.scheduled_start_time,
                     'description': new_description
                 }
             }
@@ -71,9 +71,9 @@ def update_livestream_description(credentials: Credentials, livestream_data: Liv
 
 def main() -> None:
     SCOPES = [
-        # get livestream data
+        # get broadcast data
         'https://www.googleapis.com/auth/youtube.readonly',
-        # modify livestream description
+        # modify broadcast description
         'https://www.googleapis.com/auth/youtube.force-ssl',
     ]
     if os.path.exists('token.json'):
@@ -88,12 +88,12 @@ def main() -> None:
     flow.run_local_server()
     credentials = flow.credentials
 
-    livestream_data = get_livestream_data(credentials)
-    print(livestream_data)
-    update_livestream_description(
+    broadcast_data = get_broadcast_data(credentials)
+    print(broadcast_data)
+    update_broadcast_description(
         credentials,
-        livestream_data,
-        f'{livestream_data.livestream_description} IT WORKED AGAIN',
+        broadcast_data,
+        f'{broadcast_data.broadcast_description} IT WORKED AGAIN',
     )
 
 

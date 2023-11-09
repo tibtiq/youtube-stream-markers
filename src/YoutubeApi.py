@@ -1,6 +1,8 @@
 # todo turn this code into a class
 
-import os
+import pathlib
+import json
+import sys
 from dataclasses import dataclass
 from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
@@ -19,6 +21,35 @@ class broadcastData:
     broadcast_id: str
     broadcast_description: str
     scheduled_start_time: str
+
+
+def get_youtube_credentials(token_path: pathlib.Path) -> Credentials:
+    assert token_path.exists(), (
+        f'The provided path for api token is invalid: {token_path}'
+    )
+
+    scopes = [
+        # get broadcast data
+        'https://www.googleapis.com/auth/youtube.readonly',
+        # modify broadcast description
+        'https://www.googleapis.com/auth/youtube.force-ssl',
+    ]
+    try:
+        flow = InstalledAppFlow.from_client_secrets_file(
+            token_path,
+            scopes=scopes,
+        )
+    except json.decoder.JSONDecodeError:
+        sys.exit(
+            'Please obtain a OAuth client ID, '
+            'rename it to token.json, and add it to same folder as script\n'
+            'https://github.com/googleapis/google-api-python-client/blob/main/docs/oauth-installed.md#creating-application-credentials'
+        )
+
+    # opens authorization URL and runs a server to multiple API calls can be made
+    flow.run_local_server()
+
+    return flow.credentials
 
 
 def get_broadcast_data(credentials: Credentials) -> broadcastData:
@@ -73,27 +104,10 @@ def update_broadcast_description(credentials: Credentials, broadcast_data: broad
 
 
 def main() -> None:
-    SCOPES = [
-        # get broadcast data
-        'https://www.googleapis.com/auth/youtube.readonly',
-        # modify broadcast description
-        'https://www.googleapis.com/auth/youtube.force-ssl',
-    ]
     # todo commandline argument
-    if os.path.exists('token.json'):
-        flow = InstalledAppFlow.from_client_secrets_file(
-            'token.json', scopes=SCOPES)
-    else:
-        exit(
-            'Please obtain a OAuth client ID,'
-            'rename it to token.json, and add it to same folder as script,'
-            'https://github.com/googleapis/google-api-python-client/blob/main/docs/oauth-installed.md#creating-application-credentials'
-        )
-    flow.run_local_server()
-    credentials = flow.credentials
-
+    token_path = pathlib.Path('token.json')
+    credentials = get_youtube_credentials(token_path)
     broadcast_data = get_broadcast_data(credentials)
-    print(broadcast_data)
     update_broadcast_description(
         credentials,
         broadcast_data,

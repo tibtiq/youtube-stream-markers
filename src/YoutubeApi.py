@@ -1,3 +1,5 @@
+# todo turn this code into a class
+
 import os
 from dataclasses import dataclass
 from googleapiclient.discovery import build

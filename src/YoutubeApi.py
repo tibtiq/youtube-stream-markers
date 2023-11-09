@@ -5,7 +5,6 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 
 
-# todo rename broadcast to broadcast, thats the term youtube uses
 @dataclass
 class broadcastData:
     """Represents relevant data for a broadcast.

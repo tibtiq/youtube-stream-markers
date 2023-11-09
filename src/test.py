@@ -32,6 +32,7 @@ def get_livestream_data(credentials: Credentials) -> LivestreamData:
         # pylint: disable=no-member
         response = service.liveBroadcasts().list(
             part='snippet',
+            # required
             mine=True,
         ).execute()
 
@@ -60,6 +61,7 @@ def update_livestream_description(credentials: Credentials, livestream_data: Liv
             body={
                 'id': livestream_data.livestream_id,
                 'snippet': {
+                    # required
                     'scheduledStartTime': livestream_data.scheduled_start_time,
                     'description': new_description
                 }

@@ -1,3 +1,4 @@
+import os
 from dataclasses import dataclass
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -63,9 +64,7 @@ def update_livestream_description(credentials, livestream_data: LivestreamData, 
         ).execute()
 
 
-if __name__ == "__main__":
-    import os
-
+def main() -> None:
     SCOPES = [
         # get livestream data
         'https://www.googleapis.com/auth/youtube.readonly',
@@ -91,3 +90,7 @@ if __name__ == "__main__":
         livestream_data,
         f'{livestream_data.livestream_description} IT WORKED AGAIN',
     )
+
+
+if __name__ == "__main__":
+    main()

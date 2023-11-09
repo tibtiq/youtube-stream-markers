@@ -31,3 +31,5 @@ Create a Google Cloud Console project and now the project is selected
 
 # Sources
 - [Youtube Live Streaming API](https://developers.google.com/youtube/v3/live/docs/liveBroadcasts)
+
+    Documents available hooks with the API and allows testing them in the website

@@ -33,3 +33,5 @@ Create a Google Cloud Console project and now the project is selected
 - [Youtube Live Streaming API](https://developers.google.com/youtube/v3/live/docs/liveBroadcasts)
 
     Documents available hooks with the API and allows testing them in the website
+
+- [Python sample code for youtube Live Streaming API](https://github.com/youtube/api-samples/blob/master/python/README.md)

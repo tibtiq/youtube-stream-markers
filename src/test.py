@@ -18,6 +18,14 @@ class LivestreamData:
 
 
 def get_livestream_data(credentials) -> LivestreamData:
+    """Gets relevant data from the latest livestream.
+
+    Args:
+        credentials (_type_): Credentials used for making youtube live API calls.
+
+    Returns:
+        LivestreamData: Data containing relevant information to make API call.
+    """
     with build('youtube', 'v3', credentials=credentials) as service:
         response = service.liveBroadcasts().list(
             part='snippet',
@@ -35,6 +43,13 @@ def get_livestream_data(credentials) -> LivestreamData:
 
 
 def update_livestream_description(credentials, livestream_data: LivestreamData, new_description: str) -> None:
+    """Updates livestream description with new description.
+
+    Args:
+        credentials (_type_): Credentials used for making youtube live API calls.
+        livestream_data (LivestreamData): Data containing relevant information to make API call.
+        new_description (str): Text to replace livestream's current description.
+    """
     with build('youtube', 'v3', credentials=credentials) as service:
         response = service.liveBroadcasts().update(
             part='snippet',

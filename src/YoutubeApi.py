@@ -5,6 +5,7 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 
 
+# todo rename broadcast to broadcast, thats the term youtube uses
 @dataclass
 class broadcastData:
     """Represents relevant data for a broadcast.
@@ -31,6 +32,7 @@ def get_broadcast_data(credentials: Credentials) -> broadcastData:
     with build('youtube', 'v3', credentials=credentials) as service:
         # pylint: disable=no-member
         response = service.liveBroadcasts().list(
+            # filter for active ones, raise an error otherwise
             part='snippet',
             # required
             mine=True,
@@ -76,6 +78,7 @@ def main() -> None:
         # modify broadcast description
         'https://www.googleapis.com/auth/youtube.force-ssl',
     ]
+    # todo commandline argument
     if os.path.exists('token.json'):
         flow = InstalledAppFlow.from_client_secrets_file(
             'token.json', scopes=SCOPES)

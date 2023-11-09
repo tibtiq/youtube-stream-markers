@@ -29,6 +29,7 @@ def get_livestream_data(credentials: Credentials) -> LivestreamData:
         LivestreamData: Data containing relevant information to make API call.
     """
     with build('youtube', 'v3', credentials=credentials) as service:
+        # pylint: disable=no-member
         response = service.liveBroadcasts().list(
             part='snippet',
             mine=True,
@@ -53,6 +54,7 @@ def update_livestream_description(credentials: Credentials, livestream_data: Liv
         new_description (str): Text to replace livestream's current description.
     """
     with build('youtube', 'v3', credentials=credentials) as service:
+        # pylint: disable=no-member
         response = service.liveBroadcasts().update(
             part='snippet',
             body={

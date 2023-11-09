@@ -34,7 +34,7 @@ def get_livestream_data(credentials) -> LivestreamData:
     )
 
 
-def update_livestream_description(credentials, livestream_data: LivestreamData, text_to_append: str) -> None:
+def update_livestream_description(credentials, livestream_data: LivestreamData, new_description: str) -> None:
     with build('youtube', 'v3', credentials=credentials) as service:
         response = service.liveBroadcasts().update(
             part='snippet',
@@ -42,7 +42,7 @@ def update_livestream_description(credentials, livestream_data: LivestreamData, 
                 'id': livestream_data.livestream_id,
                 'snippet': {
                     'scheduledStartTime': livestream_data.scheduled_start_time,
-                    'description': f'{livestream_data.livestream_description}\n{text_to_append}'
+                    'description': new_description
                 }
             }
         ).execute()
@@ -74,5 +74,5 @@ if __name__ == "__main__":
     update_livestream_description(
         credentials,
         livestream_data,
-        'IT WORKED AGAIN',
+        f'{livestream_data.livestream_description} IT WORKED AGAIN',
     )

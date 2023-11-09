@@ -5,6 +5,13 @@ from dataclasses import dataclass
 
 @dataclass
 class LivestreamData:
+    """Represents relevant data for a livestream.
+
+    Attributes:
+        livestream_id: ID of livestream. Required for youtube live API calls.
+        livestream_description: Description of the livestream
+        scheduled_start_time: Scheduled start time of stream. Required for youtube live API calls.
+    """
     livestream_id: str
     livestream_description: str
     scheduled_start_time: str

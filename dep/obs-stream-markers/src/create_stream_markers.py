@@ -45,12 +45,12 @@ def write_timestamp(
     """
     current_timestamp = get_timestamp('float')
     assert output_folder_path != pathlib.Path('.'), (
-        f"Output folder not set in script settings"
+        'Output folder not set in script settings'
     )
     if output_type is None and logging.root.level != logging.INFO:
         print('No marker saved, not recording or streaming.')
         return
-    elif last_timestamp == convert_timestamp_to_playback_time(current_timestamp):
+    if last_timestamp == convert_timestamp_to_playback_time(current_timestamp):
         logging.info('Prevented writing duplicate timestamp')
         return
     last_timestamp = convert_timestamp_to_playback_time(current_timestamp)
@@ -59,7 +59,7 @@ def write_timestamp(
     filename = f'{start_time} - {output_type or "DEBUG"}'
     if stream_service is not None:
         filename += f' - {stream_service}'
-    filename += f'.txt'
+    filename += '.txt'
     output_file_path = output_folder_path / filename
 
     logging.info(output_file_path)
@@ -94,7 +94,10 @@ def get_timestamp(output_format, date_format='%Y-%m-%d %H-%M-%S'):
     return timestamp
 
 
-def convert_timestamp_to_playback_time(timestamp: Union[float, int], playback_format: str = "%H:%M:%S"):
+def convert_timestamp_to_playback_time(
+    timestamp: Union[float, int],
+    playback_format: str = "%H:%M:%S"
+):
     """Converts a timestamp (seconds) into playback time (HOUR-MINUTE-SECONDS).
 
     The returned playback time has padded zeros.
@@ -126,6 +129,7 @@ def determine_streaming_service(stream_url):
 def hotkey_callback(button_down: bool):
     """Callback function for hotkey
     """
+    # pylint: disable=global-variable-not-assigned
     global SCRIPT_SETTINGS
 
     if button_down:
@@ -144,6 +148,7 @@ def on_event_callback(event):
 
     List of events can be found here: https://docs.obsproject.com/reference-frontend-api
     """
+    # pylint: disable=global-variable-not-assigned
     global SCRIPT_SETTINGS
 
     # determine if streaming or recording and started or stopped
@@ -220,9 +225,10 @@ def script_save(settings):
 def script_load(settings):
     """OBS hook that runs when script first loads or reloaded.
     """
+    # pylint: disable=global-variable-not-assigned
     global SCRIPT_SETTINGS
 
-    print("--- " + __file__ + " loaded ---")
+    print(f'--- {__file__} loaded ---')
 
     # handle OBS frontend events
     obs.obs_frontend_add_event_callback(on_event_callback)
@@ -234,11 +240,18 @@ def script_load(settings):
             'output_folder'
         ).lower(),
     )
-    # hack to pass additional arguments to callback function
-    def hotkey_callback_args(button_down): return hotkey_callback(button_down)
+
+    def hotkey_callback_args(button_down):
+        """hack to pass additional arguments to callback function
+        """
+        return hotkey_callback(button_down)
     HOTKEY_ID_ARRAY.append(obs.obs_hotkey_register_frontend(
-        "SHORTCUT 1", "Scripts - create_stream_markers.py - Push create stream marker", hotkey_callback_args))
-    HOTKEY_NAMES_BY_ID[HOTKEY_ID_ARRAY[len(HOTKEY_ID_ARRAY)-1]] = "SHORTCUT 1"
+        'SHORTCUT 1',
+        'Scripts - create_stream_markers.py - Push create stream marker',
+        hotkey_callback_args
+    )
+    )
+    HOTKEY_NAMES_BY_ID[HOTKEY_ID_ARRAY[len(HOTKEY_ID_ARRAY)-1]] = 'SHORTCUT 1'
 
     # load hotkeys from script save file
     for hotkey_id in HOTKEY_ID_ARRAY:
@@ -256,6 +269,7 @@ def script_load(settings):
 def script_update(settings):
     """OBS hook thats called whenever script settings get changed in OBS
     """
+    # pylint: disable=global-variable-not-assigned
     global SCRIPT_SETTINGS
     SCRIPT_SETTINGS['output_folder_path'] = pathlib.Path(
         obs.obs_data_get_string(settings, 'output_folder')
@@ -263,6 +277,8 @@ def script_update(settings):
 
     if obs.obs_data_get_bool(settings, "debug_enabled"):
         logging.root.setLevel(logging.INFO)
+        SCRIPT_SETTINGS['start_time'] = get_timestamp('string')
+        SCRIPT_SETTINGS['start_timestamp'] = get_timestamp('float')
     else:
         logging.root.setLevel(logging.CRITICAL)
 # ------------------------------------------------------------

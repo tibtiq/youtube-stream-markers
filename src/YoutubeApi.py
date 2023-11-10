@@ -10,7 +10,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 
 
 @dataclass
-class broadcastData:
+class BroadcastData:
     """Represents relevant data for a broadcast.
 
     Attributes:
@@ -52,14 +52,14 @@ def get_youtube_credentials(token_path: pathlib.Path) -> Credentials:
     return flow.credentials
 
 
-def get_broadcast_data(credentials: Credentials) -> broadcastData:
+def get_broadcast_data(credentials: Credentials) -> BroadcastData:
     """Gets relevant data from the latest broadcast.
 
     Args:
         credentials (Credentials): Credentials used for making youtube live API calls.
 
     Returns:
-        broadcastData: Data containing relevant information to make API call.
+        BroadcastData: Data containing relevant information to make API call.
     """
     with build('youtube', 'v3', credentials=credentials) as service:
         # pylint: disable=no-member
@@ -73,19 +73,19 @@ def get_broadcast_data(credentials: Credentials) -> broadcastData:
     # get latest broadcast
     latest_broadcast = response['items'][0]
 
-    return broadcastData(
+    return BroadcastData(
         latest_broadcast['id'],
         latest_broadcast['snippet']['description'],
         latest_broadcast['snippet']['publishedAt'],
     )
 
 
-def update_broadcast_description(credentials: Credentials, broadcast_data: broadcastData, new_description: str) -> None:
+def update_broadcast_description(credentials: Credentials, broadcast_data: BroadcastData, new_description: str) -> None:
     """Updates broadcast description with new description.
 
     Args:
         credentials (Credentials): Credentials used for making youtube live API calls.
-        broadcast_data (broadcastData): Data containing relevant information to make API call.
+        broadcast_data (BroadcastData): Data containing relevant information to make API call.
         new_description (str): Text to replace broadcast's current description.
     """
     with build('youtube', 'v3', credentials=credentials) as service:

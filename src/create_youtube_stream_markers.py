@@ -103,6 +103,7 @@ def on_event_callback(event):
 # ------------------------------------------------------------
 
 
+# todo update this
 def script_description():
     """OBS hook that setups up script description in OBS UI.
     """

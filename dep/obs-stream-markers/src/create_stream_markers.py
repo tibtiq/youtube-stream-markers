@@ -199,4 +199,6 @@ def script_update(settings):
         SCRIPT_SETTINGS['start_timestamp'] = get_timestamp('float')
     else:
         logging.root.setLevel(logging.CRITICAL)
+        SCRIPT_SETTINGS['start_time'] = None
+        SCRIPT_SETTINGS['start_timestamp'] = None
 # ------------------------------------------------------------

@@ -55,7 +55,7 @@ def hotkey_callback(button_down: bool):
         current_timestamp = get_timestamp('float')
         stream_marker = current_timestamp - SCRIPT_SETTINGS['start_timestamp']
         stream_marker = convert_timestamp_to_playback_time(stream_marker)
-        print(stream_marker)
+        logging.info(f'stream_marker: {stream_marker}')
 
         broadcast_data = get_broadcast_data(SCRIPT_SETTINGS['credentials'])
         update_broadcast_description(

@@ -6,7 +6,7 @@ import pathlib
 import logging
 # pylint: disable=import-error
 import obspython as obs
-from Timestamps import write_timestamp, get_timestamp, convert_timestamp_to_playback_time
+from Timestamps import get_timestamp, convert_timestamp_to_playback_time
 from YoutubeApi import get_youtube_credentials, get_broadcast_data, update_broadcast_description
 
 logging.basicConfig(

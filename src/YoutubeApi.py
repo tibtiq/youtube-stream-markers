@@ -24,6 +24,14 @@ class BroadcastData:
 
 
 def get_youtube_credentials(token_path: pathlib.Path) -> Credentials:
+    """Get youtube credentials with given Oauth token.
+
+    Args:
+        token_path (pathlib.Path): Path to OAuth token for youtube API credentials.
+
+    Returns:
+        Credentials: Google OAuth credentials that can be reused with Flow API calls.
+    """
     assert token_path.exists(), (
         f'The provided path for api token is invalid: {token_path}'
     )

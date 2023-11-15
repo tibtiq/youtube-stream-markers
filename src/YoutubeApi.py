@@ -88,7 +88,11 @@ def get_broadcast_data(credentials: Credentials) -> BroadcastData:
     )
 
 
-def update_broadcast_description(credentials: Credentials, broadcast_data: BroadcastData, new_description: str) -> None:
+def update_broadcast_description(
+    credentials: Credentials,
+    broadcast_data: BroadcastData,
+    new_description: str
+) -> None:
     """Updates broadcast description with new description.
 
     Args:

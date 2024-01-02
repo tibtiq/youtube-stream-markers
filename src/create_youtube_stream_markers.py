@@ -111,7 +111,7 @@ def script_description():
     description += '<b>Create stream markers</b>'
     description += '<hr>Script adds the ability to set a hotkey to save a timestamp to a file. '
     description += "The file's name will correspond to the start time of the stream. "
-    description += "Script will only create markers if streaming or recording."
+    description += 'Script will only create markers if streaming or recording.'
     description += '<hr>Debug mode enables debug settings and prints used for development.'
 
     return description

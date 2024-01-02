@@ -123,7 +123,7 @@ def script_properties():
     props = obs.obs_properties_create()
 
     # enable script's debug mode
-    obs.obs_properties_add_bool(props, "debug_enabled", "Debug mode")
+    obs.obs_properties_add_bool(props, 'debug_enabled', 'Debug mode')
 
     return props
 
@@ -192,7 +192,7 @@ def script_update(settings):
     # pylint: disable=global-variable-not-assigned
     global SCRIPT_SETTINGS
 
-    if obs.obs_data_get_bool(settings, "debug_enabled"):
+    if obs.obs_data_get_bool(settings, 'debug_enabled'):
         logging.root.setLevel(logging.INFO)
         SCRIPT_SETTINGS['start_time'] = get_timestamp('string')
         SCRIPT_SETTINGS['start_timestamp'] = get_timestamp('float')

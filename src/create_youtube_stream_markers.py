@@ -108,11 +108,11 @@ def script_description():
     """OBS hook that setups up script description in OBS UI.
     """
     description = ''
-    description += '<b>Create stream markers</b><hr>'
-    description += 'Script adds the ability to set a hotkey to save a timestamp to a file. '
+    description += '<b>Create stream markers</b>'
+    description += '<hr>Script adds the ability to set a hotkey to save a timestamp to a file. '
     description += "The file's name will correspond to the start time of the stream. "
-    description += "Script will only create markers if streaming or recording.<hr>"
-    description += 'Debug mode enables debug settings and prints used for development.'
+    description += "Script will only create markers if streaming or recording."
+    description += '<hr>Debug mode enables debug settings and prints used for development.'
 
     return description
 

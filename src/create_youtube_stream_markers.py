@@ -25,6 +25,7 @@ SCRIPT_SETTINGS = {
     'start_timestamp': None,
     'last_timestamp': None,
     'credentials': None,
+    'timestamp_group_range': 0,
 }
 
 
@@ -126,6 +127,15 @@ def script_properties():
     # enable script's debug mode
     obs.obs_properties_add_bool(props, 'debug_enabled', 'Debug mode')
 
+    obs.obs_properties_add_int(
+        props,
+        'group_timestamp_range',
+        'Range to group timestamps',
+        0,
+        10000,
+        1,
+    )
+
     return props
 
 
@@ -201,4 +211,10 @@ def script_update(settings):
         logging.root.setLevel(logging.CRITICAL)
         SCRIPT_SETTINGS['start_time'] = None
         SCRIPT_SETTINGS['start_timestamp'] = None
+
+    SCRIPT_SETTINGS['timestamp_group_range'] = obs.obs_data_get_int(
+        settings,
+        'group_timestamp_range'
+    )
+
 # ------------------------------------------------------------

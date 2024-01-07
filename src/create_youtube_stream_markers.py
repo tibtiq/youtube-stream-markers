@@ -194,7 +194,7 @@ def script_update(settings):
     global SCRIPT_SETTINGS
 
     if obs.obs_data_get_bool(settings, 'debug_enabled'):
-        logging.root.setLevel(logging.INFO)
+        logging.root.setLevel(logging.DEBUG)
         SCRIPT_SETTINGS['start_time'] = get_timestamp('string')
         SCRIPT_SETTINGS['start_timestamp'] = get_timestamp('float')
     else:

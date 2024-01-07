@@ -58,13 +58,14 @@ def hotkey_callback(button_down: bool):
         logging.info(f'stream_marker: {stream_marker}')
 
         broadcast_data = get_broadcast_data(SCRIPT_SETTINGS['credentials'])
+        new_description = (
+            f'{broadcast_data.broadcast_description}\n'
+            f'{stream_marker} - \n'
+        )
         update_broadcast_description(
             SCRIPT_SETTINGS['credentials'],
             broadcast_data,
-            (
-                f'{broadcast_data.broadcast_description}\n'
-                f'{stream_marker} - \n'
-            ),
+            new_description,
         )
 
 

@@ -7,8 +7,20 @@ jobs:
     runs-on: ubuntu-latest
     name: CI workflow
     steps:
-    - name: checkout source repo
-      uses: actions/checkout@main
+      - uses: actions/checkout@master
 
-    - name: linting
-      uses: programmingwithalex/pylinter@main
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+
+      - name: Install pylint
+        run: |
+          pip install pylint
+
+      - name: Add pylint annotator
+        uses: jpy-git/pylint-pr-annotator@master
+
+      - name: Run pylint
+        run: |
+          pylint src/

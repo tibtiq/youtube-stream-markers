@@ -26,3 +26,5 @@ jobs:
 
       - name: Linter
         uses: marian-code/python-lint-annotate@v3
+        with:
+          python-root-list: "src/"

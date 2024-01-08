@@ -1,3 +1,5 @@
+# todo work with datetime objects not strs
+
 # hotkey bounded in OBS triggers this script
 # this script will create/append to a file
 # each line in the file will correspond to the time in the VOD when the hotkey is pressed
@@ -6,7 +8,7 @@ import pathlib
 import logging
 # pylint: disable=import-error
 import obspython as obs
-from Timestamps import get_timestamp, convert_timestamp_to_playback_time
+from Timestamps import get_timestamp, convert_timestamp_to_playback_time, convert_playback_time_to_timestamp
 from YoutubeApi import get_youtube_credentials, get_broadcast_data, update_broadcast_description
 
 logging.basicConfig(
@@ -23,8 +25,9 @@ SCRIPT_SETTINGS = {
     'stream_service': None,
     'start_time': None,
     'start_timestamp': None,
-    'last_timestamp': None,
+    'last_timestamp': '00:00:00',
     'credentials': None,
+    'timestamp_group_range': 0,
 }
 
 
@@ -58,14 +61,34 @@ def hotkey_callback(button_down: bool):
         logging.info(f'stream_marker: {stream_marker}')
 
         broadcast_data = get_broadcast_data(SCRIPT_SETTINGS['credentials'])
+
+        time_since_last_stream_marker = convert_playback_time_to_timestamp(
+            stream_marker) - convert_playback_time_to_timestamp(SCRIPT_SETTINGS['last_timestamp'])
+        logging.debug(
+            (
+                f'timestamp_group_range: {SCRIPT_SETTINGS["timestamp_group_range"]}\n'
+                f'seconds since last marker: {time_since_last_stream_marker.total_seconds()}'
+            )
+        )
+        if time_since_last_stream_marker.total_seconds() <= SCRIPT_SETTINGS['timestamp_group_range']:
+            logging.info(
+                'Prevented writing stream marker, too close to previous marker'
+            )
+
+            return
+
+        new_description = (
+            f'{broadcast_data.broadcast_description}\n'
+            f'{stream_marker} - \n'
+        )
+        logging.info('Adding new stream marker to description')
         update_broadcast_description(
             SCRIPT_SETTINGS['credentials'],
             broadcast_data,
-            (
-                f'{broadcast_data.broadcast_description}\n'
-                f'{stream_marker} - \n'
-            ),
+            new_description,
         )
+
+        SCRIPT_SETTINGS['last_timestamp'] = stream_marker
 
 
 def on_event_callback(event):
@@ -109,10 +132,19 @@ def script_description():
     """
     description = ''
     description += '<b>Create stream markers</b>'
-    description += '<hr>Script adds the ability to set a hotkey to save a timestamp to a file. '
-    description += "The file's name will correspond to the start time of the stream. "
+    description += '<hr>'
+    description += 'Script adds the ability to set a hotkey to save a timestamp to a file. '
+    description += "The file's name will correspond to the start time of the stream."
     description += 'Script will only create markers if streaming or recording.'
-    description += '<hr>Debug mode enables debug settings and prints used for development.'
+    description += '<hr>'
+    description += '<b>Settings</b>'
+    description += '<hr>'
+    description += '<b>Debug mode</b> enables debug settings and prints used for development.'
+    description += '<br>'
+    description += '<b>Range to group timestamps</b> '
+    description += 'prevents creating stream markers too close to each other. '
+    description += 'The value is in seconds and specifies the minimum time between stream markers'
+    description += '<hr>'
 
     return description
 
@@ -124,6 +156,15 @@ def script_properties():
 
     # enable script's debug mode
     obs.obs_properties_add_bool(props, 'debug_enabled', 'Debug mode')
+
+    obs.obs_properties_add_int(
+        props,
+        'group_timestamp_range',
+        'Range to group timestamps',
+        0,
+        10000,
+        1,
+    )
 
     return props
 
@@ -193,11 +234,17 @@ def script_update(settings):
     global SCRIPT_SETTINGS
 
     if obs.obs_data_get_bool(settings, 'debug_enabled'):
-        logging.root.setLevel(logging.INFO)
+        logging.root.setLevel(logging.DEBUG)
         SCRIPT_SETTINGS['start_time'] = get_timestamp('string')
         SCRIPT_SETTINGS['start_timestamp'] = get_timestamp('float')
     else:
         logging.root.setLevel(logging.CRITICAL)
         SCRIPT_SETTINGS['start_time'] = None
         SCRIPT_SETTINGS['start_timestamp'] = None
+
+    SCRIPT_SETTINGS['timestamp_group_range'] = obs.obs_data_get_int(
+        settings,
+        'group_timestamp_range'
+    )
+
 # ------------------------------------------------------------

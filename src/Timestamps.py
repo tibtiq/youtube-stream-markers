@@ -81,3 +81,10 @@ def convert_timestamp_to_playback_time(
     )
 
     return time.strftime(playback_format, time.gmtime(timestamp))
+
+
+def convert_playback_time_to_timestamp(
+    playback_time: str,
+    playback_format: str = "%H:%M:%S",
+):
+    return datetime.datetime.strptime(playback_time, playback_format)

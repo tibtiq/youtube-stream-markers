@@ -1,17 +1,14 @@
-on: pull_request
+name: Linter
+
+on: [push, pull_request]
 
 jobs:
-  example:
+  python-lint:
     runs-on: ubuntu-latest
-    name: Executes pylint
+    name: CI workflow
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
+    - name: checkout source repo
+      uses: actions/checkout@main
 
-      - name: Lint
-        uses: gabriel-milan/action-pylint@v1
-        with:
-          GITHUB_TOKEN: ${{secrets.gh_token}} # GitHub token
-          path: "./*.py" # Glob pattern for files to lint
-          fail: true # Fail the action if pylint errors are found
-          pr-message: true # Send a PR message if pylint errors are found
+    - name: linting
+      uses: programmingwithalex/pylinter@main

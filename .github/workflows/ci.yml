@@ -9,6 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     name: CI workflow
     steps:
-      - uses: actions/checkout@master
-
-      - uses: marian-code/python-lint-annotate@v3
+      - name: Check out source repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # This is necessary to get the commits
+      - name: Set up Python environment
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.8"

@@ -1,17 +1,17 @@
-name: Linter
-on: [pull_request]
+on: pull_request
+
 jobs:
-  pylint:
-    name: runner / pylint
+  example:
     runs-on: ubuntu-latest
+    name: Executes pylint
     steps:
-      - uses: actions/checkout@v2
-      - uses: dciborow/action-pylint@0.1.0
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Lint
+        uses: gabriel-milan/action-pylint@v1
         with:
-          github_token: ${{ secrets.gh_token }}
-          # Change reviewdog reporter if you need [github-pr-check,github-check,github-pr-review].
-          reporter: github-pr-review
-          # Change reporter level if you need.
-          # GitHub Status Check won't become failure with warning.
-          level: warning
-          glob_pattern: "**/*.py"
+          GITHUB_TOKEN: ${{secrets.gh_token}} # GitHub token
+          path: "./*.py" # Glob pattern for files to lint
+          fail: true # Fail the action if pylint errors are found
+          pr-message: true # Send a PR message if pylint errors are found

@@ -1,5 +1,7 @@
 name: Linter
 
+on: [push, pull_request]
+
 jobs:
   python-lint:
     runs-on: ubuntu-latest

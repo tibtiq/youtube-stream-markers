@@ -10,10 +10,10 @@ import pathlib
 # pylint: disable=import-error
 import obspython as obs
 
-from Timestamps import (convert_playback_time_to_timestamp,
+from timestamps import (convert_playback_time_to_timestamp,
                         convert_timestamp_to_playback_time, get_timestamp)
-from YoutubeApi import (get_broadcast_data, get_youtube_credentials,
-                        update_broadcast_description)
+from youtube_interface import (get_broadcast_data, get_youtube_credentials,
+                               update_broadcast_description)
 
 logging.basicConfig(
     level=logging.CRITICAL,

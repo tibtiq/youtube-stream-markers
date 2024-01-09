@@ -1,7 +1,7 @@
 import datetime
 import logging
-import time
 import pathlib
+import time
 from typing import Union
 
 

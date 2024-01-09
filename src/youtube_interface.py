@@ -1,12 +1,13 @@
-# todo turn this code into a class
-
-import pathlib
 import json
+import pathlib
 import sys
 from dataclasses import dataclass
-from googleapiclient.discovery import build
+
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.discovery import build
+
+# todo turn this code into a class
 
 
 @dataclass

@@ -24,3 +24,4 @@ jobs:
         with:
           python-root-list: "src/"
           extra-pylint-options: "--disable=logging-format-interpolation --disable=logging-fstring-interpolation"
+          use-vulture: false

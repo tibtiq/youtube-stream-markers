@@ -23,5 +23,5 @@ jobs:
         uses: marian-code/python-lint-annotate@v3
         with:
           python-root-list: "src/"
-          extra-pylint-options: "--disable=logging-format-interpolation --disable=logging-fstring-interpolation"
+          extra-pylint-options: "--disable=W1202,W1203"
           use-vulture: false

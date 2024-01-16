@@ -103,7 +103,7 @@ def update_broadcast_description(
     """
     with build('youtube', 'v3', credentials=credentials) as service:
         # pylint: disable=no-member
-        response = service.liveBroadcasts().update(
+        _ = service.liveBroadcasts().update(
             part='snippet',
             body={
                 'id': broadcast_data.broadcast_id,

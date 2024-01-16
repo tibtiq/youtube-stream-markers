@@ -179,7 +179,7 @@ def script_save(settings):
     """
     # save hotkeys in script properties
     for hotkey_id in HOTKEY_ID_ARRAY:
-        # save each hotkeys data_array into script settings by the hotkeys name  !! find way to use obs_hotkey_get_name instead of tracking the name manually
+        # save each hotkeys data_array into script settings by the hotkeys name
         obs.obs_data_set_array(
             settings,
             HOTKEY_NAMES_BY_ID[hotkey_id],

@@ -24,7 +24,7 @@ def write_timestamp(
         'Output folder not set in script settings'
     )
     if output_type is None and logging.root.level != logging.INFO:
-        print('No marker saved, not recording or streaming.')
+        logging.info('No marker saved, not recording or streaming.')
         return
     if last_timestamp == convert_timestamp_to_playback_time(current_timestamp):
         logging.info('Prevented writing duplicate timestamp')

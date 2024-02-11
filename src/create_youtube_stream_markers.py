@@ -4,12 +4,16 @@
 # this script will create/append to a file
 # each line in the file will correspond to the time in the VOD when the hotkey is pressed
 
-import pathlib
 import logging
+import pathlib
+
 # pylint: disable=import-error
 import obspython as obs
-from Timestamps import get_timestamp, convert_timestamp_to_playback_time, convert_playback_time_to_timestamp
-from YoutubeApi import get_youtube_credentials, get_broadcast_data, update_broadcast_description
+
+from Timestamps import (convert_playback_time_to_timestamp,
+                        convert_timestamp_to_playback_time, get_timestamp)
+from YoutubeApi import (get_broadcast_data, get_youtube_credentials,
+                        update_broadcast_description)
 
 logging.basicConfig(
     level=logging.CRITICAL,

@@ -116,6 +116,7 @@ def on_event_callback(event):
         )
         SCRIPT_SETTINGS['start_time'] = get_timestamp('string')
         SCRIPT_SETTINGS['start_timestamp'] = get_timestamp('float')
+        SCRIPT_SETTINGS['last_timestamp'] = '00:00:00'
     elif event == obs.OBS_FRONTEND_EVENT_RECORDING_STARTED:
         SCRIPT_SETTINGS['output_type'] = 'recording'
     elif event == obs.OBS_FRONTEND_EVENT_STREAMING_STOPPED:

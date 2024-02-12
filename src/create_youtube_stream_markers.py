@@ -38,15 +38,16 @@ SCRIPT_SETTINGS = {
 def determine_streaming_service(stream_url):
     """Uses obs service type to determine stream service.
     """
+    streaming_service = None
 
     if 'youtube' in stream_url:
-        return 'youtube'
+        streaming_service =  'youtube'
     # The check for twitch feels weak, but I found it on a twitch website
     # https://help.twitch.tv/s/twitch-ingest-recommendation?language=en_US
     elif 'live-video' in stream_url:
-        return 'twitch'
+        streaming_service =  'twitch'
 
-    return None
+    return streaming_service
 
 # callback functions
 # ------------------------------------------------------------

@@ -7,7 +7,7 @@
 import logging
 import pathlib
 
-# pylint: disable=import-error
+# pylint: disable-next=import-error
 import obspython as obs
 
 from timestamps import (convert_playback_time_to_timestamp,

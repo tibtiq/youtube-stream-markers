@@ -1,3 +1,8 @@
+"""This module contains useful functions related to manipulating datetime objects.
+
+"""
+
+
 import datetime
 import time
 from typing import Union

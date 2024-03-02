@@ -220,7 +220,7 @@ def script_load(settings):
             settings,
             HOTKEY_NAMES_BY_ID[hotkey_id],
         )
-        # load the saved hotkeys data_array to the new created hotkey associated with the "hotkey_id"
+        # load the saved hotkeys data_array to the new created hotkey associated with the hotkey_id
         obs.obs_hotkey_load(hotkey_id, hotkey_data_array_from_settings)
 
         obs.obs_data_array_release(hotkey_data_array_from_settings)

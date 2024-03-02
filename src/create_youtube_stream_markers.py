@@ -75,7 +75,8 @@ def hotkey_callback(button_down: bool):
                 f'seconds since last marker: {time_since_last_stream_marker.total_seconds()}'
             )
         )
-        if time_since_last_stream_marker.total_seconds() <= SCRIPT_SETTINGS['timestamp_group_range']:
+        if (time_since_last_stream_marker.total_seconds() <=
+                SCRIPT_SETTINGS['timestamp_group_range']):
             logging.info(
                 'Prevented writing stream marker, too close to previous marker'
             )
@@ -213,7 +214,8 @@ def script_load(settings):
 
     # load hotkeys from script save file
     for hotkey_id in HOTKEY_ID_ARRAY:
-        # get the hotkeys data_array from the script settings (was saved under the hotkeys name)  !! find way to use obs_hotkey_get_name instead of tracking the name manually
+        # todo find way to use obs_hotkey_get_name instead of tracking the name manually
+        # get the hotkeys data_array from the script settings (was saved under the hotkeys name)
         hotkey_data_array_from_settings = obs.obs_data_get_array(
             settings,
             HOTKEY_NAMES_BY_ID[hotkey_id],

@@ -19,7 +19,7 @@ jobs:
           cache: 'pip' # caching pip dependencies
 
       - name: Linter
-        uses: marian-code/python-lint-annotate@v3
+        uses: juissi-t/python-lint-annotate@ff09bc6bdd47de544b00cf57a9921c636a829909
         with:
           python-root-list: "src/"
           extra-pylint-options: "--disable=W1202,W1203,C0116"

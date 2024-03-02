@@ -41,11 +41,11 @@ def determine_streaming_service(stream_url):
     streaming_service = None
 
     if 'youtube' in stream_url:
-        streaming_service =  'youtube'
+        streaming_service = 'youtube'
     # The check for twitch feels weak, but I found it on a twitch website
     # https://help.twitch.tv/s/twitch-ingest-recommendation?language=en_US
     elif 'live-video' in stream_url:
-        streaming_service =  'twitch'
+        streaming_service = 'twitch'
 
     return streaming_service
 

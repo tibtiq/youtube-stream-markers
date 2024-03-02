@@ -24,3 +24,4 @@ jobs:
           python-root-list: "src/"
           extra-pylint-options: "--disable=W1202,W1203,C0116"
           use-vulture: false
+          use-black: false

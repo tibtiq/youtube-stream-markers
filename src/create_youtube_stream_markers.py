@@ -43,8 +43,7 @@ SCRIPT_SETTINGS = {
 
 
 def determine_streaming_service(stream_url):
-    """Use obs service type to determine stream service.
-    """
+    """Use obs service type to determine stream service."""
     streaming_service = None
 
     if 'youtube' in stream_url:
@@ -61,8 +60,7 @@ def determine_streaming_service(stream_url):
 
 
 def hotkey_callback(button_down: bool):
-    """Handle OBS hotkey press as callback function.
-    """
+    """Handle OBS hotkey press as callback function."""
     # pylint: disable=global-variable-not-assigned
     global SCRIPT_SETTINGS
 
@@ -143,8 +141,7 @@ def on_event_callback(event):
 
 # todo update this
 def script_description():
-    """OBS hook that setups up script description in OBS UI.
-    """
+    """OBS hook that setups up script description in OBS UI."""
     description = ''
     description += '<b>Create stream markers</b>'
     description += '<hr>'
@@ -165,8 +162,7 @@ def script_description():
 
 
 def script_properties():
-    """OBS hook that setups script settings in OBS UI.
-    """
+    """OBS hook that setups script settings in OBS UI."""
     props = obs.obs_properties_create()
 
     # enable script's debug mode
@@ -185,8 +181,7 @@ def script_properties():
 
 
 def script_save(settings):
-    """OBS hook called when script is being saved.
-    """
+    """OBS hook called when script is being saved."""
     # save hotkeys in script properties
     for hotkey_id in HOTKEY_ID_ARRAY:
         # save each hotkeys data_array into script settings by the hotkeys name
@@ -198,8 +193,7 @@ def script_save(settings):
 
 
 def script_load(settings):
-    """OBS hook that runs when script first loads or reloaded.
-    """
+    """OBS hook that runs when script first loads or reloaded."""
     # pylint: disable=global-variable-not-assigned
     global SCRIPT_SETTINGS
 
@@ -244,8 +238,7 @@ def script_load(settings):
 
 
 def script_update(settings):
-    """OBS hook thats called whenever script settings get changed in OBS
-    """
+    """OBS hook thats called whenever script settings get changed in OBS"""
     # pylint: disable=global-variable-not-assigned
     global SCRIPT_SETTINGS
 

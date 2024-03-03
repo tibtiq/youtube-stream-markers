@@ -1,6 +1,4 @@
-"""This module contains useful functions related to manipulating datetime objects.
-
-"""
+"""This module contains useful functions related to manipulating datetime objects."""
 
 
 import datetime

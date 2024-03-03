@@ -75,7 +75,8 @@ def hotkey_callback(button_down: bool):
         broadcast_data = get_broadcast_data(SCRIPT_SETTINGS['credentials'])
 
         time_since_last_stream_marker = convert_playback_time_to_timestamp(
-            stream_marker) - convert_playback_time_to_timestamp(SCRIPT_SETTINGS['last_timestamp'])
+            stream_marker
+        ) - convert_playback_time_to_timestamp(SCRIPT_SETTINGS['last_timestamp'])  # type: ignore
         logging.debug(
             (
                 f'timestamp_group_range: {SCRIPT_SETTINGS["timestamp_group_range"]}\n'

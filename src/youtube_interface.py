@@ -67,7 +67,7 @@ def get_youtube_credentials(token_path: pathlib.Path) -> Credentials:
 
 
 def get_broadcast_data(credentials: Credentials) -> BroadcastData:
-    """Gets relevant data from the latest broadcast.
+    """Get relevant data from the latest broadcast.
 
     Args:
         credentials (Credentials): Credentials used for making youtube live API calls.
@@ -99,7 +99,7 @@ def update_broadcast_description(
     broadcast_data: BroadcastData,
     new_description: str
 ) -> None:
-    """Updates broadcast description with new description.
+    """Update broadcast description with new description.
 
     Args:
         credentials (Credentials): Credentials used for making youtube live API calls.

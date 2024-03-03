@@ -1,3 +1,10 @@
+"""This module is an OBS script that creates stream markers for a youtube livestream.
+
+The stream markers are placed in the description of the livestream.
+
+"""
+
+
 # todo work with datetime objects not strs
 
 # hotkey bounded in OBS triggers this script

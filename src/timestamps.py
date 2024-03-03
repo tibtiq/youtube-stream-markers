@@ -46,4 +46,5 @@ def convert_playback_time_to_timestamp(
     playback_time: str,
     playback_format: str = "%H:%M:%S",
 ):
+    """Convert playback time format to timestamp format."""
     return datetime.datetime.strptime(playback_time, playback_format)

@@ -24,6 +24,5 @@ jobs:
           python-root-list: "src/"
           extra-pylint-options: "--disable=W1202,W1203,C0116"
           extra-pycodestyle-options: "--config=.pycodestyle"
-          extra-mypy-options: "--config=.mypy.ini"
           use-vulture: false
           use-black: false

@@ -21,6 +21,7 @@ class BroadcastData:
         broadcast_description: Description of the broadcast
         scheduled_start_time: Scheduled start time of stream. Required for youtube live API calls.
     """
+
     broadcast_id: str
     broadcast_description: str
     scheduled_start_time: str

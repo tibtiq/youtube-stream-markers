@@ -121,6 +121,7 @@ def update_broadcast_description(
 
 
 def main() -> None:
+    """Entry point to script when run directly."""
     # todo commandline argument
     token_path = pathlib.Path('token.json')
     credentials = get_youtube_credentials(token_path)

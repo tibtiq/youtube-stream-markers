@@ -1,3 +1,7 @@
+"""This module interacts with youtube's api to update a livestream's description.
+
+"""
+
 import json
 import pathlib
 import sys

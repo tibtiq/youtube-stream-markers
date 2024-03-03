@@ -43,7 +43,7 @@ SCRIPT_SETTINGS = {
 
 
 def determine_streaming_service(stream_url):
-    """Uses obs service type to determine stream service.
+    """Use obs service type to determine stream service.
     """
     streaming_service = None
 
@@ -61,7 +61,7 @@ def determine_streaming_service(stream_url):
 
 
 def hotkey_callback(button_down: bool):
-    """Callback function for hotkey
+    """Handle OBS hotkey press as callback function.
     """
     # pylint: disable=global-variable-not-assigned
     global SCRIPT_SETTINGS
@@ -106,7 +106,7 @@ def hotkey_callback(button_down: bool):
 
 
 def on_event_callback(event):
-    """Callback function that handles OBS frontend events.
+    """Handle OBS frontend events as callback function.
 
     List of events can be found here: https://docs.obsproject.com/reference-frontend-api
     """

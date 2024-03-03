@@ -9,7 +9,7 @@ from typing import Union
 
 
 def get_timestamp(output_format, date_format='%Y-%m-%d %H-%M-%S'):
-    """Returns the POSIX timestamp.
+    """Return the POSIX timestamp.
 
     Supported output formats are "float" and "string".
     "float" returns the timestamp as a float.
@@ -33,7 +33,7 @@ def convert_timestamp_to_playback_time(
     timestamp: Union[float, int],
     playback_format: str = "%H:%M:%S"
 ):
-    """Converts a timestamp (seconds) into playback time (HOUR-MINUTE-SECONDS).
+    """Convert a timestamp (seconds) into playback time (HOUR-MINUTE-SECONDS).
 
     The returned playback time has padded zeros.
     """

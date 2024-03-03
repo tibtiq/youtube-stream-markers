@@ -56,7 +56,8 @@ def get_youtube_credentials(token_path: pathlib.Path) -> Credentials:
         sys.exit(
             'Please obtain a OAuth client ID, '
             'rename it to token.json, and add it to same folder as script\n'
-            'https://github.com/googleapis/google-api-python-client/blob/main/docs/oauth-installed.md#creating-application-credentials'
+            'https://github.com/googleapis/google-api-python-client/blob/main/docs/'
+            'oauth-installed.md#creating-application-credentials'
         )
 
     # opens authorization URL and runs a server to multiple API calls can be made

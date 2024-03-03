@@ -237,7 +237,7 @@ def script_load(settings):
 
 
 def script_update(settings):
-    """OBS hook thats called whenever script settings get changed in OBS"""
+    """OBS hook thats called whenever script settings get changed in OBS."""
     # pylint: disable=global-variable-not-assigned
     global SCRIPT_SETTINGS
 

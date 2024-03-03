@@ -209,7 +209,7 @@ def script_load(settings):
     obs.obs_frontend_add_event_callback(on_event_callback)
 
     def hotkey_callback_args(button_down):
-        """hack to pass additional arguments to callback function
+        """Hack to pass additional arguments to callback function
         """
         return hotkey_callback(button_down)
     HOTKEY_ID_ARRAY.append(obs.obs_hotkey_register_frontend(

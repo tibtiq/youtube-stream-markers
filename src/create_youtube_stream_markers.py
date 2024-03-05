@@ -1,3 +1,10 @@
+"""This module is an OBS script that creates stream markers for a youtube livestream.
+
+The stream markers are placed in the description of the livestream.
+
+"""
+
+
 # todo work with datetime objects not strs
 
 # hotkey bounded in OBS triggers this script
@@ -7,13 +14,13 @@
 import logging
 import pathlib
 
-# pylint: disable=import-error
+# pylint: disable-next=import-error
 import obspython as obs
 
-from Timestamps import (convert_playback_time_to_timestamp,
+from timestamps import (convert_playback_time_to_timestamp,
                         convert_timestamp_to_playback_time, get_timestamp)
-from YoutubeApi import (get_broadcast_data, get_youtube_credentials,
-                        update_broadcast_description)
+from youtube_interface import (get_broadcast_data, get_youtube_credentials,
+                               update_broadcast_description)
 
 logging.basicConfig(
     level=logging.CRITICAL,
@@ -36,25 +43,24 @@ SCRIPT_SETTINGS = {
 
 
 def determine_streaming_service(stream_url):
-    """Uses obs service type to determine stream service.
-    """
+    """Use obs service type to determine stream service."""
+    streaming_service = None
 
     if 'youtube' in stream_url:
-        return 'youtube'
+        streaming_service = 'youtube'
     # The check for twitch feels weak, but I found it on a twitch website
     # https://help.twitch.tv/s/twitch-ingest-recommendation?language=en_US
     elif 'live-video' in stream_url:
-        return 'twitch'
+        streaming_service = 'twitch'
 
-    return None
+    return streaming_service
 
 # callback functions
 # ------------------------------------------------------------
 
 
 def hotkey_callback(button_down: bool):
-    """Callback function for hotkey
-    """
+    """Handle OBS hotkey press as callback function."""
     # pylint: disable=global-variable-not-assigned
     global SCRIPT_SETTINGS
 
@@ -67,14 +73,16 @@ def hotkey_callback(button_down: bool):
         broadcast_data = get_broadcast_data(SCRIPT_SETTINGS['credentials'])
 
         time_since_last_stream_marker = convert_playback_time_to_timestamp(
-            stream_marker) - convert_playback_time_to_timestamp(SCRIPT_SETTINGS['last_timestamp'])
+            stream_marker
+        ) - convert_playback_time_to_timestamp(SCRIPT_SETTINGS['last_timestamp'])  # type: ignore
         logging.debug(
             (
                 f'timestamp_group_range: {SCRIPT_SETTINGS["timestamp_group_range"]}\n'
                 f'seconds since last marker: {time_since_last_stream_marker.total_seconds()}'
             )
         )
-        if time_since_last_stream_marker.total_seconds() <= SCRIPT_SETTINGS['timestamp_group_range']:
+        if (time_since_last_stream_marker.total_seconds() <=
+                SCRIPT_SETTINGS['timestamp_group_range']):
             logging.info(
                 'Prevented writing stream marker, too close to previous marker'
             )
@@ -96,7 +104,7 @@ def hotkey_callback(button_down: bool):
 
 
 def on_event_callback(event):
-    """Callback function that handles OBS frontend events.
+    """Handle OBS frontend events as callback function.
 
     List of events can be found here: https://docs.obsproject.com/reference-frontend-api
     """
@@ -133,8 +141,7 @@ def on_event_callback(event):
 
 # todo update this
 def script_description():
-    """OBS hook that setups up script description in OBS UI.
-    """
+    """OBS hook that setups up script description in OBS UI."""
     description = ''
     description += '<b>Create stream markers</b>'
     description += '<hr>'
@@ -155,8 +162,7 @@ def script_description():
 
 
 def script_properties():
-    """OBS hook that setups script settings in OBS UI.
-    """
+    """OBS hook that setups script settings in OBS UI."""
     props = obs.obs_properties_create()
 
     # enable script's debug mode
@@ -175,11 +181,10 @@ def script_properties():
 
 
 def script_save(settings):
-    """OBS hook called when script is being saved.
-    """
+    """OBS hook called when script is being saved."""
     # save hotkeys in script properties
     for hotkey_id in HOTKEY_ID_ARRAY:
-        # save each hotkeys data_array into script settings by the hotkeys name  !! find way to use obs_hotkey_get_name instead of tracking the name manually
+        # save each hotkeys data_array into script settings by the hotkeys name
         obs.obs_data_set_array(
             settings,
             HOTKEY_NAMES_BY_ID[hotkey_id],
@@ -188,8 +193,7 @@ def script_save(settings):
 
 
 def script_load(settings):
-    """OBS hook that runs when script first loads or reloaded.
-    """
+    """OBS hook that runs when script first loads or reloaded."""
     # pylint: disable=global-variable-not-assigned
     global SCRIPT_SETTINGS
 
@@ -199,8 +203,7 @@ def script_load(settings):
     obs.obs_frontend_add_event_callback(on_event_callback)
 
     def hotkey_callback_args(button_down):
-        """hack to pass additional arguments to callback function
-        """
+        """Hack to pass additional arguments to callback function."""
         return hotkey_callback(button_down)
     HOTKEY_ID_ARRAY.append(obs.obs_hotkey_register_frontend(
         'SHORTCUT 1',
@@ -212,12 +215,13 @@ def script_load(settings):
 
     # load hotkeys from script save file
     for hotkey_id in HOTKEY_ID_ARRAY:
-        # get the hotkeys data_array from the script settings (was saved under the hotkeys name)  !! find way to use obs_hotkey_get_name instead of tracking the name manually
+        # todo find way to use obs_hotkey_get_name instead of tracking the name manually
+        # get the hotkeys data_array from the script settings (was saved under the hotkeys name)
         hotkey_data_array_from_settings = obs.obs_data_get_array(
             settings,
             HOTKEY_NAMES_BY_ID[hotkey_id],
         )
-        # load the saved hotkeys data_array to the new created hotkey associated with the "hotkey_id"
+        # load the saved hotkeys data_array to the new created hotkey associated with the hotkey_id
         obs.obs_hotkey_load(hotkey_id, hotkey_data_array_from_settings)
 
         obs.obs_data_array_release(hotkey_data_array_from_settings)
@@ -233,8 +237,7 @@ def script_load(settings):
 
 
 def script_update(settings):
-    """OBS hook thats called whenever script settings get changed in OBS
-    """
+    """OBS hook thats called whenever script settings get changed in OBS."""
     # pylint: disable=global-variable-not-assigned
     global SCRIPT_SETTINGS
 

@@ -1,12 +1,15 @@
-# todo turn this code into a class
+"""This module interacts with youtube's api to update a livestream's description."""
 
-import pathlib
 import json
+import pathlib
 import sys
 from dataclasses import dataclass
-from googleapiclient.discovery import build
+
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.discovery import build
+
+# todo turn this code into a class
 
 
 @dataclass
@@ -18,6 +21,7 @@ class BroadcastData:
         broadcast_description: Description of the broadcast
         scheduled_start_time: Scheduled start time of stream. Required for youtube live API calls.
     """
+
     broadcast_id: str
     broadcast_description: str
     scheduled_start_time: str
@@ -51,7 +55,8 @@ def get_youtube_credentials(token_path: pathlib.Path) -> Credentials:
         sys.exit(
             'Please obtain a OAuth client ID, '
             'rename it to token.json, and add it to same folder as script\n'
-            'https://github.com/googleapis/google-api-python-client/blob/main/docs/oauth-installed.md#creating-application-credentials'
+            'https://github.com/googleapis/google-api-python-client/blob/main/docs/'
+            'oauth-installed.md#creating-application-credentials'
         )
 
     # opens authorization URL and runs a server to multiple API calls can be made
@@ -61,7 +66,7 @@ def get_youtube_credentials(token_path: pathlib.Path) -> Credentials:
 
 
 def get_broadcast_data(credentials: Credentials) -> BroadcastData:
-    """Gets relevant data from the latest broadcast.
+    """Get relevant data from the latest broadcast.
 
     Args:
         credentials (Credentials): Credentials used for making youtube live API calls.
@@ -93,7 +98,7 @@ def update_broadcast_description(
     broadcast_data: BroadcastData,
     new_description: str
 ) -> None:
-    """Updates broadcast description with new description.
+    """Update broadcast description with new description.
 
     Args:
         credentials (Credentials): Credentials used for making youtube live API calls.
@@ -102,7 +107,7 @@ def update_broadcast_description(
     """
     with build('youtube', 'v3', credentials=credentials) as service:
         # pylint: disable=no-member
-        response = service.liveBroadcasts().update(
+        _ = service.liveBroadcasts().update(
             part='snippet',
             body={
                 'id': broadcast_data.broadcast_id,
@@ -116,6 +121,7 @@ def update_broadcast_description(
 
 
 def main() -> None:
+    """Entry point to script when run directly."""
     # todo commandline argument
     token_path = pathlib.Path('token.json')
     credentials = get_youtube_credentials(token_path)

@@ -1,0 +1,28 @@
+name: Linter
+
+on:
+  pull_request:
+    types: [ opened, reopened, synchronize, edited ]
+
+jobs:
+  python-lint:
+    runs-on: ubuntu-latest
+    name: CI workflow
+    steps:
+      - name: Check out source repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python environment
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.8"
+          cache: 'pip' # caching pip dependencies
+
+      - name: Linter
+        uses: juissi-t/python-lint-annotate@ff09bc6bdd47de544b00cf57a9921c636a829909
+        with:
+          python-root-list: "src/"
+          extra-pylint-options: "--disable=W1202,W1203,C0116"
+          extra-pycodestyle-options: "--config=.pycodestyle"
+          use-vulture: false
+          use-black: false

@@ -240,7 +240,7 @@ def script_load(settings):
 def script_update(settings):
     """OBS hook thats called whenever script settings get changed in OBS.
 
-    This function is also run immediately after script_load() when OBS is openning.
+    This function is also run immediately after script_load() when OBS is opening.
 
     """
     # pylint: disable=global-variable-not-assigned

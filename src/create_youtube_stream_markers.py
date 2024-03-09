@@ -165,9 +165,10 @@ def script_properties():
     """OBS hook that setups script settings in OBS UI."""
     props = obs.obs_properties_create()
 
-    # enable script's debug mode
+    # checkbox to enable script's debug mode
     obs.obs_properties_add_bool(props, 'debug_enabled', 'Debug mode')
 
+    # int input box determining how long to ignore timestamps if placed too close together
     obs.obs_properties_add_int(
         props,
         'group_timestamp_range',

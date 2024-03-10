@@ -50,6 +50,7 @@ def hotkey_callback(button_down: bool):
 
     # stream isn't running
     if SCRIPT_SETTINGS['start_timestamp'] is None:
+        print('Not creating stream marker, not streaming')
         return
 
     if button_down:

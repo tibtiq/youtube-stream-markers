@@ -31,9 +31,6 @@ logging.basicConfig(
 HOTKEY_ID_ARRAY = []
 HOTKEY_NAMES_BY_ID = {}
 SCRIPT_SETTINGS = {
-    # todo combine this and stream service
-    'output_type': None,
-    'stream_service': None,
     'start_timestamp': None,
     'last_timestamp': '00:00:00',
     'credentials': None,
@@ -41,19 +38,6 @@ SCRIPT_SETTINGS = {
     'timestamp_group_range': 0,
 }
 
-
-def determine_streaming_service(stream_url):
-    """Use obs service type to determine stream service."""
-    streaming_service = None
-
-    if 'youtube' in stream_url:
-        streaming_service = 'youtube'
-    # The check for twitch feels weak, but I found it on a twitch website
-    # https://help.twitch.tv/s/twitch-ingest-recommendation?language=en_US
-    elif 'live-video' in stream_url:
-        streaming_service = 'twitch'
-
-    return streaming_service
 
 # callback functions
 # ------------------------------------------------------------
@@ -113,23 +97,8 @@ def on_event_callback(event):
 
     # determine if streaming or recording and started or stopped
     if event == obs.OBS_FRONTEND_EVENT_STREAMING_STARTED:
-        SCRIPT_SETTINGS['output_type'] = 'stream'
-        # https://docs.obsproject.com/reference-services?highlight=service#c.obs_service_info.get_connect_info
-        stream_url = obs.obs_service_get_connect_info(
-            obs.obs_frontend_get_streaming_service(),
-            0,
-        )
-        SCRIPT_SETTINGS['stream_service'] = determine_streaming_service(
-            stream_url
-        )
         SCRIPT_SETTINGS['start_timestamp'] = get_timestamp('float')
         SCRIPT_SETTINGS['last_timestamp'] = '00:00:00'
-    elif event == obs.OBS_FRONTEND_EVENT_RECORDING_STARTED:
-        SCRIPT_SETTINGS['output_type'] = 'recording'
-    elif event == obs.OBS_FRONTEND_EVENT_STREAMING_STOPPED:
-        SCRIPT_SETTINGS['output_type'] = None
-    elif event == obs.OBS_FRONTEND_EVENT_RECORDING_STOPPED:
-        SCRIPT_SETTINGS['output_type'] = None
 
 
 # ------------------------------------------------------------

@@ -49,6 +49,10 @@ def hotkey_callback(button_down: bool):
     global SCRIPT_SETTINGS
 
     if button_down:
+        if SCRIPT_SETTINGS['start_timestamp'] is None:
+            print('Prevented creating stream marker, not streaming')
+            return
+
         current_timestamp = get_timestamp('float')
         stream_marker = current_timestamp - SCRIPT_SETTINGS['start_timestamp']
         stream_marker = convert_timestamp_to_playback_time(stream_marker)
@@ -117,7 +121,9 @@ def script_description():
     description += '<hr>'
     description += '<b>Settings</b>'
     description += '<hr>'
-    description += '<b>Debug mode</b> enables debug settings and prints used for development.'
+    description += '<b>Debug mode</b> enables debug settings and prints used for development. '
+    description += 'When not streaming, stream markers will be added to the description of last '
+    description += 'stream. '
     description += '<br>'
     description += '<b>Range to group timestamps</b> '
     description += 'prevents creating stream markers too close to each other. '

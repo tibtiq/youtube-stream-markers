@@ -42,6 +42,9 @@ Create a Google Cloud Console project and now the project is selected
 
 4. Adjust your settings and set the path to your youtube api credentials file from the last section.
 
+# Usage
+Once the script is setup, whenever you open your OBS it require you to log into your google account.
+
 ---
 
 # Sources

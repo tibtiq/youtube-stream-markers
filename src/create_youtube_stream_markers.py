@@ -34,7 +34,6 @@ SCRIPT_SETTINGS = {
     # todo combine this and stream service
     'output_type': None,
     'stream_service': None,
-    'start_time': None,
     'start_timestamp': None,
     'last_timestamp': '00:00:00',
     'credentials': None,
@@ -123,7 +122,6 @@ def on_event_callback(event):
         SCRIPT_SETTINGS['stream_service'] = determine_streaming_service(
             stream_url
         )
-        SCRIPT_SETTINGS['start_time'] = get_timestamp('string')
         SCRIPT_SETTINGS['start_timestamp'] = get_timestamp('float')
         SCRIPT_SETTINGS['last_timestamp'] = '00:00:00'
     elif event == obs.OBS_FRONTEND_EVENT_RECORDING_STARTED:
@@ -256,11 +254,9 @@ def script_update(settings):
 
     if obs.obs_data_get_bool(settings, 'debug_enabled'):
         logging.root.setLevel(logging.DEBUG)
-        SCRIPT_SETTINGS['start_time'] = get_timestamp('string')
         SCRIPT_SETTINGS['start_timestamp'] = get_timestamp('float')
     else:
         logging.root.setLevel(logging.CRITICAL)
-        SCRIPT_SETTINGS['start_time'] = None
         SCRIPT_SETTINGS['start_timestamp'] = None
 
     SCRIPT_SETTINGS['timestamp_group_range'] = obs.obs_data_get_int(

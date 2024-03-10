@@ -121,13 +121,13 @@ def script_description():
     description += '<hr>'
     description += '<b>Settings</b>'
     description += '<hr>'
-    description += '<b>Debug mode</b> enables debug settings and prints used for development. '
-    description += 'When not streaming, stream markers will be added to the description of last '
-    description += 'stream. '
-    description += '<br>'
     description += '<b>Range to group timestamps</b> '
     description += 'prevents creating stream markers too close to each other. '
     description += 'The value is in seconds and specifies the minimum time between stream markers'
+    description += '<br>'
+    description += '<b>Debug mode</b> enables debug settings and prints used for development. '
+    description += 'When not streaming, stream markers will be added to the description of last '
+    description += 'stream. '
     description += '<hr>'
 
     return description
@@ -137,8 +137,15 @@ def script_properties():
     """OBS hook that setups script settings in OBS UI."""
     props = obs.obs_properties_create()
 
-    # checkbox to enable script's debug mode
-    obs.obs_properties_add_bool(props, 'debug_enabled', 'Debug mode')
+    # file browse for youtube api credentials file
+    obs.obs_properties_add_path(
+        props,
+        'credentials_file_path',
+        'Credentials file path:',
+        obs.OBS_PATH_FILE,
+        "*.json",
+        "",
+    )
 
     # int input box determining how long to ignore timestamps if placed too close together
     obs.obs_properties_add_int(
@@ -150,15 +157,8 @@ def script_properties():
         1,
     )
 
-    # file browse for youtube api Credentials file
-    obs.obs_properties_add_path(
-        props,
-        'credentials_file_path',
-        'Credentials file path:',
-        obs.OBS_PATH_FILE,
-        "*.json",
-        "",
-    )
+    # checkbox to enable script's debug mode
+    obs.obs_properties_add_bool(props, 'debug_enabled', 'Debug mode')
 
     return props
 

@@ -107,15 +107,13 @@ def on_event_callback(event):
 # ------------------------------------------------------------
 
 
-# todo update this
 def script_description():
     """OBS hook that setups up script description in OBS UI."""
     description = ''
-    description += '<b>Create stream markers</b>'
+    description += '<b>Create Youtube stream markers</b>'
     description += '<hr>'
-    description += 'Script adds the ability to set a hotkey to save a timestamp to a file. '
-    description += "The file's name will correspond to the start time of the stream."
-    description += 'Script will only create markers if streaming or recording.'
+    description += 'Script adds the ability to set a hotkey to save a timestamp in the description'
+    description += 'of a Youtube livestream. '
     description += '<hr>'
     description += '<b>Settings</b>'
     description += '<hr>'

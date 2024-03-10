@@ -27,17 +27,17 @@ class BroadcastData:
     scheduled_start_time: str
 
 
-def get_youtube_credentials(token_path: pathlib.Path) -> Credentials:
-    """Get youtube credentials with given Oauth token.
+def get_youtube_credentials(credentials_path: pathlib.Path) -> Credentials:
+    """Get youtube credentials with given Oauth credentials.
 
     Args:
-        token_path (pathlib.Path): Path to OAuth token for youtube API credentials.
+        credentials_path (pathlib.Path): Path to OAuth credentials for youtube API credentials.
 
     Returns:
         Credentials: Google OAuth credentials that can be reused with Flow API calls.
     """
-    assert token_path.exists(), (
-        f'The provided path for api token is invalid: {token_path}'
+    assert credentials_path.exists(), (
+        f'The provided path for api credentials is invalid: {credentials_path}'
     )
 
     scopes = [
@@ -48,13 +48,12 @@ def get_youtube_credentials(token_path: pathlib.Path) -> Credentials:
     ]
     try:
         flow = InstalledAppFlow.from_client_secrets_file(
-            token_path,
+            credentials_path,
             scopes=scopes,
         )
     except json.decoder.JSONDecodeError:
         sys.exit(
-            'Please obtain a OAuth client ID, '
-            'rename it to token.json, and add it to same folder as script\n'
+            'Please obtain a OAuth client ID\n'
             'https://github.com/googleapis/google-api-python-client/blob/main/docs/'
             'oauth-installed.md#creating-application-credentials'
         )
@@ -123,7 +122,7 @@ def update_broadcast_description(
 def main() -> None:
     """Entry point to script when run directly."""
     # todo commandline argument
-    token_path = pathlib.Path('token.json')
+    token_path = pathlib.Path('credentials.json')
     credentials = get_youtube_credentials(token_path)
     broadcast_data = get_broadcast_data(credentials)
     update_broadcast_description(

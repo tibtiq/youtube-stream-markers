@@ -38,6 +38,7 @@ SCRIPT_SETTINGS = {
     'start_timestamp': None,
     'last_timestamp': '00:00:00',
     'credentials': None,
+    'credentials_path': None,
     'timestamp_group_range': 0,
 }
 
@@ -178,6 +179,16 @@ def script_properties():
         1,
     )
 
+    # file browse for youtube api Credentials file
+    obs.obs_properties_add_path(
+        props,
+        'credentials_file_path',
+        'Credentials file path:',
+        obs.OBS_PATH_FILE,
+        "*.json",
+        "",
+    )
+
     return props
 
 
@@ -227,13 +238,10 @@ def script_load(settings):
 
         obs.obs_data_array_release(hotkey_data_array_from_settings)
 
-    # todo make this a obs variable
-    token_path = pathlib.Path(
-        'C:/Users/denni/Desktop/Programming/youtube-stream-markers/src/token.json'
-    )
     # todo only run this when stream starts
+    SCRIPT_SETTINGS['credentials_path'] = obs.obs_data_get_string(settings, 'credentials_file_path')
     SCRIPT_SETTINGS['credentials'] = get_youtube_credentials(
-        token_path
+        pathlib.Path(SCRIPT_SETTINGS['credentials_path'])
     )
 
 
@@ -260,4 +268,9 @@ def script_update(settings):
         'group_timestamp_range'
     )
 
+    # only load new credentials if credentials path has changed
+    if obs.obs_data_get_string(settings, 'credentials_file_path') != SCRIPT_SETTINGS['credentials_path']:
+        SCRIPT_SETTINGS['credentials'] = get_youtube_credentials(
+            pathlib.Path(obs.obs_data_get_string(settings, 'credentials_file_path'))
+        )
 # ------------------------------------------------------------

@@ -48,12 +48,12 @@ def hotkey_callback(button_down: bool):
     # pylint: disable=global-variable-not-assigned
     global SCRIPT_SETTINGS
 
-    # stream isn't running
-    if SCRIPT_SETTINGS['start_timestamp'] is None:
-        print('Not creating stream marker, not streaming')
-        return
-
     if button_down:
+        # stream isn't running
+        if SCRIPT_SETTINGS['start_timestamp'] is None:
+            print('Not creating stream marker, not streaming')
+            return
+
         current_timestamp = get_timestamp('float')
         stream_marker = current_timestamp - SCRIPT_SETTINGS['start_timestamp']
         stream_marker = convert_timestamp_to_playback_time(stream_marker)

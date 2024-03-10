@@ -50,7 +50,7 @@ def hotkey_callback(button_down: bool):
 
     if button_down:
         if SCRIPT_SETTINGS['start_timestamp'] is None:
-            print('Not creating stream marker, not streaming')
+            print('Prevented creating stream marker, not streaming')
             return
 
         current_timestamp = get_timestamp('float')

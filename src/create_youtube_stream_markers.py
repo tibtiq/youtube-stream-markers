@@ -245,6 +245,7 @@ def script_update(settings):
         obs.obs_data_get_string(settings, 'credentials_file_path',) !=
         SCRIPT_SETTINGS['credentials_path']
     ):
+        logging.info('Loading credentials because a new credentials path was provided')
         SCRIPT_SETTINGS['credentials_path'] = obs.obs_data_get_string(
             settings,
             'credentials_file_path',

@@ -1,14 +1,14 @@
-# Options
-Add stream markers to youtube VOD description after stream ends
-Add stream markers to youtube VOD description as the markers are created
+Add stream markers to youtube VOD description
 
 
 # Setup
-## Setup
+## Setup Youtube API
 Create a Google Cloud Console project and now the project is selected
 
 1. Enable YouTube Data API v3 in [Google Cloud console](https://console.cloud.google.com/apis/library)
+
 2. Setup OAuth consent screen
+
     ### OAuth consent screen
     User Type
     - External
@@ -16,18 +16,33 @@ Create a Google Cloud Console project and now the project is selected
     - App name: NAME
     - User support email: Select the email associated with the project
     - Developer contact information: EMAIL
+
     ### Scopes
-    - Add the following scopes:
+    Add the following scopes:
     ```
     .../auth/youtube.force-ssl
     ```
+
     ### Test users
     Add the email of the YouTube channel you want to add stream markers to
-3. Create OAuth 2.0 client [credentials](https://console.cloud.google.com/apis/credentials?)
+
+1. Create OAuth 2.0 client [credentials](https://console.cloud.google.com/apis/credentials?)
+
     Create credentials -> OAuth client ID
     - Application type: Desktop app
+
     Download client secret as json
 
+## Setup script with OBS Studio
+1. Download source code in the latest release and extract it somewhere
+
+2. In the toolbar at the top go to **Tools** -> **Scripts**
+
+3. Press the plus sign and add the script `create_youtube_stream_markers.py`
+
+4. Adjust your settings and set the path to your youtube api credentials file from the last section.
+
+---
 
 # Sources
 - [Youtube Live Streaming API](https://developers.google.com/youtube/v3/live/docs/liveBroadcasts)

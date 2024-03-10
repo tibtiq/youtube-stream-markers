@@ -269,7 +269,12 @@ def script_update(settings):
     )
 
     # only load new credentials if credentials path has changed
-    if obs.obs_data_get_string(settings, 'credentials_file_path') != SCRIPT_SETTINGS['credentials_path']:
+    if (
+        obs.obs_data_get_string(
+            settings,
+            'credentials_file_path',
+        ) != SCRIPT_SETTINGS['credentials_path']
+    ):
         SCRIPT_SETTINGS['credentials'] = get_youtube_credentials(
             pathlib.Path(obs.obs_data_get_string(settings, 'credentials_file_path'))
         )

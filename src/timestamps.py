@@ -1,50 +1,110 @@
 """This module contains useful functions related to manipulating datetime objects."""
 
+from __future__ import annotations
 
 import datetime
 import time
 from typing import Union
 
 
-def get_timestamp(output_format, date_format='%Y-%m-%d %H-%M-%S'):
-    """Return the POSIX timestamp.
-
-    Supported output formats are "float" and "string".
-    "float" returns the timestamp as a float.
-    "string" returns the timestamp in the following format: "HOUR-MINUTE-SECONDS", where zeros are
-    always padded
+class Timestamp:
+    """Wrapper class for datetime.datetime objects with the goal of working with youtube timestamps.
     """
-    supported_formats = ['float', 'string']
-    assert output_format in supported_formats, f'Choose a supported format, {supported_formats}'
 
-    timestamp = datetime.datetime.now()
+    def __init__(self, timestamp_time: datetime.datetime = None, timestamp_format: str = '%H:%M:%S') -> None:
+        """Creates a Timestamp class with an underlying datetime.datetime object of now.
 
-    if output_format == 'float':
-        timestamp = timestamp.timestamp()
-    elif output_format == 'string':
-        timestamp = timestamp.strftime(date_format)
+        Args:
+            timestamp_format: str, optional ['%H:%M:%S']
+                Timestamp format to use when convert Timestamp into a str. Default value uses
+                padded zeros. For example:
+                01:23:45
+                20:03:45
+            timestamp_time: str [None]
+                Used to create a Timestamp object with a specific time.
 
-    return timestamp
+        """
+        if isinstance(timestamp_time, datetime.datetime):
+            self.datetime = timestamp_time
+        else:
+            self.datetime = datetime.datetime.now()
+        self.timestamp_format = timestamp_format
 
+    def __str__(self) -> str:
+        """Returns str representation of timestamp."""
+        return self.datetime.strftime()
 
-def convert_timestamp_to_playback_time(
-    timestamp: Union[float, int],
-    playback_format: str = "%H:%M:%S"
-):
-    """Convert a timestamp (seconds) into playback time (HOUR-MINUTE-SECONDS).
+    def __float__(self) -> float:
+        """Returns float representation of timestamp."""
+        return self.datetime
 
-    The returned playback time has padded zeros.
-    """
-    assert isinstance(timestamp, (float, int)), (
-        'timestamp must be a float or int type.'
-    )
+    def __add__(self, other) -> Union[int, Timestamp]:
+        """Overloads the '+' operator for addition.
 
-    return time.strftime(playback_format, time.gmtime(timestamp))
+        Args:
+            other: Timestamp
+                The object added to this instance.
 
+        Returns:
+            An int representing the combined total seconds of other and this instance.
+            A new Timestamp object with the result of the addition.
+        """
+        if isinstance(other, Timestamp):
+            return round((self.datetime + other.datetime).total_seconds())
+        if isinstance(other, int):
+            time_diff = datetime.timedelta(seconds=other)
+            thing = self.datetime + time_diff
+            return Timestamp(thing)
+        if other is None:
+            return 0
 
-def convert_playback_time_to_timestamp(
-    playback_time: str,
-    playback_format: str = "%H:%M:%S",
-):
-    """Convert playback time format to timestamp format."""
-    return datetime.datetime.strptime(playback_time, playback_format)
+        raise TypeError(
+            f"unsupported operand type(s) for +: '{type(self)}' and '{type(other)}'"
+        )
+
+    def __sub__(self, other) -> Union[int, Timestamp]:
+        """Overloads the '-' operator for subtraction.
+
+        Args:
+            other: Timestamp
+                The object subtract from this instance.
+
+        Returns:
+            An int representing the total seconds difference between other and this instance.
+            A new Timestamp object with the result of the subtract.
+        """
+        if isinstance(other, Timestamp):
+            return round((self.datetime - other.datetime).total_seconds())
+        if isinstance(other, int):
+            time_diff = datetime.timedelta(seconds=other)
+            thing = self.datetime - time_diff
+            return Timestamp(thing)
+        if other is None:
+            return 0
+
+        raise TypeError(
+            f"unsupported operand type(s) for -: '{type(self)}' and '{type(other)}'"
+        )
+
+    def change_timestamp_format(self, new_format: str) -> None:
+        """Changes timestamp format used when converting Timestamp into string.
+
+        Args:
+            new_format: str
+                New format to replace current timestamp_format.
+        """
+        self.datetime.stamp_format = new_format
+
+    def as_playback_time(self, start_time: Timestamp) -> str:
+        """Converts Timestamp to playback time (HOUR-MINUTE-SECONDS) given a starting Timestamp.
+
+        The returned playback time has padded zeros.
+
+        Args:
+            playback_time: str
+                Timestamp converted to playback time given a starting Timestamp.
+        """
+        return time.strftime(self.timestamp_format, time.gmtime(
+            (self.datetime - start_time.datetime).total_seconds()
+        )
+        )

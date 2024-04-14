@@ -36,6 +36,7 @@ SCRIPT_SETTINGS = {
     'credentials': None,
     'credentials_path': None,
     'timestamp_group_range': 0,
+    'timestamp_offset': 0,
 }
 
 
@@ -55,8 +56,14 @@ def hotkey_callback(button_down: bool):
 
         current_timestamp = get_timestamp('float')
         stream_marker = current_timestamp - SCRIPT_SETTINGS['start_timestamp']
+
+        logging.debug(
+            f'stream_marker before offset: {convert_timestamp_to_playback_time(stream_marker)}'
+        )
+        stream_marker -= SCRIPT_SETTINGS['timestamp_offset']
+
         stream_marker = convert_timestamp_to_playback_time(stream_marker)
-        logging.info(f'stream_marker: {stream_marker}')
+        logging.info(f'stream_marker after offset: {stream_marker}')
 
         broadcast_data = get_broadcast_data(SCRIPT_SETTINGS['credentials'])
 
@@ -128,6 +135,11 @@ def script_description():
     description += 'each other. The value is in seconds and specifies the minimum time between '
     description += 'stream markers.'
     description += '<br>'
+    description += '<b>Timestamp offset</b> offsets timestamps from when they created by the '
+    description += "specified number of seconds. This is helpful when processing timestamps as "
+    description += "they're usually created after a 'moment' happens. The offset is towards before"
+    description += "the 'moment' happens."
+    description += '<br>'
     description += '<b>Debug mode</b> enables debug settings and prints used for development. '
     description += 'When not streaming, stream markers will be added to the description of last '
     description += 'stream. '
@@ -155,6 +167,16 @@ def script_properties():
         props,
         'group_timestamp_range',
         'Range to group timestamps',
+        0,
+        10000,
+        1,
+    )
+
+    # int input box specifying the offset to subtract from when a timestamp is created
+    obs.obs_properties_add_int(
+        props,
+        'timestamp_offset',
+        'Timestamp offset',
         0,
         10000,
         1,
@@ -238,6 +260,11 @@ def script_update(settings):
     SCRIPT_SETTINGS['timestamp_group_range'] = obs.obs_data_get_int(
         settings,
         'group_timestamp_range'
+    )
+
+    SCRIPT_SETTINGS['timestamp_offset'] = obs.obs_data_get_int(
+        settings,
+        'timestamp_offset'
     )
 
     # only load new credentials if credentials path has changed

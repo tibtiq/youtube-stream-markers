@@ -19,6 +19,12 @@ class Test_Timestamp:
             with pytest.raises(TypeError):
                 timestamp += other_timestamp
 
+        def test_other_is_None(self):
+            timestamp = Timestamp()
+
+            with pytest.raises(TypeError):
+                result_timestamp = timestamp + None
+
         def test_other_is_int(self):
             timestamp = Timestamp()
             adjusted_seconds = 5
@@ -54,6 +60,13 @@ class Test_Timestamp:
             time_diff_seconds = timestamp - other_timestamp
 
             assert time_diff_seconds == adjustment_seconds
+
+        def test_other_is_None(self):
+            timestamp = Timestamp()
+
+            result_timestamp = timestamp - None
+
+            assert result_timestamp == 0
 
         def test_other_is_int(self):
             timestamp = Timestamp()

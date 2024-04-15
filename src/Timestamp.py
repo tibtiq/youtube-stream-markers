@@ -32,7 +32,7 @@ class Timestamp:
 
     def __str__(self) -> str:
         """Returns str representation of timestamp."""
-        return self.datetime.strftime()
+        return self.datetime.strftime(self.timestamp_format)
 
     def __float__(self) -> float:
         """Returns float representation of timestamp."""

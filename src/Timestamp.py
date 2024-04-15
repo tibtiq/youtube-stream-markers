@@ -53,8 +53,8 @@ class Timestamp:
             return round((self.datetime + other.datetime).total_seconds())
         if isinstance(other, int):
             time_diff = datetime.timedelta(seconds=other)
-            thing = self.datetime + time_diff
-            return Timestamp(thing)
+            adjusted_timestamp = self.datetime + time_diff
+            return Timestamp(adjusted_timestamp)
         if other is None:
             return 0
 
@@ -77,8 +77,8 @@ class Timestamp:
             return round((self.datetime - other.datetime).total_seconds())
         if isinstance(other, int):
             time_diff = datetime.timedelta(seconds=other)
-            thing = self.datetime - time_diff
-            return Timestamp(thing)
+            adjusted_timestamp = self.datetime - time_diff
+            return Timestamp(adjusted_timestamp)
         if other is None:
             return 0
 

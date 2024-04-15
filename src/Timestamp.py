@@ -86,6 +86,24 @@ class Timestamp:
             f"unsupported operand type(s) for -: '{type(self)}' and '{type(other)}'"
         )
 
+    def __eq__(self, other: object) -> bool:
+        """Overloads the '==' operator for equality comparison.
+
+        Args:
+            other: Timestamp or compatible object
+                The object to compare for equality with this instance.
+
+        Returns:
+            bool: True if the objects are considered equal, False otherwise.
+        """
+
+        if isinstance(other, Timestamp):
+            return self.datetime == other.datetime
+        if isinstance(other, datetime.datetime):
+            return self.datetime == other
+
+        return False
+
     def change_timestamp_format(self, new_format: str) -> None:
         """Changes timestamp format used when converting Timestamp into string.
 

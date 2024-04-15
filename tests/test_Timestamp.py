@@ -89,3 +89,9 @@ class Test_Timestamp:
             )
 
             assert adjusted_timestamp.datetime == expected_timestamp
+
+        def test_other_is_str(self):
+            timestamp = Timestamp()
+
+            with pytest.raises(TypeError):
+                result_timestamp = timestamp - 'test'

@@ -51,7 +51,7 @@ class Timestamp:
         """
         if isinstance(other, Timestamp):
             return round((self.datetime + other.datetime).total_seconds())
-        if isinstance(other, int):
+        if isinstance(other, (int, float)):
             time_diff = datetime.timedelta(seconds=other)
             adjusted_timestamp = self.datetime + time_diff
             return Timestamp(adjusted_timestamp)
@@ -75,7 +75,7 @@ class Timestamp:
         """
         if isinstance(other, Timestamp):
             return round((self.datetime - other.datetime).total_seconds())
-        if isinstance(other, int):
+        if isinstance(other, (int, float)):
             time_diff = datetime.timedelta(seconds=other)
             adjusted_timestamp = self.datetime - time_diff
             return Timestamp(adjusted_timestamp)

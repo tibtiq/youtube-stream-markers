@@ -118,7 +118,8 @@ class Timestamp:
             playback_time: str
                 Timestamp converted to playback time given a starting Timestamp.
         """
-        return time.strftime(self.timestamp_format, time.gmtime(
-            (self.datetime - start_time.datetime).total_seconds()
-        )
+        return time.strftime(
+            self.timestamp_format, time.gmtime(
+                (self.datetime - start_time.datetime).total_seconds()
+            )
         )

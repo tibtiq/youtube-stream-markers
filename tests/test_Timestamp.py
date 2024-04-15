@@ -95,3 +95,7 @@ class Test_Timestamp:
 
             with pytest.raises(TypeError):
                 result_timestamp = timestamp - 'test'
+
+    class Test_as_playback_time:
+        def test_(self):
+            pass

@@ -54,7 +54,7 @@ class Test_Timestamp:
 
         def test_other_is_int(self):
             timestamp = Timestamp()
-            adjustment_seconds = 5.5
+            adjustment_seconds = 5
 
             adjusted_timestamp = timestamp - adjustment_seconds
             expected_timestamp = datetime.datetime.now() - datetime.timedelta(

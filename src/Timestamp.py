@@ -49,14 +49,10 @@ class Timestamp:
             An int representing the combined total seconds of other and this instance.
             A new Timestamp object with the result of the addition.
         """
-        if isinstance(other, Timestamp):
-            return round((self.datetime + other.datetime).total_seconds())
         if isinstance(other, (int, float)):
             time_diff = datetime.timedelta(seconds=other)
             adjusted_timestamp = self.datetime + time_diff
             return Timestamp(adjusted_timestamp)
-        if other is None:
-            return 0
 
         raise TypeError(
             f"unsupported operand type(s) for +: '{type(self)}' and '{type(other)}'"

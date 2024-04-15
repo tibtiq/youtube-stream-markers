@@ -9,14 +9,15 @@ class Test_Timestamp:
     class Test_add:
         def test_other_is_timestamp(self):
             timestamp = Timestamp()
-            adjusted_seconds = 5
-
-            adjusted_timestamp = timestamp + adjusted_seconds
-            expected_timestamp = datetime.datetime.now() + datetime.timedelta(
-                seconds=adjusted_seconds
+            adjustment_seconds = 5
+            other_timestamp = Timestamp(
+                datetime.datetime.now() + datetime.timedelta(
+                    seconds=adjustment_seconds
+                )
             )
 
-            assert adjusted_timestamp.datetime == expected_timestamp
+            with pytest.raises(TypeError):
+                timestamp += other_timestamp
 
         def test_other_is_int(self):
             timestamp = Timestamp()
@@ -44,13 +45,15 @@ class Test_Timestamp:
         def test_other_is_timestamp(self):
             timestamp = Timestamp()
             adjustment_seconds = 5
-
-            adjusted_timestamp = timestamp - adjustment_seconds
-            expected_timestamp = datetime.datetime.now() - datetime.timedelta(
-                seconds=adjustment_seconds
+            other_timestamp = Timestamp(
+                datetime.datetime.now() - datetime.timedelta(
+                    seconds=adjustment_seconds
+                )
             )
 
-            assert adjusted_timestamp.datetime == expected_timestamp
+            time_diff_seconds = timestamp - other_timestamp
+
+            assert time_diff_seconds == adjustment_seconds
 
         def test_other_is_int(self):
             timestamp = Timestamp()

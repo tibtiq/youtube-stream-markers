@@ -7,6 +7,7 @@ import pickle
 import sys
 from dataclasses import dataclass
 
+from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
@@ -31,7 +32,12 @@ class BroadcastData:
 
 def get_youtube_credentials_from_file(youtube_credentials_path: pathlib.Path) -> Credentials:
     with open(youtube_credentials_path, 'rb') as file:
-        return pickle.load(file)
+        youtube_credentials = pickle.load(file)
+
+    if youtube_credentials.expired:
+        youtube_credentials.refresh(Request())
+
+    return youtube_credentials
 
 
 def get_youtube_credentials_from_oauth(oauth_credentials_path: pathlib.Path, ) -> Credentials:

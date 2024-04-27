@@ -1,5 +1,5 @@
 .vscode
 .venv
 *.pyc
-oauth_credentials.json
+*.json
 *.dat

@@ -40,7 +40,7 @@ def get_youtube_credentials_from_file(youtube_credentials_path: pathlib.Path) ->
     return youtube_credentials
 
 
-def get_youtube_credentials_from_oauth(oauth_credentials_path: pathlib.Path, ) -> Credentials:
+def get_youtube_credentials_from_oauth(oauth_credentials_path: pathlib.Path) -> Credentials:
     assert oauth_credentials_path.exists(), (
         f'The provided path for api credentials is invalid: {oauth_credentials_path}'
     )

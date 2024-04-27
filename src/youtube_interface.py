@@ -86,7 +86,7 @@ def get_youtube_credentials_from_oauth(oauth_credentials_path: pathlib.Path) -> 
     flow.run_local_server()
     youtube_credentials = flow.credentials
 
-    youtube_credentials_path = pathlib.Path(__file__).parent / '.config'
+    youtube_credentials_path = pathlib.Path(__file__).parent.parent / '.config'
     youtube_credentials_path.mkdir(parents=True, exist_ok=True)
     with open(youtube_credentials_path / 'youtube_credentials.dat', 'wb') as file:
         pickle.dump(youtube_credentials, file)

@@ -60,7 +60,8 @@ Once the script is setup, whenever you open your OBS it require you to log into 
 
 ![](./res/google_login3.png)
 
-- Provide the script with permissions by checking the "Select all" box.
+- Provide the script with permissions by checking the "Select all" box then press "Continue" at the
+bottom.
 
 ![](./res/google_login4.png)
 

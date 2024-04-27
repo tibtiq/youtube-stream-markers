@@ -47,6 +47,24 @@ Create a Google Cloud Console project and now the project is selected
 # Usage
 Once the script is setup, whenever you open your OBS it require you to log into your google account.
 
+## Oauth login
+- Select google account you plan on streaming to.
+
+![](./res/google_login1.png)
+
+- Optional step if you have multiple Youtube accounts associated with the same email.
+
+![](./res/google_login2.png)
+
+- Continue pass the "unverified app" page.
+
+![](./res/google_login3.png)
+
+- Provide the script with permissions by checking the "Select all" box then press "Continue" at the
+bottom.
+
+![](./res/google_login4.png)
+
 ---
 
 # Sources

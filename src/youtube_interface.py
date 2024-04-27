@@ -103,7 +103,6 @@ def get_youtube_credentials(oauth_credentials_path: pathlib.Path) -> Credentials
     Returns:
         Credentials: Google OAuth credentials that can be reused with Flow API calls.
     """
-
     youtube_credentials_path = pathlib.Path(__file__).parent / '.config' / 'youtube_credentials.dat'
     if youtube_credentials_path.exists():
         logging.debug('loading youtube credentials from file')

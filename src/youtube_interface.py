@@ -1,6 +1,7 @@
 """This module interacts with youtube's api to update a livestream's description."""
 
 import json
+import logging
 import pathlib
 import pickle
 import sys
@@ -80,10 +81,10 @@ def get_youtube_credentials(oauth_credentials_path: pathlib.Path) -> Credentials
 
     youtube_credentials_path = pathlib.Path(__file__).parent / '.config' / 'youtube_credentials.dat'
     if youtube_credentials_path.exists():
-        print('loaded from pickle file')
+        logging.debug('loading youtube credentials from file')
         youtube_credentials = get_youtube_credentials_from_file(youtube_credentials_path)
     else:
-        print('loaded from oauth')
+        logging.debug('loading youtube credentials from oauth')
         youtube_credentials = get_youtube_credentials_from_oauth(oauth_credentials_path)
 
     return youtube_credentials

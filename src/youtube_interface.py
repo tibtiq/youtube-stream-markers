@@ -1,10 +1,13 @@
 """This module interacts with youtube's api to update a livestream's description."""
 
 import json
+import logging
 import pathlib
+import pickle
 import sys
 from dataclasses import dataclass
 
+from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
@@ -27,17 +30,38 @@ class BroadcastData:
     scheduled_start_time: str
 
 
-def get_youtube_credentials(credentials_path: pathlib.Path) -> Credentials:
-    """Get youtube credentials with given Oauth credentials.
+def get_youtube_credentials_from_file(youtube_credentials_path: pathlib.Path) -> Credentials:
+    """Get youtube credentials from file.
 
     Args:
-        credentials_path (pathlib.Path): Path to OAuth credentials for youtube API credentials.
+        youtube_credentials_path: Path to saved youtube credentials.
 
     Returns:
-        Credentials: Google OAuth credentials that can be reused with Flow API calls.
+        Credentials used to make Youtube API calls.
     """
-    assert credentials_path.exists(), (
-        f'The provided path for api credentials is invalid: {credentials_path}'
+    with open(youtube_credentials_path, 'rb') as file:
+        youtube_credentials = pickle.load(file)
+
+    # ! untested
+    if youtube_credentials.expired:
+        youtube_credentials.refresh(Request())
+
+    return youtube_credentials
+
+
+def get_youtube_credentials_from_oauth(oauth_credentials_path: pathlib.Path) -> Credentials:
+    """Get youtube credentials from oauth credentials.
+
+    After getting youtube credentials they will be saved for reuse.
+
+    Args:
+        oauth_credentials_path: Path to oauth credentials.
+
+    Returns:
+        Credentials used to make Youtube API calls.
+    """
+    assert oauth_credentials_path.exists(), (
+        f'The provided path for api credentials is invalid: {oauth_credentials_path}'
     )
 
     scopes = [
@@ -48,7 +72,7 @@ def get_youtube_credentials(credentials_path: pathlib.Path) -> Credentials:
     ]
     try:
         flow = InstalledAppFlow.from_client_secrets_file(
-            credentials_path,
+            oauth_credentials_path,
             scopes=scopes,
         )
     except json.decoder.JSONDecodeError:
@@ -60,8 +84,34 @@ def get_youtube_credentials(credentials_path: pathlib.Path) -> Credentials:
 
     # opens authorization URL and runs a server to multiple API calls can be made
     flow.run_local_server()
+    youtube_credentials = flow.credentials
+
+    youtube_credentials_path = pathlib.Path(__file__).parent / '.config'
+    youtube_credentials_path.mkdir(parents=True, exist_ok=True)
+    with open(youtube_credentials_path / 'youtube_credentials.dat', 'wb') as file:
+        pickle.dump(youtube_credentials, file)
 
     return flow.credentials
+
+
+def get_youtube_credentials(oauth_credentials_path: pathlib.Path) -> Credentials:
+    """Get youtube credentials with given Oauth credentials.
+
+    Args:
+        credentials_path (pathlib.Path): Path to OAuth credentials for youtube API credentials.
+
+    Returns:
+        Credentials: Google OAuth credentials that can be reused with Flow API calls.
+    """
+    youtube_credentials_path = pathlib.Path(__file__).parent / '.config' / 'youtube_credentials.dat'
+    if youtube_credentials_path.exists():
+        logging.debug('loading youtube credentials from file')
+        youtube_credentials = get_youtube_credentials_from_file(youtube_credentials_path)
+    else:
+        logging.debug('loading youtube credentials from oauth')
+        youtube_credentials = get_youtube_credentials_from_oauth(oauth_credentials_path)
+
+    return youtube_credentials
 
 
 def get_broadcast_data(credentials: Credentials) -> BroadcastData:

@@ -31,7 +31,9 @@ Create a Google Cloud Console project and now the project is selected
     Create credentials -> OAuth client ID
     - Application type: Desktop app
 
-    Download client secret as json
+2. Download ouath credentials as json.
+
+   Save it as `oauth_credentials.json`. Create a folder `.config` in top level fodler of the repo and place it there.
 
 ## Setup script with OBS Studio
 1. Download source code in the latest release and extract it somewhere
@@ -40,7 +42,7 @@ Create a Google Cloud Console project and now the project is selected
 
 3. Press the plus sign and add the script `create_youtube_stream_markers.py`
 
-4. Adjust your settings and set the path to your youtube api credentials file from the last section.
+4. Adjust your settings and set the path to your youtube api oauth credentials file from the last section.
 
 # Usage
 Once the script is setup, whenever you open your OBS it require you to log into your google account.

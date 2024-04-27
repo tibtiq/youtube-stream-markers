@@ -1,8 +1,10 @@
+# DO NOT MODIFY THIS FILE DIRECTLY, IT'LL BE ANNOYING
 name: Linter
 
 on:
+  # allows manual trigger
+  workflow_dispatch:
   pull_request:
-    types: [ opened, reopened, synchronize, edited ]
 
 jobs:
   python-lint:
@@ -10,10 +12,10 @@ jobs:
     name: CI workflow
     steps:
       - name: Check out source repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python environment
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v5
         with:
           python-version: "3.8"
           cache: 'pip' # caching pip dependencies

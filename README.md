@@ -31,7 +31,9 @@ Create a Google Cloud Console project and now the project is selected
     Create credentials -> OAuth client ID
     - Application type: Desktop app
 
-    Download client secret as json
+2. Download client secret as json.
+
+   Save it as `credentials.json`. Create a folder `.config` in top level fodler of the repo and place it there.
 
 ## Setup script with OBS Studio
 1. Download source code in the latest release and extract it somewhere

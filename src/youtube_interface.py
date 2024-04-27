@@ -31,9 +31,18 @@ class BroadcastData:
 
 
 def get_youtube_credentials_from_file(youtube_credentials_path: pathlib.Path) -> Credentials:
+    """Get youtube credentials from file.
+
+    Args:
+        youtube_credentials_path: Path to saved youtube credentials.
+
+    Returns:
+        Credentials used to make Youtube API calls.
+    """
     with open(youtube_credentials_path, 'rb') as file:
         youtube_credentials = pickle.load(file)
 
+    #! untested
     if youtube_credentials.expired:
         youtube_credentials.refresh(Request())
 
@@ -41,6 +50,16 @@ def get_youtube_credentials_from_file(youtube_credentials_path: pathlib.Path) ->
 
 
 def get_youtube_credentials_from_oauth(oauth_credentials_path: pathlib.Path) -> Credentials:
+    """Get youtube credentials from oauth credentials.
+
+    After getting youtube credentials they will be saved for reuse.
+
+    Args:
+        oauth_credentials_path: Path to oauth credentials.
+
+    Returns:
+        Credentials used to make Youtube API calls.
+    """
     assert oauth_credentials_path.exists(), (
         f'The provided path for api credentials is invalid: {oauth_credentials_path}'
     )

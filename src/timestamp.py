@@ -8,7 +8,9 @@ from typing import Union
 
 
 class Timestamp:
-    """Wrapper class for datetime.datetime objects with the goal of working with youtube timestamps.
+    """Wrapper class for datetime.datetime objects
+
+    This class made with the goal of working with youtube timestamps.
     """
 
     def __init__(

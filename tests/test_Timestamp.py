@@ -4,6 +4,8 @@ import pytest
 
 from src.Timestamp import Timestamp
 
+# todo fixture to create a timestamp
+
 
 class Test_Timestamp:
     class Test_str:
@@ -163,3 +165,19 @@ class Test_Timestamp:
             timestamp.change_timestamp_format(new_format)
 
             assert timestamp.timestamp_format == new_format
+
+    class Test_as_playback_time:
+        def test_expected_use(self):
+            start_time = Timestamp()
+            end_time = start_time + 5
+
+            playback_time = end_time.as_playback_time(start_time)
+
+            assert playback_time == '00:00:05'
+
+        def test_invalid_type(self):
+            start_time = Timestamp()
+            end_time = start_time + 5
+
+            with pytest.raises(TypeError):
+                playback_time = end_time.as_playback_time('test')

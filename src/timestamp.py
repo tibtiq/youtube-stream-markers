@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import datetime
 import time
-from typing import Union
+from typing import Optional, Union
 
 
 class Timestamp:
@@ -15,7 +15,7 @@ class Timestamp:
 
     def __init__(
         self,
-        timestamp_time: datetime.datetime = None,
+        timestamp_time: Optional[datetime.datetime] = None,
         timestamp_format: str = '%H:%M:%S'
     ) -> None:
         """Creates a Timestamp class with an underlying datetime.datetime object of now.

@@ -19,7 +19,7 @@ class Test_Timestamp:
             with pytest.raises(TypeError):
                 timestamp += other_timestamp
 
-        def test_other_is_None(self):
+        def test_other_is_none(self):
             timestamp = Timestamp()
 
             with pytest.raises(TypeError):
@@ -61,7 +61,7 @@ class Test_Timestamp:
 
             assert time_diff_seconds == adjustment_seconds
 
-        def test_other_is_None(self):
+        def test_other_is_none(self):
             timestamp = Timestamp()
 
             result_timestamp = timestamp - None

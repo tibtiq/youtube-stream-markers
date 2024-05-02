@@ -8,7 +8,7 @@ from typing import Optional, Union
 
 
 class Timestamp:
-    """Wrapper class for datetime.datetime objects
+    """Wrapper class for datetime.datetime objects.
 
     This class made with the goal of working with youtube timestamps.
     """
@@ -18,7 +18,7 @@ class Timestamp:
         timestamp_time: Optional[datetime.datetime] = None,
         timestamp_format: str = '%H:%M:%S'
     ) -> None:
-        """Creates a Timestamp class with an underlying datetime.datetime object of now.
+        """Create a Timestamp class with an underlying datetime.datetime object of now.
 
         Args:
             timestamp_format: str, optional ['%H:%M:%S']
@@ -37,7 +37,7 @@ class Timestamp:
         self.timestamp_format = timestamp_format
 
     def __str__(self) -> str:
-        """Returns str representation of timestamp."""
+        """Return str representation of timestamp."""
         return self.datetime.strftime(self.timestamp_format)
 
     def __add__(self, other) -> Union[int, Timestamp]:

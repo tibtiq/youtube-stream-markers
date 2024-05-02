@@ -6,6 +6,12 @@ from src.Timestamp import Timestamp
 
 
 class Test_Timestamp:
+    class Test_str:
+        def test_str_representation(self):
+            timestamp = Timestamp()
+
+            assert timestamp.datetime.strftime(timestamp.timestamp_format) == str(timestamp)
+
     class Test_add:
         def test_other_is_timestamp(self):
             timestamp = Timestamp()

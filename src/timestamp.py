@@ -11,7 +11,11 @@ class Timestamp:
     """Wrapper class for datetime.datetime objects with the goal of working with youtube timestamps.
     """
 
-    def __init__(self, timestamp_time: datetime.datetime = None, timestamp_format: str = '%H:%M:%S') -> None:
+    def __init__(
+        self,
+        timestamp_time: datetime.datetime = None,
+        timestamp_format: str = '%H:%M:%S'
+    ) -> None:
         """Creates a Timestamp class with an underlying datetime.datetime object of now.
 
         Args:

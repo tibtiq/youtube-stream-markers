@@ -16,11 +16,7 @@ import pathlib
 
 # pylint: disable-next=import-error
 import obspython as obs
-from timestamps import (
-    convert_playback_time_to_timestamp,
-    convert_timestamp_to_playback_time,
-    get_timestamp,
-)
+from Timestamp import Timestamp
 from youtube_interface import (
     get_broadcast_data,
     get_youtube_credentials,

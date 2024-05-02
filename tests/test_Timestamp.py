@@ -154,3 +154,12 @@ class Test_Timestamp:
             result = timestamp == 'test'
 
             assert result is False
+
+    class Test_change_timestamp_format:
+        def test_timestamp_format_changes(self):
+            timestamp = Timestamp()
+            new_format = '%d/%m/%y %H:%M:%S.%f'
+
+            timestamp.change_timestamp_format(new_format)
+
+            assert timestamp.timestamp_format == new_format

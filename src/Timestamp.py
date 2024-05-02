@@ -114,6 +114,9 @@ class Timestamp:
             playback_time: str
                 Timestamp converted to playback time given a starting Timestamp.
         """
+        if not isinstance(start_time, Timestamp):
+            raise TypeError(f"Value passed to 'start_time' isn't a Timestamp object")
+
         return time.strftime(
             self.timestamp_format, time.gmtime(
                 (self.datetime - start_time.datetime).total_seconds()

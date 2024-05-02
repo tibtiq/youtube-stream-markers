@@ -10,7 +10,7 @@ class Test_Timestamp:
         def test_str_representation(self):
             timestamp = Timestamp()
 
-            assert timestamp.datetime.strftime(timestamp.timestamp_format) == str(timestamp)
+            assert str(timestamp) == timestamp.datetime.strftime(timestamp.timestamp_format)
 
     class Test_add:
         def test_other_is_timestamp(self):

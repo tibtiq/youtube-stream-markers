@@ -34,10 +34,6 @@ class Timestamp:
         """Returns str representation of timestamp."""
         return self.datetime.strftime(self.timestamp_format)
 
-    def __float__(self) -> float:
-        """Returns float representation of timestamp."""
-        return self.datetime
-
     def __add__(self, other) -> Union[int, Timestamp]:
         """Overloads the '+' operator for addition.
 

@@ -7,7 +7,7 @@ from src.Timestamp import Timestamp
 
 class Test_Timestamp:
     class Test_str:
-        def test_str_representation(self):
+        def test_str(self):
             timestamp = Timestamp()
 
             assert isinstance(str(timestamp), str)

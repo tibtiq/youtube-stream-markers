@@ -1,13 +1,8 @@
 """This module is an OBS script that creates stream markers for a youtube livestream.
 
 The stream markers are placed in the description of the livestream.
-
 """
 
-
-# hotkey bounded in OBS triggers this script
-# this script will create/append to a file
-# each line in the file will correspond to the time in the VOD when the hotkey is pressed
 
 import logging
 import pathlib

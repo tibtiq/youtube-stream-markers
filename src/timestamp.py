@@ -94,7 +94,6 @@ class Timestamp:
         Returns:
             bool: True if the objects are considered equal, False otherwise.
         """
-
         if isinstance(other, Timestamp):
             return self.datetime == other.datetime
         if isinstance(other, datetime.datetime):

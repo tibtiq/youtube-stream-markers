@@ -108,3 +108,49 @@ class Test_Timestamp:
 
             with pytest.raises(TypeError):
                 result_timestamp = timestamp - 'test'
+
+    class Test_eq:
+        def test_other_is_timestamp(self):
+            now = datetime.datetime.now()
+            timestamp = Timestamp(now)
+            timestamp2 = Timestamp(now)
+
+            result = timestamp == timestamp2
+
+            assert result is True
+
+        def test_other_is_datetime(self):
+            now = datetime.datetime.now()
+            timestamp = Timestamp(now)
+
+            result = timestamp == now
+
+            assert result is True
+
+        def test_other_is_none(self):
+            timestamp = Timestamp()
+
+            result = timestamp is None
+
+            assert result is False
+
+        def test_other_is_int(self):
+            timestamp = Timestamp()
+
+            result = timestamp == 5
+
+            assert result is False
+
+        def test_other_is_float(self):
+            timestamp = Timestamp()
+
+            result = timestamp == 5.5
+
+            assert result is False
+
+        def test_other_is_str(self):
+            timestamp = Timestamp()
+
+            result = timestamp == 'test'
+
+            assert result is False

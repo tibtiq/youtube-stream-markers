@@ -103,7 +103,7 @@ class Timestamp:
             new_format: str
                 New format to replace current timestamp_format.
         """
-        self.datetime.stamp_format = new_format
+        self.timestamp_format = new_format
 
     def as_playback_time(self, start_time: Timestamp) -> str:
         """Converts Timestamp to playback time (HOUR-MINUTE-SECONDS) given a starting Timestamp.

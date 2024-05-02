@@ -115,7 +115,7 @@ class Timestamp:
                 Timestamp converted to playback time given a starting Timestamp.
         """
         if not isinstance(start_time, Timestamp):
-            raise TypeError(f"Value passed to 'start_time' isn't a Timestamp object")
+            raise TypeError("Value passed to 'start_time' isn't a Timestamp object")
 
         return time.strftime(
             self.timestamp_format, time.gmtime(

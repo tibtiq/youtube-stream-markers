@@ -102,7 +102,7 @@ class Timestamp:
         return False
 
     def change_timestamp_format(self, new_format: str) -> None:
-        """Changes timestamp format used when converting Timestamp into string.
+        """Change timestamp format used when converting Timestamp into string.
 
         Args:
             new_format: str
@@ -111,7 +111,7 @@ class Timestamp:
         self.timestamp_format = new_format
 
     def as_playback_time(self, start_time: Timestamp) -> str:
-        """Converts Timestamp to playback time (HOUR-MINUTE-SECONDS) given a starting Timestamp.
+        """Convert Timestamp to playback time (HOUR-MINUTE-SECONDS) given a starting Timestamp.
 
         The returned playback time has padded zeros.
 

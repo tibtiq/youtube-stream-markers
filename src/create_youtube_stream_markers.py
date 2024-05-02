@@ -5,8 +5,6 @@ The stream markers are placed in the description of the livestream.
 """
 
 
-# todo work with datetime objects not strs
-
 # hotkey bounded in OBS triggers this script
 # this script will create/append to a file
 # each line in the file will correspond to the time in the VOD when the hotkey is pressed

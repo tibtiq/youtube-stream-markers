@@ -55,8 +55,6 @@ def hotkey_callback(button_down: bool):
 
         logging.info(f'stream_marker after offset: {current_timestamp}')
 
-        broadcast_data = get_broadcast_data(SCRIPT_SETTINGS['credentials'])
-
         time_since_last_stream_marker = current_timestamp - SCRIPT_SETTINGS['last_timestamp']
         logging.debug(
             (
@@ -68,6 +66,7 @@ def hotkey_callback(button_down: bool):
             logging.info('Prevented writing stream marker, too close to previous marker')
             return
 
+        broadcast_data = get_broadcast_data(SCRIPT_SETTINGS['credentials'])
         new_description = (
             f'{broadcast_data.broadcast_description}\n'
             f'{current_timestamp.as_playback_time(SCRIPT_SETTINGS["start_timestamp"])} - \n'

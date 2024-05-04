@@ -194,13 +194,10 @@ def script_load(settings):
     # handle OBS frontend events
     obs.obs_frontend_add_event_callback(on_event_callback)
 
-    def hotkey_callback_args(button_down):
-        """Hack to pass additional arguments to callback function."""
-        return hotkey_callback(button_down)
     HOTKEY_ID_ARRAY.append(obs.obs_hotkey_register_frontend(
         'SHORTCUT 1',
         'Scripts - create_stream_markers.py - Push create stream marker',
-        hotkey_callback_args
+        hotkey_callback
     )
     )
     HOTKEY_NAMES_BY_ID[HOTKEY_ID_ARRAY[len(HOTKEY_ID_ARRAY)-1]] = 'SHORTCUT 1'

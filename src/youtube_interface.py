@@ -43,7 +43,7 @@ def get_youtube_credentials_from_file(youtube_credentials_path: pathlib.Path) ->
     with open(youtube_credentials_path, 'rb') as file:
         youtube_credentials = pickle.load(file)
 
-    # ! untested
+    # not sure if refresh ever works as expected
     if youtube_credentials.expired:
         youtube_credentials.refresh(Request())
 

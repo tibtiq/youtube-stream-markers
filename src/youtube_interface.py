@@ -7,6 +7,7 @@ import pickle
 import sys
 from dataclasses import dataclass
 
+import google.auth.exceptions
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -106,10 +107,12 @@ def get_youtube_credentials(oauth_credentials_path: pathlib.Path) -> Credentials
     youtube_credentials_path = pathlib.Path(
         __file__
     ).parent.parent / '.config' / 'youtube_credentials.dat'
-    if youtube_credentials_path.exists():
+    youtube_credentials = None
+    try:
         logging.debug('loading youtube credentials from file')
-        youtube_credentials = get_youtube_credentials_from_file(youtube_credentials_path)
-    else:
+        raise google.auth.exceptions.RefreshError
+        # youtube_credentials = get_youtube_credentials_from_file(youtube_credentials_path)
+    except google.auth.exceptions.RefreshError:
         logging.debug('loading youtube credentials from oauth')
         youtube_credentials = get_youtube_credentials_from_oauth(oauth_credentials_path)
 

@@ -1,6 +1,5 @@
 import logging
 import pathlib
-from typing import Type
 
 # pylint: disable-next=import-error
 import obspython as obs

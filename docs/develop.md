@@ -12,6 +12,9 @@ Windows
 %AppData%\obs-studio\basic\scenes\Untitled_2.json
 ```
 
+To interact with the variable `settings` through the OBS library interface you must use the API calls
+listed on this [page](https://docs.obsproject.com/reference-settings).
+
 
 # Resources
 - [OBS library interface](https://docs.obsproject.com/scripting#script-function-exports)

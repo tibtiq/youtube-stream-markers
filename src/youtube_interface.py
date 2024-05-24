@@ -45,6 +45,7 @@ def get_youtube_credentials_from_file(youtube_credentials_path: pathlib.Path) ->
 
     # not sure if refresh ever works as expected
     if youtube_credentials.expired:
+        logging.debug('Youtube credentials are expired, refreshing')
         youtube_credentials.refresh(Request())
 
     return youtube_credentials

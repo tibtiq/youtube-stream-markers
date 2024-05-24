@@ -112,7 +112,7 @@ def get_youtube_credentials(oauth_credentials_path: pathlib.Path) -> Credentials
     try:
         logging.debug('loading youtube credentials from file')
         youtube_credentials = get_youtube_credentials_from_file(youtube_credentials_path)
-    except google.auth.exceptions.RefreshError:
+    except (google.auth.exceptions.RefreshError, FileNotFoundError) as _:
         logging.debug('loading youtube credentials from oauth')
         youtube_credentials = get_youtube_credentials_from_oauth(oauth_credentials_path)
 

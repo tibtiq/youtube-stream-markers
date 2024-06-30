@@ -2,7 +2,7 @@ import datetime
 
 import pytest
 
-from src.Timestamp import Timestamp
+from src.timestamp import Timestamp
 
 # todo fixture to create a timestamp
 

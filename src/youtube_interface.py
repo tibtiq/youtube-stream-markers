@@ -63,7 +63,11 @@ def get_youtube_credentials_from_oauth(oauth_credentials_path: pathlib.Path) -> 
         Credentials used to make Youtube API calls.
     """
     assert oauth_credentials_path.exists(), (
-        f'The provided path for api credentials is invalid: {oauth_credentials_path}'
+        f"The provided path for api credentials doesn't exist: {oauth_credentials_path}"
+    )
+    assert oauth_credentials_path.suffix == '.json', (
+        f'The provided path for api credentials appears to be incorrect file type. Expected file '
+        f'type is "json": {oauth_credentials_path}'
     )
 
     scopes = [
@@ -112,7 +116,7 @@ def get_youtube_credentials(oauth_credentials_path: pathlib.Path) -> Credentials
     try:
         logging.debug('loading youtube credentials from file')
         youtube_credentials = get_youtube_credentials_from_file(youtube_credentials_path)
-    except (google.auth.exceptions.RefreshError, FileNotFoundError) as _:
+    except (google.auth.exceptions.RefreshError, FileNotFoundError):
         logging.debug('loading youtube credentials from oauth')
         youtube_credentials = get_youtube_credentials_from_oauth(oauth_credentials_path)
 

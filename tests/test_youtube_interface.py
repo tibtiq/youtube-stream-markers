@@ -1,5 +1,3 @@
-import pathlib
-
 import pytest
 
 from src.youtube_interface import get_youtube_credentials_from_oauth

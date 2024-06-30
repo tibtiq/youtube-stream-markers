@@ -13,8 +13,9 @@ class Test_get_youtube_credentials_from_oauth:
             with pytest.raises(Exception):
                 get_youtube_credentials_from_oauth(path)
 
-        def test_path_file_type_incorrect(self):
-            path = pathlib.Path()
+        def test_path_file_type_incorrect(self, tmp_path):
+            path = tmp_path / 'file.txt'
+            open(path, 'w', encoding='utf-8')
 
             with pytest.raises(Exception):
                 get_youtube_credentials_from_oauth(path)

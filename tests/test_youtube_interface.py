@@ -7,11 +7,12 @@ from src.youtube_interface import get_youtube_credentials_from_oauth
 
 class Test_get_youtube_credentials_from_oauth:
     class Test_asserts:
-        # def test_path_exists(self, tmp_path):
-        #     path = tmp_path / 'file.json'
-        #     open(path, 'w', encoding='utf-8')
+        def test_path_exists(self, tmp_path):
+            path = tmp_path / 'file.json'
+            open(path, 'w', encoding='utf-8')
 
-        #     get_youtube_credentials_from_oauth(path)
+            with pytest.raises(SystemExit):
+                get_youtube_credentials_from_oauth(path)
 
         def test_path_doesnt_exist(self, tmp_path):
             path = tmp_path / 'file.json'

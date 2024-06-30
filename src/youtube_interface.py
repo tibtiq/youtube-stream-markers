@@ -65,8 +65,11 @@ def get_youtube_credentials_from_oauth(oauth_credentials_path: pathlib.Path) -> 
     assert oauth_credentials_path.exists(), (
         f"The provided path for api credentials doesn't exist: {oauth_credentials_path}"
     )
-        f'The provided path for api credentials is invalid: {oauth_credentials_path}'
+    assert oauth_credentials_path.suffix == '.json', (
+        f'The provided path for api credentials appears to be incorrect file type. Expected file '
+        f'type is "json": {oauth_credentials_path}'
     )
+    print(oauth_credentials_path)
 
     scopes = [
         # get broadcast data

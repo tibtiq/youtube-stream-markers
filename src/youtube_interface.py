@@ -69,7 +69,6 @@ def get_youtube_credentials_from_oauth(oauth_credentials_path: pathlib.Path) -> 
         f'The provided path for api credentials appears to be incorrect file type. Expected file '
         f'type is "json": {oauth_credentials_path}'
     )
-    print(oauth_credentials_path)
 
     scopes = [
         # get broadcast data

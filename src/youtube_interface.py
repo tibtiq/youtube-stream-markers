@@ -63,6 +63,8 @@ def get_youtube_credentials_from_oauth(oauth_credentials_path: pathlib.Path) -> 
         Credentials used to make Youtube API calls.
     """
     assert oauth_credentials_path.exists(), (
+        f"The provided path for api credentials doesn't exist: {oauth_credentials_path}"
+    )
         f'The provided path for api credentials is invalid: {oauth_credentials_path}'
     )
 

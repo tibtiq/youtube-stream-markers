@@ -10,7 +10,7 @@ import pathlib
 # pylint: disable-next=import-error
 import obspython as obs
 
-from timestamp import StreamMarker
+from stream_marker import StreamMarker
 from youtube_interface import (
     get_broadcast_data,
     get_youtube_credentials,

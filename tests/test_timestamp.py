@@ -2,7 +2,7 @@ import datetime
 
 import pytest
 
-from src.timestamp import StreamMarker
+from stream_marker import StreamMarker
 
 # todo fixture to create a timestamp
 

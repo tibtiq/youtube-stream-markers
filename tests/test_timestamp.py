@@ -2,7 +2,7 @@ import datetime
 
 import pytest
 
-from src.timestamp import Timestamp
+from src.timestamp import StreamMarker
 
 # todo fixture to create a timestamp
 
@@ -10,16 +10,16 @@ from src.timestamp import Timestamp
 class Test_Timestamp:
     class Test_str:
         def test_str(self):
-            timestamp = Timestamp()
+            timestamp = StreamMarker()
 
             assert isinstance(str(timestamp), str)
             assert str(timestamp) == timestamp.datetime.strftime(timestamp.timestamp_format)
 
     class Test_add:
         def test_other_is_timestamp(self):
-            timestamp = Timestamp()
+            timestamp = StreamMarker()
             adjustment_seconds = 5
-            other_timestamp = Timestamp(
+            other_timestamp = StreamMarker(
                 datetime.datetime.now() + datetime.timedelta(
                     seconds=adjustment_seconds
                 )
@@ -29,13 +29,13 @@ class Test_Timestamp:
                 timestamp += other_timestamp
 
         def test_other_is_none(self):
-            timestamp = Timestamp()
+            timestamp = StreamMarker()
 
             with pytest.raises(TypeError):
                 result_timestamp = timestamp + None
 
         def test_other_is_int(self):
-            timestamp = Timestamp()
+            timestamp = StreamMarker()
             adjusted_seconds = 5
 
             adjusted_timestamp = timestamp + adjusted_seconds
@@ -46,7 +46,7 @@ class Test_Timestamp:
             assert adjusted_timestamp.datetime == expected_timestamp
 
         def test_other_is_float(self):
-            timestamp = Timestamp()
+            timestamp = StreamMarker()
             adjusted_seconds = 5.5
 
             adjusted_timestamp = timestamp + adjusted_seconds
@@ -57,16 +57,16 @@ class Test_Timestamp:
             assert adjusted_timestamp.datetime == expected_timestamp
 
         def test_other_is_str(self):
-            timestamp = Timestamp()
+            timestamp = StreamMarker()
 
             with pytest.raises(TypeError):
                 result_timestamp = timestamp + 'test'
 
     class Test_sub:
         def test_other_is_timestamp(self):
-            timestamp = Timestamp()
+            timestamp = StreamMarker()
             adjustment_seconds = 5
-            other_timestamp = Timestamp(
+            other_timestamp = StreamMarker(
                 datetime.datetime.now() - datetime.timedelta(
                     seconds=adjustment_seconds
                 )
@@ -77,14 +77,14 @@ class Test_Timestamp:
             assert time_diff_seconds == adjustment_seconds
 
         def test_other_is_none(self):
-            timestamp = Timestamp()
+            timestamp = StreamMarker()
 
             result_timestamp = timestamp - None
 
             assert result_timestamp == 0
 
         def test_other_is_int(self):
-            timestamp = Timestamp()
+            timestamp = StreamMarker()
             adjustment_seconds = 5
 
             adjusted_timestamp = timestamp - adjustment_seconds
@@ -95,7 +95,7 @@ class Test_Timestamp:
             assert adjusted_timestamp.datetime == expected_timestamp
 
         def test_other_is_float(self):
-            timestamp = Timestamp()
+            timestamp = StreamMarker()
             adjustment_seconds = 5.5
 
             adjusted_timestamp = timestamp - adjustment_seconds
@@ -106,7 +106,7 @@ class Test_Timestamp:
             assert adjusted_timestamp.datetime == expected_timestamp
 
         def test_other_is_str(self):
-            timestamp = Timestamp()
+            timestamp = StreamMarker()
 
             with pytest.raises(TypeError):
                 result_timestamp = timestamp - 'test'
@@ -114,8 +114,8 @@ class Test_Timestamp:
     class Test_eq:
         def test_other_is_timestamp(self):
             now = datetime.datetime.now()
-            timestamp = Timestamp(now)
-            timestamp2 = Timestamp(now)
+            timestamp = StreamMarker(now)
+            timestamp2 = StreamMarker(now)
 
             result = timestamp == timestamp2
 
@@ -123,35 +123,35 @@ class Test_Timestamp:
 
         def test_other_is_datetime(self):
             now = datetime.datetime.now()
-            timestamp = Timestamp(now)
+            timestamp = StreamMarker(now)
 
             result = timestamp == now
 
             assert result is True
 
         def test_other_is_none(self):
-            timestamp = Timestamp()
+            timestamp = StreamMarker()
 
             result = timestamp is None
 
             assert result is False
 
         def test_other_is_int(self):
-            timestamp = Timestamp()
+            timestamp = StreamMarker()
 
             result = timestamp == 5
 
             assert result is False
 
         def test_other_is_float(self):
-            timestamp = Timestamp()
+            timestamp = StreamMarker()
 
             result = timestamp == 5.5
 
             assert result is False
 
         def test_other_is_str(self):
-            timestamp = Timestamp()
+            timestamp = StreamMarker()
 
             result = timestamp == 'test'
 
@@ -159,7 +159,7 @@ class Test_Timestamp:
 
     class Test_change_timestamp_format:
         def test_timestamp_format_changes(self):
-            timestamp = Timestamp()
+            timestamp = StreamMarker()
             new_format = '%d/%m/%y %H:%M:%S.%f'
 
             timestamp.change_timestamp_format(new_format)
@@ -168,7 +168,7 @@ class Test_Timestamp:
 
     class Test_as_playback_time:
         def test_expected_use(self):
-            start_time = Timestamp()
+            start_time = StreamMarker()
             end_time = start_time + 5
 
             playback_time = end_time.as_playback_time(start_time)
@@ -176,7 +176,7 @@ class Test_Timestamp:
             assert playback_time == '00:00:05'
 
         def test_invalid_type(self):
-            start_time = Timestamp()
+            start_time = StreamMarker()
             end_time = start_time + 5
 
             with pytest.raises(TypeError):

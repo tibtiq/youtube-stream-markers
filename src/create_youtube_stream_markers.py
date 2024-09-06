@@ -9,7 +9,8 @@ import pathlib
 
 # pylint: disable-next=import-error
 import obspython as obs
-from timestamp import Timestamp
+
+from timestamp import StreamMarker
 from youtube_interface import (
     get_broadcast_data,
     get_youtube_credentials,
@@ -48,7 +49,7 @@ def hotkey_callback(button_down: bool):
             print('Prevented creating stream marker, not streaming')
             return
 
-        current_timestamp = Timestamp()
+        current_timestamp = StreamMarker()
 
         logging.debug(f'stream_marker before offset: {current_timestamp}')
         current_timestamp -= SCRIPT_SETTINGS['timestamp_offset']
@@ -92,7 +93,7 @@ def on_event_callback(event):
 
     # determine if streaming or recording and started or stopped
     if event == obs.OBS_FRONTEND_EVENT_STREAMING_STARTED:
-        SCRIPT_SETTINGS['start_timestamp'] = Timestamp()
+        SCRIPT_SETTINGS['start_timestamp'] = StreamMarker()
         SCRIPT_SETTINGS['last_timestamp'] = None
 
 
@@ -233,7 +234,7 @@ def script_update(settings):
 
     if obs.obs_data_get_bool(settings, 'debug_enabled'):
         logging.root.setLevel(logging.DEBUG)
-        SCRIPT_SETTINGS['start_timestamp'] = Timestamp()
+        SCRIPT_SETTINGS['start_timestamp'] = StreamMarker()
     else:
         logging.root.setLevel(logging.CRITICAL)
         SCRIPT_SETTINGS['start_timestamp'] = None

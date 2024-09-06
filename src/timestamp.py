@@ -7,7 +7,7 @@ import time
 from typing import Optional, Union
 
 
-class Timestamp:
+class StreamMarker:
     """Wrapper class for datetime.datetime objects.
 
     This class made with the goal of working with youtube timestamps.
@@ -40,7 +40,7 @@ class Timestamp:
         """Return str representation of timestamp."""
         return self.datetime.strftime(self.timestamp_format)
 
-    def __add__(self, other) -> Union[int, Timestamp]:
+    def __add__(self, other) -> Union[int, StreamMarker]:
         """Overloads the '+' operator for addition.
 
         Args:
@@ -54,13 +54,13 @@ class Timestamp:
         if isinstance(other, (int, float)):
             time_diff = datetime.timedelta(seconds=other)
             adjusted_timestamp = self.datetime + time_diff
-            return Timestamp(adjusted_timestamp)
+            return StreamMarker(adjusted_timestamp)
 
         raise TypeError(
             f"unsupported operand type(s) for +: '{type(self)}' and '{type(other)}'"
         )
 
-    def __sub__(self, other) -> Union[int, Timestamp]:
+    def __sub__(self, other) -> Union[int, StreamMarker]:
         """Overloads the '-' operator for subtraction.
 
         Args:
@@ -71,12 +71,12 @@ class Timestamp:
             An int representing the total seconds difference between other and this instance.
             A new Timestamp object with the result of the subtract.
         """
-        if isinstance(other, Timestamp):
+        if isinstance(other, StreamMarker):
             return round((self.datetime - other.datetime).total_seconds())
         if isinstance(other, (int, float)):
             time_diff = datetime.timedelta(seconds=other)
             adjusted_timestamp = self.datetime - time_diff
-            return Timestamp(adjusted_timestamp)
+            return StreamMarker(adjusted_timestamp)
         if other is None:
             return 0
 
@@ -94,7 +94,7 @@ class Timestamp:
         Returns:
             bool: True if the objects are considered equal, False otherwise.
         """
-        if isinstance(other, Timestamp):
+        if isinstance(other, StreamMarker):
             return self.datetime == other.datetime
         if isinstance(other, datetime.datetime):
             return self.datetime == other
@@ -110,7 +110,7 @@ class Timestamp:
         """
         self.timestamp_format = new_format
 
-    def as_playback_time(self, start_time: Timestamp) -> str:
+    def as_playback_time(self, start_time: StreamMarker) -> str:
         """Convert Timestamp to playback time (HOUR-MINUTE-SECONDS) given a starting Timestamp.
 
         The returned playback time has padded zeros.
@@ -119,7 +119,7 @@ class Timestamp:
             playback_time: str
                 Timestamp converted to playback time given a starting Timestamp.
         """
-        if not isinstance(start_time, Timestamp):
+        if not isinstance(start_time, StreamMarker):
             raise TypeError("Value passed to 'start_time' isn't a Timestamp object")
 
         return time.strftime(

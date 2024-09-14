@@ -15,7 +15,7 @@ class StreamMarker:
 
     def __init__(
         self,
-        timestamp_time: Optional[datetime.datetime] = None,
+        stream_marker_time: Optional[datetime.datetime] = None,
         timestamp_format: str = '%H:%M:%S'
     ) -> None:
         """Create a Timestamp class with an underlying datetime.datetime object of now.
@@ -26,12 +26,12 @@ class StreamMarker:
                 padded zeros. For example:
                 01:23:45
                 20:03:45
-            timestamp_time: str [None]
+            stream_marker_time: str [None]
                 Used to create a Timestamp object with a specific time.
 
         """
-        if isinstance(timestamp_time, datetime.datetime):
-            self.datetime = timestamp_time
+        if isinstance(stream_marker_time, datetime.datetime):
+            self.datetime = stream_marker_time
         else:
             self.datetime = datetime.datetime.now()
         self.timestamp_format = timestamp_format

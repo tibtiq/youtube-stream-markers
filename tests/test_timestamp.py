@@ -4,167 +4,168 @@ import pytest
 
 from stream_marker import StreamMarker
 
-# todo fixture to create a timestamp
+# todo fixture to create a StreamMarker
 
 
-class Test_Timestamp:
+class Test_StreamMarker:
     class Test_str:
         def test_str(self):
-            timestamp = StreamMarker()
+            stream_marker = StreamMarker()
 
-            assert isinstance(str(timestamp), str)
-            assert str(timestamp) == timestamp.datetime.strftime(timestamp.stream_marker_format)
+            assert isinstance(str(stream_marker), str)
+            assert str(stream_marker) == stream_marker.datetime.strftime(
+                stream_marker.stream_marker_format)
 
     class Test_add:
-        def test_other_is_timestamp(self):
-            timestamp = StreamMarker()
+        def test_other_is_stream_marker(self):
+            stream_marker = StreamMarker()
             adjustment_seconds = 5
-            other_timestamp = StreamMarker(
+            other_stream_marker = StreamMarker(
                 datetime.datetime.now() + datetime.timedelta(
                     seconds=adjustment_seconds
                 )
             )
 
             with pytest.raises(TypeError):
-                timestamp += other_timestamp
+                stream_marker += other_stream_marker
 
         def test_other_is_none(self):
-            timestamp = StreamMarker()
+            stream_marker = StreamMarker()
 
             with pytest.raises(TypeError):
-                result_timestamp = timestamp + None
+                result_stream_marker = stream_marker + None
 
         def test_other_is_int(self):
-            timestamp = StreamMarker()
+            stream_marker = StreamMarker()
             adjusted_seconds = 5
 
-            adjusted_timestamp = timestamp + adjusted_seconds
-            expected_timestamp = datetime.datetime.now() + datetime.timedelta(
+            adjusted_stream_marker = stream_marker + adjusted_seconds
+            expected_stream_marker = datetime.datetime.now() + datetime.timedelta(
                 seconds=adjusted_seconds
             )
 
-            assert adjusted_timestamp.datetime == expected_timestamp
+            assert adjusted_stream_marker.datetime == expected_stream_marker
 
         def test_other_is_float(self):
-            timestamp = StreamMarker()
+            stream_marker = StreamMarker()
             adjusted_seconds = 5.5
 
-            adjusted_timestamp = timestamp + adjusted_seconds
-            expected_timestamp = datetime.datetime.now() + datetime.timedelta(
+            adjusted_stream_marker = stream_marker + adjusted_seconds
+            expected_stream_marker = datetime.datetime.now() + datetime.timedelta(
                 seconds=adjusted_seconds
             )
 
-            assert adjusted_timestamp.datetime == expected_timestamp
+            assert adjusted_stream_marker.datetime == expected_stream_marker
 
         def test_other_is_str(self):
-            timestamp = StreamMarker()
+            stream_marker = StreamMarker()
 
             with pytest.raises(TypeError):
-                result_timestamp = timestamp + 'test'
+                result_stream_marker = stream_marker + 'test'
 
     class Test_sub:
-        def test_other_is_timestamp(self):
-            timestamp = StreamMarker()
+        def test_other_is_stream_marker(self):
+            stream_marker = StreamMarker()
             adjustment_seconds = 5
-            other_timestamp = StreamMarker(
+            other_stream_marker = StreamMarker(
                 datetime.datetime.now() - datetime.timedelta(
                     seconds=adjustment_seconds
                 )
             )
 
-            time_diff_seconds = timestamp - other_timestamp
+            time_diff_seconds = stream_marker - other_stream_marker
 
             assert time_diff_seconds == adjustment_seconds
 
         def test_other_is_none(self):
-            timestamp = StreamMarker()
+            stream_marker = StreamMarker()
 
-            result_timestamp = timestamp - None
+            result_stream_marker = stream_marker - None
 
-            assert result_timestamp == 0
+            assert result_stream_marker == 0
 
         def test_other_is_int(self):
-            timestamp = StreamMarker()
+            stream_marker = StreamMarker()
             adjustment_seconds = 5
 
-            adjusted_timestamp = timestamp - adjustment_seconds
-            expected_timestamp = datetime.datetime.now() - datetime.timedelta(
+            adjusted_stream_marker = stream_marker - adjustment_seconds
+            expected_stream_marker = datetime.datetime.now() - datetime.timedelta(
                 seconds=adjustment_seconds
             )
 
-            assert adjusted_timestamp.datetime == expected_timestamp
+            assert adjusted_stream_marker.datetime == expected_stream_marker
 
         def test_other_is_float(self):
-            timestamp = StreamMarker()
+            stream_marker = StreamMarker()
             adjustment_seconds = 5.5
 
-            adjusted_timestamp = timestamp - adjustment_seconds
-            expected_timestamp = datetime.datetime.now() - datetime.timedelta(
+            adjusted_stream_marker = stream_marker - adjustment_seconds
+            expected_stream_marker = datetime.datetime.now() - datetime.timedelta(
                 seconds=adjustment_seconds
             )
 
-            assert adjusted_timestamp.datetime == expected_timestamp
+            assert adjusted_stream_marker.datetime == expected_stream_marker
 
         def test_other_is_str(self):
-            timestamp = StreamMarker()
+            stream_marker = StreamMarker()
 
             with pytest.raises(TypeError):
-                result_timestamp = timestamp - 'test'
+                result_stream_marker = stream_marker - 'test'
 
     class Test_eq:
-        def test_other_is_timestamp(self):
+        def test_other_is_stream_marker(self):
             now = datetime.datetime.now()
-            timestamp = StreamMarker(now)
-            timestamp2 = StreamMarker(now)
+            stream_marker = StreamMarker(now)
+            stream_marker2 = StreamMarker(now)
 
-            result = timestamp == timestamp2
+            result = stream_marker == stream_marker2
 
             assert result is True
 
         def test_other_is_datetime(self):
             now = datetime.datetime.now()
-            timestamp = StreamMarker(now)
+            stream_marker = StreamMarker(now)
 
-            result = timestamp == now
+            result = stream_marker == now
 
             assert result is True
 
         def test_other_is_none(self):
-            timestamp = StreamMarker()
+            stream_marker = StreamMarker()
 
-            result = timestamp is None
+            result = stream_marker is None
 
             assert result is False
 
         def test_other_is_int(self):
-            timestamp = StreamMarker()
+            stream_marker = StreamMarker()
 
-            result = timestamp == 5
+            result = stream_marker == 5
 
             assert result is False
 
         def test_other_is_float(self):
-            timestamp = StreamMarker()
+            stream_marker = StreamMarker()
 
-            result = timestamp == 5.5
+            result = stream_marker == 5.5
 
             assert result is False
 
         def test_other_is_str(self):
-            timestamp = StreamMarker()
+            stream_marker = StreamMarker()
 
-            result = timestamp == 'test'
+            result = stream_marker == 'test'
 
             assert result is False
 
     class Test_change_stream_marker_format:
-        def test_timestamp_format_changes(self):
-            timestamp = StreamMarker()
+        def test_stream_marker_format_changes(self):
+            stream_marker = StreamMarker()
             new_format = '%d/%m/%y %H:%M:%S.%f'
 
-            timestamp.change_stream_marker_format(new_format)
+            stream_marker.change_stream_marker_format(new_format)
 
-            assert timestamp.stream_marker_format == new_format
+            assert stream_marker.stream_marker_format == new_format
 
     class Test_as_playback_time:
         def test_expected_use(self):

@@ -13,7 +13,7 @@ class Test_Timestamp:
             timestamp = StreamMarker()
 
             assert isinstance(str(timestamp), str)
-            assert str(timestamp) == timestamp.datetime.strftime(timestamp.timestamp_format)
+            assert str(timestamp) == timestamp.datetime.strftime(timestamp.stream_marker_format)
 
     class Test_add:
         def test_other_is_timestamp(self):
@@ -157,14 +157,14 @@ class Test_Timestamp:
 
             assert result is False
 
-    class Test_change_timestamp_format:
+    class Test_change_stream_marker_format:
         def test_timestamp_format_changes(self):
             timestamp = StreamMarker()
             new_format = '%d/%m/%y %H:%M:%S.%f'
 
-            timestamp.change_timestamp_format(new_format)
+            timestamp.change_stream_marker_format(new_format)
 
-            assert timestamp.timestamp_format == new_format
+            assert timestamp.stream_marker_format == new_format
 
     class Test_as_playback_time:
         def test_expected_use(self):

@@ -16,12 +16,12 @@ class StreamMarker:
     def __init__(
         self,
         stream_marker_time: Optional[datetime.datetime] = None,
-        timestamp_format: str = '%H:%M:%S'
+        stream_marker_format: str = '%H:%M:%S'
     ) -> None:
         """Create a Timestamp class with an underlying datetime.datetime object of now.
 
         Args:
-            timestamp_format: str, optional ['%H:%M:%S']
+            stream_marker_format: str, optional ['%H:%M:%S']
                 Timestamp format to use when convert Timestamp into a str. Default value uses
                 padded zeros. For example:
                 01:23:45
@@ -34,11 +34,11 @@ class StreamMarker:
             self.datetime = stream_marker_time
         else:
             self.datetime = datetime.datetime.now()
-        self.timestamp_format = timestamp_format
+        self.stream_marker_format = stream_marker_format
 
     def __str__(self) -> str:
         """Return str representation of timestamp."""
-        return self.datetime.strftime(self.timestamp_format)
+        return self.datetime.strftime(self.stream_marker_format)
 
     def __add__(self, other) -> Union[int, StreamMarker]:
         """Overloads the '+' operator for addition.
@@ -101,14 +101,14 @@ class StreamMarker:
 
         return False
 
-    def change_timestamp_format(self, new_format: str) -> None:
+    def change_stream_marker_format(self, new_format: str) -> None:
         """Change timestamp format used when converting Timestamp into string.
 
         Args:
             new_format: str
-                New format to replace current timestamp_format.
+                New format to replace current stream_marker_format.
         """
-        self.timestamp_format = new_format
+        self.stream_marker_format = new_format
 
     def as_playback_time(self, start_time: StreamMarker) -> str:
         """Convert Timestamp to playback time (HOUR-MINUTE-SECONDS) given a starting Timestamp.
@@ -123,7 +123,7 @@ class StreamMarker:
             raise TypeError("Value passed to 'start_time' isn't a Timestamp object")
 
         return time.strftime(
-            self.timestamp_format, time.gmtime(
+            self.stream_marker_format, time.gmtime(
                 (self.datetime - start_time.datetime).total_seconds()
             )
         )

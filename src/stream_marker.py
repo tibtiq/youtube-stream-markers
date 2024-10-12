@@ -53,8 +53,8 @@ class StreamMarker:
         """
         if isinstance(other, (int, float)):
             time_diff = datetime.timedelta(seconds=other)
-            adjusted_timestamp = self.datetime + time_diff
-            return StreamMarker(adjusted_timestamp)
+            adjusted_time = self.datetime + time_diff
+            return StreamMarker(adjusted_time)
 
         raise TypeError(
             f"unsupported operand type(s) for +: '{type(self)}' and '{type(other)}'"
@@ -75,8 +75,8 @@ class StreamMarker:
             return round((self.datetime - other.datetime).total_seconds())
         if isinstance(other, (int, float)):
             time_diff = datetime.timedelta(seconds=other)
-            adjusted_timestamp = self.datetime - time_diff
-            return StreamMarker(adjusted_timestamp)
+            adjusted_time = self.datetime - time_diff
+            return StreamMarker(adjusted_time)
         if other is None:
             return 0
 

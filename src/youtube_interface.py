@@ -40,6 +40,13 @@ def get_youtube_credentials_from_file(youtube_credentials_path: pathlib.Path) ->
     Returns:
         Credentials used to make Youtube API calls.
     """
+    assert youtube_credentials_path.exists(), (
+        f"The provided path for api credentials doesn't exist: {youtube_credentials_path}"
+    )
+    assert youtube_credentials_path.suffix == '.dat', (
+        f'The provided path for api credentials appears to be incorrect file type. Expected file '
+        f'type is "dat": {youtube_credentials_path}'
+    )
     with open(youtube_credentials_path, 'rb') as file:
         youtube_credentials = pickle.load(file)
 

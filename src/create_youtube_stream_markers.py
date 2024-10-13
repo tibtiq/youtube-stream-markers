@@ -26,12 +26,12 @@ logging.basicConfig(
 HOTKEY_ID_ARRAY = []
 HOTKEY_NAMES_BY_ID = {}
 SCRIPT_SETTINGS = {
-    'start_timestamp': None,
-    'last_timestamp': None,
+    'start_stream_marker': None,
+    'last_stream_marker': None,
     'credentials': None,
     'credentials_path': None,
-    'timestamp_group_range': 0,
-    'timestamp_offset': 0,
+    'stream_marker_group_range': 0,
+    'stream_marker_offset': 0,
 }
 
 
@@ -45,33 +45,34 @@ def hotkey_callback(button_down: bool):
     global SCRIPT_SETTINGS
 
     if button_down:
-        if SCRIPT_SETTINGS['start_timestamp'] is None:
+        if SCRIPT_SETTINGS['start_stream_marker'] is None:
             print('Prevented creating stream marker, not streaming')
             return
 
-        current_timestamp = StreamMarker()
+        current_stream_marker = StreamMarker()
 
-        logging.debug(f'stream_marker before offset: {current_timestamp}')
-        current_timestamp -= SCRIPT_SETTINGS['timestamp_offset']
+        logging.debug(f'stream_marker before offset: {current_stream_marker}')
+        current_stream_marker -= SCRIPT_SETTINGS['stream_marker_offset']
 
-        logging.info(f'stream_marker after offset: {current_timestamp}')
+        logging.info(f'stream_marker after offset: {current_stream_marker}')
 
         broadcast_data = get_broadcast_data(SCRIPT_SETTINGS['credentials'])
 
-        time_since_last_stream_marker = current_timestamp - SCRIPT_SETTINGS['last_timestamp']
+        time_since_last_stream_marker = current_stream_marker - \
+            SCRIPT_SETTINGS['last_stream_marker']
         logging.debug(
             (
-                f'timestamp_group_range: {SCRIPT_SETTINGS["timestamp_group_range"]}\n'
+                f'stream_marker_group_range: {SCRIPT_SETTINGS["stream_marker_group_range"]}\n'
                 f'seconds since last marker: {time_since_last_stream_marker}'
             )
         )
-        if 0 < time_since_last_stream_marker <= SCRIPT_SETTINGS['timestamp_group_range']:
+        if 0 < time_since_last_stream_marker <= SCRIPT_SETTINGS['stream_marker_group_range']:
             logging.info('Prevented writing stream marker, too close to previous marker')
             return
 
         new_description = (
             f'{broadcast_data.broadcast_description}\n'
-            f'{current_timestamp.as_playback_time(SCRIPT_SETTINGS["start_timestamp"])} - \n'
+            f'{current_stream_marker.as_playback_time(SCRIPT_SETTINGS["start_stream_marker"])} - \n'
         )
         logging.info('Adding new stream marker to description')
         update_broadcast_description(
@@ -80,7 +81,7 @@ def hotkey_callback(button_down: bool):
             new_description,
         )
 
-        SCRIPT_SETTINGS['last_timestamp'] = current_timestamp
+        SCRIPT_SETTINGS['last_stream_marker'] = current_stream_marker
 
 
 def on_event_callback(event):
@@ -93,8 +94,8 @@ def on_event_callback(event):
 
     # determine if streaming or recording and started or stopped
     if event == obs.OBS_FRONTEND_EVENT_STREAMING_STARTED:
-        SCRIPT_SETTINGS['start_timestamp'] = StreamMarker()
-        SCRIPT_SETTINGS['last_timestamp'] = None
+        SCRIPT_SETTINGS['start_stream_marker'] = StreamMarker()
+        SCRIPT_SETTINGS['last_stream_marker'] = None
 
 
 # ------------------------------------------------------------
@@ -108,7 +109,7 @@ def script_description():
     description = ''
     description += '<b>Create Youtube stream markers</b>'
     description += '<hr>'
-    description += 'Script adds the ability to set a hotkey to save a timestamp in the description'
+    description += 'Script adds the ability to set a hotkey to save a stream marker in the description'
     description += 'of a Youtube livestream. '
     description += '<hr>'
     description += '<b>Settings</b>'
@@ -116,12 +117,12 @@ def script_description():
     description += '<b>Credentials file path</b> is the path to your Youtube API credentials file. '
     description += 'Refer to README.md regarding generating this file.'
     description += '<br>'
-    description += '<b>Range to group timestamps</b> prevents creating stream markers too close to '
+    description += '<b>Range to group stream markers</b> prevents creating stream markers too close to '
     description += 'each other. The value is in seconds and specifies the minimum time between '
     description += 'stream markers.'
     description += '<br>'
-    description += '<b>Timestamp offset</b> offsets timestamps from when they created by the '
-    description += "specified number of seconds. This is helpful when processing timestamps as "
+    description += '<b>stream marker offset</b> offsets stream markers from when they created by the '
+    description += "specified number of seconds. This is helpful when processing stream markers as "
     description += "they're usually created after a 'moment' happens. The offset is towards before"
     description += "the 'moment' happens."
     description += '<br>'
@@ -147,21 +148,21 @@ def script_properties():
         "",
     )
 
-    # int input box determining how long to ignore timestamps if placed too close together
+    # int input box determining how long to ignore stream markers if placed too close together
     obs.obs_properties_add_int(
         props,
-        'group_timestamp_range',
-        'Range to group timestamps',
+        'group_stream_marker_range',
+        'Range to group stream markers',
         0,
         10000,
         1,
     )
 
-    # int input box specifying the offset to subtract from when a timestamp is created
+    # int input box specifying the offset to subtract from when a stream marker is created
     obs.obs_properties_add_int(
         props,
-        'timestamp_offset',
-        'Timestamp offset',
+        'stream_marker_offset',
+        'stream_marker offset',
         0,
         10000,
         1,
@@ -234,19 +235,19 @@ def script_update(settings):
 
     if obs.obs_data_get_bool(settings, 'debug_enabled'):
         logging.root.setLevel(logging.DEBUG)
-        SCRIPT_SETTINGS['start_timestamp'] = StreamMarker()
+        SCRIPT_SETTINGS['start_stream_marker'] = StreamMarker()
     else:
         logging.root.setLevel(logging.CRITICAL)
-        SCRIPT_SETTINGS['start_timestamp'] = None
+        SCRIPT_SETTINGS['start_stream_marker'] = None
 
-    SCRIPT_SETTINGS['timestamp_group_range'] = obs.obs_data_get_int(
+    SCRIPT_SETTINGS['stream_marker_group_range'] = obs.obs_data_get_int(
         settings,
-        'group_timestamp_range'
+        'group_stream_marker_range'
     )
 
-    SCRIPT_SETTINGS['timestamp_offset'] = obs.obs_data_get_int(
+    SCRIPT_SETTINGS['stream_marker_offset'] = obs.obs_data_get_int(
         settings,
-        'timestamp_offset'
+        'stream_marker_offset'
     )
 
     # only load new credentials if credentials path has changed

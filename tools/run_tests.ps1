@@ -1,1 +1,6 @@
-pytest --cov-report term-missing:skip-covered --cov=src "$PSScriptRoot/../tests" -s -v
+# run script in repo root
+Push-Location "$PSScriptRoot/.."
+
+pytest --cov-report term-missing:skip-covered --cov=src "tests" -s -v
+
+Pop-Location

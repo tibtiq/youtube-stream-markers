@@ -1,9 +1,7 @@
 import pytest
 
-from src.youtube_interface import (
-    get_youtube_credentials_from_file,
-    get_youtube_credentials_from_oauth,
-)
+from src.youtube_interface import (get_youtube_credentials_from_file,
+                                   get_youtube_credentials_from_oauth)
 
 
 class Test_get_youtube_credentials_from_file:

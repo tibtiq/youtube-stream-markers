@@ -11,11 +11,8 @@ import pathlib
 import obspython as obs
 
 from stream_marker import StreamMarker
-from youtube_interface import (
-    get_broadcast_data,
-    get_youtube_credentials,
-    update_broadcast_description,
-)
+from youtube_interface import (get_broadcast_data, get_youtube_credentials,
+                               update_broadcast_description)
 
 logging.basicConfig(
     level=logging.CRITICAL,
@@ -106,30 +103,31 @@ def on_event_callback(event):
 
 def script_description():
     """OBS hook that setups up script description in OBS UI."""
-    description = ''
-    description += '<b>Create Youtube stream markers</b>'
-    description += '<hr>'
-    description += 'Script adds the ability to set a hotkey to save a stream marker in the description'
-    description += 'of a Youtube livestream. '
-    description += '<hr>'
-    description += '<b>Settings</b>'
-    description += '<hr>'
-    description += '<b>Credentials file path</b> is the path to your Youtube API credentials file. '
-    description += 'Refer to README.md regarding generating this file.'
-    description += '<br>'
-    description += '<b>Range to group stream markers</b> prevents creating stream markers too close to '
-    description += 'each other. The value is in seconds and specifies the minimum time between '
-    description += 'stream markers.'
-    description += '<br>'
-    description += '<b>stream marker offset</b> offsets stream markers from when they created by the '
-    description += "specified number of seconds. This is helpful when processing stream markers as "
-    description += "they're usually created after a 'moment' happens. The offset is towards before"
-    description += "the 'moment' happens."
-    description += '<br>'
-    description += '<b>Debug mode</b> enables debug settings and prints used for development. '
-    description += 'When not streaming, stream markers will be added to the description of last '
-    description += 'stream. '
-    description += '<hr>'
+    description = (
+        '<b>Create Youtube stream markers</b>'
+        '<hr>'
+        'Script adds the ability to set a hotkey to save a stream marker in the description'
+        'of a Youtube livestream. '
+        '<hr>'
+        '<b>Settings</b>'
+        '<hr>'
+        '<b>Credentials file path</b> is the path to your Youtube API credentials file. '
+        'Refer to README.md regarding generating this file.'
+        '<br>'
+        '<b>Range to group stream markers</b> prevents creating stream markers too close to '
+        'each other. The value is in seconds and specifies the minimum time between '
+        'stream markers.'
+        '<br>'
+        '<b>stream marker offset</b> offsets stream markers from when they created by the '
+        "specified number of seconds. This is helpful when processing stream markers as "
+        "they're usually created after a 'moment' happens. The offset is towards before"
+        "the 'moment' happens."
+        '<br>'
+        '<b>Debug mode</b> enables debug settings and prints used for development. '
+        'When not streaming, stream markers will be added to the description of last '
+        'stream. '
+        '<hr>'
+    )
 
     return description
 

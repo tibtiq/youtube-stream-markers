@@ -28,7 +28,6 @@ class StreamMarker:
                 20:03:45
             stream_marker_time: str [None]
                 Used to create a StreamMarker object with a specific time.
-
         """
         if isinstance(stream_marker_time, datetime.datetime):
             self.datetime = stream_marker_time

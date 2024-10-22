@@ -122,8 +122,6 @@ class StreamMarker:
         if not isinstance(start_time, StreamMarker):
             raise TypeError("Value passed to 'start_time' isn't a StreamMarker object")
 
-        return time.strftime(
-            self.stream_marker_format, time.gmtime(
-                (self.datetime - start_time.datetime).total_seconds()
-            )
-        )
+        time_epoch_diff = (self.datetime - start_time.datetime).total_seconds()
+        time_utc_diff = time.gmtime(time_epoch_diff)
+        return time.strftime(self.stream_marker_format, time_utc_diff)

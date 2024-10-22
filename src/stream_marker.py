@@ -26,7 +26,7 @@ class StreamMarker:
                 padded zeros. For example:
                 01:23:45
                 20:03:45
-            stream_marker_time: str [None]
+            stream_marker_time: Optional[datetime.datetime] = None
                 Used to create a StreamMarker object with a specific time.
         """
         if isinstance(stream_marker_time, datetime.datetime):

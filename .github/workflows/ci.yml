@@ -1,4 +1,5 @@
-# DO NOT MODIFY THIS FILE DIRECTLY, IT'LL BE ANNOYING
+# DO NOT MODIFY THIS FILE DIRECTLY
+# THIS FILE IS GITHUB ACTION COPIED FROM https://github.com/tibtiq/python-linters
 name: Linter
 
 on:

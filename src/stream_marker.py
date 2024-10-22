@@ -36,10 +36,6 @@ class StreamMarker:
             self.datetime = datetime.datetime.now()
         self.stream_marker_format = stream_marker_format
 
-    def __str__(self) -> str:
-        """Return str representation of StreamMarker."""
-        return self.datetime.strftime(self.stream_marker_format)
-
     def __add__(self, other) -> Union[int, StreamMarker]:
         """Overloads the '+' operator for addition.
 

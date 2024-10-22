@@ -8,14 +8,6 @@ from stream_marker import StreamMarker
 
 
 class Test_StreamMarker:
-    class Test_str:
-        def test_str(self):
-            stream_marker = StreamMarker()
-
-            assert isinstance(str(stream_marker), str)
-            assert str(stream_marker) == stream_marker.datetime.strftime(
-                stream_marker.stream_marker_format)
-
     class Test_to_string:
         def test_HH_MM_SS(self):
             stream_marker = StreamMarker()

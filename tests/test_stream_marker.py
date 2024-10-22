@@ -11,11 +11,11 @@ class Test_StreamMarker:
     class Test_to_string:
         def test_HH_MM_SS(self):
             stream_marker = StreamMarker()
-            stream_marker_str = stream_marker.as_str()
+            expected_format = '%H:%M:%S'
+            stream_marker_str = stream_marker.as_str(expected_format)
 
             assert isinstance(stream_marker_str, str)
-            assert stream_marker_str == stream_marker.datetime.strftime(
-                stream_marker.stream_marker_format)
+            assert stream_marker_str == stream_marker.datetime.strftime(expected_format)
 
     class Test_add:
         def test_other_is_stream_marker(self):
@@ -163,15 +163,6 @@ class Test_StreamMarker:
 
             assert result is False
 
-    class Test_change_stream_marker_format:
-        def test_stream_marker_format_changes(self):
-            stream_marker = StreamMarker()
-            new_format = '%d/%m/%y %H:%M:%S.%f'
-
-            stream_marker.change_stream_marker_format(new_format)
-
-            assert stream_marker.stream_marker_format == new_format
-
     class Test_as_playback_time:
         def test_expected_use(self):
             start_time = StreamMarker()
@@ -188,3 +179,12 @@ class Test_StreamMarker:
             # todo check error message
             with pytest.raises(TypeError):
                 playback_time = end_time.as_playback_time('test')
+
+        def test_time_format_invalid_type(self):
+            start_time = StreamMarker()
+            end_time = start_time + 5
+
+            expected_assert_message = "Value passed to 'time_format' isn't a str"
+            with pytest.raises(TypeError) as info:
+                playback_time = end_time.as_playback_time(start_time, time_format=12)
+            assert expected_assert_message in str(info.value)

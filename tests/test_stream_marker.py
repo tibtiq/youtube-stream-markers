@@ -16,6 +16,15 @@ class Test_StreamMarker:
             assert str(stream_marker) == stream_marker.datetime.strftime(
                 stream_marker.stream_marker_format)
 
+    class Test_to_string:
+        def test_HH_MM_SS(self):
+            stream_marker = StreamMarker()
+            stream_marker_str = stream_marker.as_str()
+
+            assert isinstance(stream_marker_str, str)
+            assert stream_marker_str == stream_marker.datetime.strftime(
+                stream_marker.stream_marker_format)
+
     class Test_add:
         def test_other_is_stream_marker(self):
             stream_marker = StreamMarker()

@@ -101,6 +101,11 @@ class StreamMarker:
 
         return False
 
+    def as_str(self, str_format: str = '%H:%M:%S'):
+        """Return str representation of StreamMarker."""
+
+        return self.datetime.strftime(str_format)
+
     def change_stream_marker_format(self, new_format: str) -> None:
         """Change StreamMarker format used when converting StreamMarker into string.
 

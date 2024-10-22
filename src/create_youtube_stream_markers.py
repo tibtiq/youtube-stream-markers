@@ -11,11 +11,8 @@ import pathlib
 import obspython as obs
 
 from stream_marker import StreamMarker
-from youtube_interface import (
-    get_broadcast_data,
-    get_youtube_credentials,
-    update_broadcast_description,
-)
+from youtube_interface import (get_broadcast_data, get_youtube_credentials,
+                               update_broadcast_description)
 
 logging.basicConfig(
     level=logging.CRITICAL,

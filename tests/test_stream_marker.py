@@ -177,7 +177,7 @@ class Test_StreamMarker:
 
             assert playback_time == '00:00:05'
 
-        def test_invalid_type(self):
+        def test_start_time_invalid_type(self):
             start_time = StreamMarker()
             end_time = start_time + 5
 

@@ -68,8 +68,6 @@ class StreamMarker:
             time_diff = datetime.timedelta(seconds=other)
             adjusted_time = self.datetime - time_diff
             return StreamMarker(adjusted_time)
-        if other is None:
-            return 0
 
         raise TypeError(
             f"unsupported operand type(s) for -: '{type(self)}' and '{type(other)}'"

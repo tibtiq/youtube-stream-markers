@@ -1,4 +1,7 @@
-"""This module contains useful functions related to manipulating datetime objects."""
+"""This module contains a class StreamMarker that is a wrapper of datetime.datetime objects.
+
+The wrapper contains useful functions related to manipulating 00:00:00 timestamps.
+"""
 
 from __future__ import annotations
 
@@ -16,29 +19,17 @@ class StreamMarker:
     def __init__(
         self,
         stream_marker_time: Optional[datetime.datetime] = None,
-        stream_marker_format: str = '%H:%M:%S'
     ) -> None:
         """Create a StreamMarker class with an underlying datetime.datetime object of now.
 
         Args:
-            stream_marker_format: str, optional ['%H:%M:%S']
-                Timestamp format to use when convert StreamMarker into a str. Default value uses
-                padded zeros. For example:
-                01:23:45
-                20:03:45
-            stream_marker_time: str [None]
+            stream_marker_time: Optional[datetime.datetime] = None
                 Used to create a StreamMarker object with a specific time.
-
         """
         if isinstance(stream_marker_time, datetime.datetime):
             self.datetime = stream_marker_time
         else:
             self.datetime = datetime.datetime.now()
-        self.stream_marker_format = stream_marker_format
-
-    def __str__(self) -> str:
-        """Return str representation of StreamMarker."""
-        return self.datetime.strftime(self.stream_marker_format)
 
     def __add__(self, other) -> Union[int, StreamMarker]:
         """Overloads the '+' operator for addition.
@@ -77,8 +68,6 @@ class StreamMarker:
             time_diff = datetime.timedelta(seconds=other)
             adjusted_time = self.datetime - time_diff
             return StreamMarker(adjusted_time)
-        if other is None:
-            return 0
 
         raise TypeError(
             f"unsupported operand type(s) for -: '{type(self)}' and '{type(other)}'"
@@ -99,31 +88,79 @@ class StreamMarker:
         if isinstance(other, datetime.datetime):
             return self.datetime == other
 
-        return False
+        raise TypeError(
+            f"unsupported operand type(s) for >=: '{type(self)}' and '{type(other)}'"
+        )
 
-    def change_stream_marker_format(self, new_format: str) -> None:
-        """Change StreamMarker format used when converting StreamMarker into string.
+    def __le__(self, other: object) -> bool:
+        """Overloads the '<=' operator for less than or equal to comparison.
 
         Args:
-            new_format: str
-                New format to replace current stream_marker_format.
-        """
-        self.stream_marker_format = new_format
+            other: StreamMarker or compatible object
+                The object to compare for less than or equal with this instance.
 
-    def as_playback_time(self, start_time: StreamMarker) -> str:
+        Returns:
+            bool: True if the self is less than or equal to other, False otherwise.
+        """
+        if isinstance(other, StreamMarker):
+            return self.datetime <= other.datetime
+        if isinstance(other, datetime.datetime):
+            return self.datetime <= other
+
+        raise TypeError(
+            f"unsupported operand type(s) for <=: '{type(self)}' and '{type(other)}'"
+        )
+
+    def __ge__(self, other: object) -> bool:
+        """Overloads the '>=' operator for greater than or equal to comparison.
+
+        Args:
+            other: StreamMarker or compatible object
+                The object to compare for greater than or equal with this instance.
+
+        Returns:
+            bool: True if the self is greater than or equal to other, False otherwise.
+        """
+        if isinstance(other, StreamMarker):
+            return self.datetime >= other.datetime
+        if isinstance(other, datetime.datetime):
+            return self.datetime >= other
+
+        raise TypeError(
+            f"unsupported operand type(s) for >=: '{type(self)}' and '{type(other)}'"
+        )
+
+    def as_str(self, str_format: str = '%H:%M:%S'):
+        """Return str representation of StreamMarker."""
+        return self.datetime.strftime(str_format)
+
+    def as_playback_time(self, start_time: StreamMarker, time_format: str = '%H:%M:%S') -> str:
         """Convert StreamMarker to playback time (HOUR-MINUTE-SECONDS) given a start stream marker.
 
-        The returned playback time has padded zeros.
+        The returned playback time will have padded zeros.
+
+        Example:
+            stream_marker = StreamMarker(2025-01-11 17:00:10.000000)
+            stream_marker.as_playback_time(stream_marker + 10)
+            will return
+            00:00:10
 
         Args:
             playback_time: str
                 StreamMarker converted to playback time given a starting StreamMarker.
+            stream_marker_format: str = '%H:%M:%S'
+                Timestamp format to use when convert StreamMarker into a str. Default value uses
+                padded zeros. For example:
+                01:23:45
+                20:03:45
         """
         if not isinstance(start_time, StreamMarker):
             raise TypeError("Value passed to 'start_time' isn't a StreamMarker object")
+        if not isinstance(time_format, str):
+            raise TypeError("Value passed to 'time_format' isn't a str")
 
-        return time.strftime(
-            self.stream_marker_format, time.gmtime(
-                (self.datetime - start_time.datetime).total_seconds()
-            )
-        )
+        time_epoch_diff_secs = (self.datetime - start_time.datetime).total_seconds()
+        time_utc_diff_secs = time.gmtime(time_epoch_diff_secs)
+        time_formatted = time.strftime(time_format, time_utc_diff_secs)
+
+        return time_formatted

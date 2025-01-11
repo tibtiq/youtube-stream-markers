@@ -55,8 +55,11 @@ def hotkey_callback(button_down: bool):
 
         broadcast_data = get_broadcast_data(SCRIPT_SETTINGS['credentials'])
 
-        time_since_last_stream_marker = current_stream_marker - \
-            SCRIPT_SETTINGS['last_stream_marker']
+        if SCRIPT_SETTINGS['last_stream_marker'] is None:
+            time_since_last_stream_marker = 0
+        else:
+            time_since_last_stream_marker = current_stream_marker - \
+                SCRIPT_SETTINGS['last_stream_marker']
         logging.debug(
             (
                 f'stream_marker_group_range: {SCRIPT_SETTINGS["stream_marker_group_range"]}\n'

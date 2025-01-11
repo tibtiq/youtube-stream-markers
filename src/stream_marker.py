@@ -100,8 +100,13 @@ class StreamMarker:
     def as_playback_time(self, start_time: StreamMarker, time_format: str = '%H:%M:%S') -> str:
         """Convert StreamMarker to playback time (HOUR-MINUTE-SECONDS) given a start stream marker.
 
-
         The returned playback time will have padded zeros.
+
+        Example:
+            stream_marker = StreamMarker(2025-01-11 17:00:00.000000)
+            stream_marker.as_playback_time(StreamMarker(2025-01-11 17:00:10.000000))
+            will return
+            00:00:10
 
         Args:
             playback_time: str

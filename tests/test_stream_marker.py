@@ -81,9 +81,8 @@ class Test_StreamMarker:
         def test_other_is_none(self):
             stream_marker = StreamMarker()
 
-            result_stream_marker = stream_marker - None
-
-            assert result_stream_marker == 0
+            with pytest.raises(TypeError):
+                result_stream_marker = stream_marker - None
 
         def test_other_is_int(self):
             stream_marker = StreamMarker()
@@ -136,28 +135,26 @@ class Test_StreamMarker:
 
             result = stream_marker is None
 
-            assert result is False
+            with pytest.raises(TypeError):
+                result_stream_marker = stream_marker - None
 
         def test_other_is_int(self):
             stream_marker = StreamMarker()
 
-            result = stream_marker == 5
-
-            assert result is False
+            with pytest.raises(TypeError):
+                result = stream_marker == 5
 
         def test_other_is_float(self):
             stream_marker = StreamMarker()
 
-            result = stream_marker == 5.5
-
-            assert result is False
+            with pytest.raises(TypeError):
+                result = stream_marker == 5.5
 
         def test_other_is_str(self):
             stream_marker = StreamMarker()
 
-            result = stream_marker == 'test'
-
-            assert result is False
+            with pytest.raises(TypeError):
+                result = stream_marker == 'test'
 
     class Test_as_playback_time:
         def test_expected_use(self):

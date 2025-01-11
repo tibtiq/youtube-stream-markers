@@ -1,4 +1,7 @@
-"""This module contains useful functions related to manipulating datetime objects."""
+"""This module contains a class StreamMarker that is a wrapper of datetime.datetime objects.
+
+The wrapper contains useful functions related to manipulating 00:00:00 timestamps.
+"""
 
 from __future__ import annotations
 

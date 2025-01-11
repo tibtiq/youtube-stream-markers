@@ -104,7 +104,7 @@ class StreamMarker:
 
         Example:
             stream_marker = StreamMarker(2025-01-11 17:00:10.000000)
-            stream_marker.as_playback_time(stream_marker + 5)
+            stream_marker.as_playback_time(stream_marker + 10)
             will return
             00:00:10
 

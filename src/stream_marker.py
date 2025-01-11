@@ -92,6 +92,44 @@ class StreamMarker:
 
         return False
 
+    def __le__(self, other: object) -> bool:
+        """Overloads the '<=' operator for less than or equal to comparison.
+
+        Args:
+            other: StreamMarker or compatible object
+                The object to compare for less than or equal with this instance.
+
+        Returns:
+            bool: True if the self is less than or equal to other, False otherwise.
+        """
+        if isinstance(other, StreamMarker):
+            return self.datetime <= other.datetime
+        if isinstance(other, datetime.datetime):
+            return self.datetime <= other
+
+        raise TypeError(
+            f"unsupported operand type(s) for <=: '{type(self)}' and '{type(other)}'"
+        )
+
+    def __ge__(self, other: object) -> bool:
+        """Overloads the '>=' operator for greater than or equal to comparison.
+
+        Args:
+            other: StreamMarker or compatible object
+                The object to compare for greater than or equal with this instance.
+
+        Returns:
+            bool: True if the self is greater than or equal to other, False otherwise.
+        """
+        if isinstance(other, StreamMarker):
+            return self.datetime >= other.datetime
+        if isinstance(other, datetime.datetime):
+            return self.datetime >= other
+
+        raise TypeError(
+            f"unsupported operand type(s) for >=: '{type(self)}' and '{type(other)}'"
+        )
+
     def as_str(self, str_format: str = '%H:%M:%S'):
         """Return str representation of StreamMarker."""
         return self.datetime.strftime(str_format)

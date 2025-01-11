@@ -133,8 +133,6 @@ class Test_StreamMarker:
         def test_other_is_none(self):
             stream_marker = StreamMarker()
 
-            result = stream_marker is None
-
             with pytest.raises(TypeError):
                 result_stream_marker = stream_marker - None
 

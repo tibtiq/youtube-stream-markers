@@ -94,7 +94,6 @@ class StreamMarker:
 
     def as_str(self, str_format: str = '%H:%M:%S'):
         """Return str representation of StreamMarker."""
-
         return self.datetime.strftime(str_format)
 
     def as_playback_time(self, start_time: StreamMarker, time_format: str = '%H:%M:%S') -> str:

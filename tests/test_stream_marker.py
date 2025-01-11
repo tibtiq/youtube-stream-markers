@@ -27,14 +27,12 @@ class Test_StreamMarker:
                 )
             )
 
-            # todo check error message
             with pytest.raises(TypeError):
                 stream_marker += other_stream_marker
 
         def test_other_is_none(self):
             stream_marker = StreamMarker()
 
-            # todo check error message
             with pytest.raises(TypeError):
                 result_stream_marker = stream_marker + None
 
@@ -63,7 +61,6 @@ class Test_StreamMarker:
         def test_other_is_str(self):
             stream_marker = StreamMarker()
 
-            # todo check error message
             with pytest.raises(TypeError):
                 result_stream_marker = stream_marker + 'test'
 
@@ -113,7 +110,6 @@ class Test_StreamMarker:
         def test_other_is_str(self):
             stream_marker = StreamMarker()
 
-            # todo check error message
             with pytest.raises(TypeError):
                 result_stream_marker = stream_marker - 'test'
 
@@ -176,7 +172,6 @@ class Test_StreamMarker:
             start_time = StreamMarker()
             end_time = start_time + 5
 
-            # todo check error message
             with pytest.raises(TypeError):
                 playback_time = end_time.as_playback_time('test')
 

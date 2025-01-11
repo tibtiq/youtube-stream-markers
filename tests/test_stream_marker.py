@@ -196,6 +196,48 @@ class Test_StreamMarker:
             with pytest.raises(TypeError):
                 result = stream_marker <= 'test'
 
+    class Test_ge:
+        def test_other_is_stream_marker(self):
+            now = datetime.datetime.now()
+            stream_marker = StreamMarker(now)
+            stream_marker2 = StreamMarker(now)
+
+            result = stream_marker >= stream_marker2
+
+            assert result is True
+
+        def test_other_is_datetime(self):
+            now = datetime.datetime.now()
+            stream_marker = StreamMarker(now)
+
+            result = stream_marker >= now
+
+            assert result is True
+
+        def test_other_is_none(self):
+            stream_marker = StreamMarker()
+
+            with pytest.raises(TypeError):
+                result_stream_marker = stream_marker >= None
+
+        def test_other_is_int(self):
+            stream_marker = StreamMarker()
+
+            with pytest.raises(TypeError):
+                result = stream_marker >= 5
+
+        def test_other_is_float(self):
+            stream_marker = StreamMarker()
+
+            with pytest.raises(TypeError):
+                result = stream_marker >= 5.5
+
+        def test_other_is_str(self):
+            stream_marker = StreamMarker()
+
+            with pytest.raises(TypeError):
+                result = stream_marker >= 'test'
+
     class Test_as_playback_time:
         def test_expected_use(self):
             start_time = StreamMarker()

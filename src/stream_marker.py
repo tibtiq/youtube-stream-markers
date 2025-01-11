@@ -90,7 +90,9 @@ class StreamMarker:
         if isinstance(other, datetime.datetime):
             return self.datetime == other
 
-        return False
+        raise TypeError(
+            f"unsupported operand type(s) for >=: '{type(self)}' and '{type(other)}'"
+        )
 
     def __le__(self, other: object) -> bool:
         """Overloads the '<=' operator for less than or equal to comparison.

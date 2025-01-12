@@ -237,7 +237,6 @@ def script_load(settings):
 
         obs.obs_data_array_release(hotkey_data_array_from_settings)
 
-    # todo only run this when stream starts
     SCRIPT_SETTINGS['credentials_path'] = obs.obs_data_get_string(settings, 'credentials_file_path')
     SCRIPT_SETTINGS['credentials'] = get_youtube_credentials(
         pathlib.Path(SCRIPT_SETTINGS['credentials_path'])

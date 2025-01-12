@@ -96,6 +96,13 @@ def on_event_callback(event):
         SCRIPT_SETTINGS['start_stream_marker'] = StreamMarker()
         SCRIPT_SETTINGS['last_stream_marker'] = None
 
+        broadcast_data = get_broadcast_data(SCRIPT_SETTINGS['credentials'])
+        update_broadcast_description(
+            SCRIPT_SETTINGS['credentials'],
+            broadcast_data,
+            '00:00:00 - Start',
+        )
+
 
 # ------------------------------------------------------------
 

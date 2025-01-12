@@ -133,6 +133,10 @@ def script_description():
         "they're usually created after a 'moment' happens. The offset is towards before"
         "the 'moment' happens."
         '<br>'
+        '<b>First stream marker label</b> Label to put for first auto generated stream marker.'
+        'The marker is 00:00:00 and is required for chapters to work on Youtube.'
+        " Defaults to 'Start'."
+        '<br>'
         '<b>Debug mode</b> enables debug settings and prints used for development. '
         'When not streaming, stream markers will be added to the description of last '
         'stream. '

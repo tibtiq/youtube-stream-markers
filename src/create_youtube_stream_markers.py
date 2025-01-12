@@ -176,6 +176,14 @@ def script_properties():
         1,
     )
 
+    # str input box specifying the label for the auto generated stream marker
+    obs.obs_properties_add_text(
+        props,
+        'first_stream_marker_label',
+        'First stream marker label',
+        obs.OBS_TEXT_DEFAULT
+    )
+
     # checkbox to enable script's debug mode
     obs.obs_properties_add_bool(props, 'debug_enabled', 'Debug mode')
 
@@ -256,6 +264,11 @@ def script_update(settings):
     SCRIPT_SETTINGS['stream_marker_offset'] = obs.obs_data_get_int(
         settings,
         'stream_marker_offset'
+    )
+
+    SCRIPT_SETTINGS['first_stream_marker_label'] = obs.obs_data_get_string(
+        settings,
+        'first_stream_marker_label'
     )
 
     # only load new credentials if credentials path has changed

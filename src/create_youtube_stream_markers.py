@@ -29,6 +29,7 @@ SCRIPT_SETTINGS = {
     'credentials_path': None,
     'stream_marker_group_range': 0,
     'stream_marker_offset': 0,
+    'first_stream_marker_label': 'Start'
 }
 
 
@@ -100,7 +101,7 @@ def on_event_callback(event):
         update_broadcast_description(
             SCRIPT_SETTINGS['credentials'],
             broadcast_data,
-            '00:00:00 - Start',
+            f'00:00:00 - {SCRIPT_SETTINGS["first_stream_marker_label"]}',
         )
 
 

@@ -29,6 +29,7 @@ SCRIPT_SETTINGS = {
     'credentials_path': None,
     'stream_marker_group_range': 0,
     'stream_marker_offset': 0,
+    'first_stream_marker_label': 'Start'
 }
 
 
@@ -96,6 +97,13 @@ def on_event_callback(event):
         SCRIPT_SETTINGS['start_stream_marker'] = StreamMarker()
         SCRIPT_SETTINGS['last_stream_marker'] = None
 
+        broadcast_data = get_broadcast_data(SCRIPT_SETTINGS['credentials'])
+        update_broadcast_description(
+            SCRIPT_SETTINGS['credentials'],
+            broadcast_data,
+            f'00:00:00 - {SCRIPT_SETTINGS["first_stream_marker_label"]}',
+        )
+
 
 # ------------------------------------------------------------
 
@@ -124,6 +132,10 @@ def script_description():
         "specified number of seconds. This is helpful when processing stream markers as "
         "they're usually created after a 'moment' happens. The offset is towards before"
         "the 'moment' happens."
+        '<br>'
+        '<b>First stream marker label</b> Label to put for first auto generated stream marker.'
+        'The marker is 00:00:00 and is required for chapters to work on Youtube.'
+        " Defaults to 'Start'."
         '<br>'
         '<b>Debug mode</b> enables debug settings and prints used for development. '
         'When not streaming, stream markers will be added to the description of last '
@@ -166,6 +178,14 @@ def script_properties():
         0,
         10000,
         1,
+    )
+
+    # str input box specifying the label for the auto generated stream marker
+    obs.obs_properties_add_text(
+        props,
+        'first_stream_marker_label',
+        'First stream marker label',
+        obs.OBS_TEXT_DEFAULT
     )
 
     # checkbox to enable script's debug mode
@@ -217,7 +237,6 @@ def script_load(settings):
 
         obs.obs_data_array_release(hotkey_data_array_from_settings)
 
-    # todo only run this when stream starts
     SCRIPT_SETTINGS['credentials_path'] = obs.obs_data_get_string(settings, 'credentials_file_path')
     SCRIPT_SETTINGS['credentials'] = get_youtube_credentials(
         pathlib.Path(SCRIPT_SETTINGS['credentials_path'])
@@ -248,6 +267,11 @@ def script_update(settings):
     SCRIPT_SETTINGS['stream_marker_offset'] = obs.obs_data_get_int(
         settings,
         'stream_marker_offset'
+    )
+
+    SCRIPT_SETTINGS['first_stream_marker_label'] = obs.obs_data_get_string(
+        settings,
+        'first_stream_marker_label'
     )
 
     # only load new credentials if credentials path has changed

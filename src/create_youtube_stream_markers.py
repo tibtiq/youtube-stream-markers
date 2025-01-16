@@ -6,6 +6,7 @@ The stream markers are placed in the description of the livestream.
 
 import logging
 import pathlib
+from datetime import datetime
 
 # pylint: disable-next=import-error
 import obspython as obs
@@ -27,6 +28,34 @@ SCRIPT_SETTINGS = {
     'stream_marker_offset': 0,
     'first_stream_marker_label': 'Start'
 }
+
+
+def setup_logging(log_level: int, log_dir: pathlib.Path) -> None:
+    log_level = 50 - (log_level * 10)
+    formatter = logging.Formatter(
+        fmt='%(asctime)s | %(name)s |  %(levelname)s: %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S',
+    )
+
+    global logger
+    logger = logging.getLogger(__file__)
+    logger.setLevel(logging.DEBUG)
+
+    stream_handler = logging.StreamHandler()
+    stream_handler.setLevel(log_level)
+    stream_handler.setFormatter(formatter)
+
+    log_dir = log_dir.resolve()
+    log_dir.mkdir(parents=True, exist_ok=True)
+    now = datetime.now()
+    log_file = log_dir / f'{now.strftime("%Y-%m-%d %H-%M-%S")}.log'
+
+    file_handler = logging.FileHandler(filename=log_file)
+    file_handler.setFormatter(formatter)
+    file_handler.setLevel(logging.DEBUG)
+
+    logger.addHandler(file_handler)
+    logger.addHandler(stream_handler)
 
 
 # callback functions
@@ -208,6 +237,7 @@ def script_load(settings):
     global SCRIPT_SETTINGS
 
     print(f'--- {__file__} loaded ---')
+    setup_logging(logging.CRITICAL, pathlib.Path(__file__).parent.parent / 'logs')
 
     # handle OBS frontend events
     obs.obs_frontend_add_event_callback(on_event_callback)

@@ -14,11 +14,7 @@ from stream_marker import StreamMarker
 from youtube_interface import (get_broadcast_data, get_youtube_credentials,
                                update_broadcast_description)
 
-logging.basicConfig(
-    level=logging.CRITICAL,
-    format='%(asctime)s - %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S'
-)
+logger = logging.getLogger(__file__)
 
 HOTKEY_ID_ARRAY = []
 HOTKEY_NAMES_BY_ID = {}
@@ -49,10 +45,10 @@ def hotkey_callback(button_down: bool):
 
         current_stream_marker = StreamMarker()
 
-        logging.debug(f'stream_marker before offset: {current_stream_marker}')
+        logger.debug(f'stream_marker before offset: {current_stream_marker}')
         current_stream_marker -= SCRIPT_SETTINGS['stream_marker_offset']
 
-        logging.info(f'stream_marker after offset: {current_stream_marker}')
+        logger.info(f'stream_marker after offset: {current_stream_marker}')
 
         broadcast_data = get_broadcast_data(SCRIPT_SETTINGS['credentials'])
 
@@ -60,21 +56,21 @@ def hotkey_callback(button_down: bool):
         if SCRIPT_SETTINGS['last_stream_marker'] is not None:
             time_since_last_stream_marker = current_stream_marker - \
                 SCRIPT_SETTINGS['last_stream_marker']
-        logging.debug(
+        logger.debug(
             (
                 f'stream_marker_group_range: {SCRIPT_SETTINGS["stream_marker_group_range"]}\n'
                 f'seconds since last marker: {time_since_last_stream_marker}'
             )
         )
         if 0 < time_since_last_stream_marker <= SCRIPT_SETTINGS['stream_marker_group_range']:
-            logging.info('Prevented writing stream marker, too close to previous marker')
+            logger.info('Prevented writing stream marker, too close to previous marker')
             return
 
         new_description = (
             f'{broadcast_data.broadcast_description}\n'
             f'{current_stream_marker.as_playback_time(SCRIPT_SETTINGS["start_stream_marker"])} - \n'
         )
-        logging.info('Adding new stream marker to description')
+        logger.info('Adding new stream marker to description')
         update_broadcast_description(
             SCRIPT_SETTINGS['credentials'],
             broadcast_data,
@@ -253,10 +249,10 @@ def script_update(settings):
     global SCRIPT_SETTINGS
 
     if obs.obs_data_get_bool(settings, 'debug_enabled'):
-        logging.root.setLevel(logging.DEBUG)
+        logger.setLevel(logging.DEBUG)
         SCRIPT_SETTINGS['start_stream_marker'] = StreamMarker()
     else:
-        logging.root.setLevel(logging.CRITICAL)
+        logger.setLevel(logging.CRITICAL)
         SCRIPT_SETTINGS['start_stream_marker'] = None
 
     SCRIPT_SETTINGS['stream_marker_group_range'] = obs.obs_data_get_int(
@@ -279,7 +275,7 @@ def script_update(settings):
         obs.obs_data_get_string(settings, 'credentials_file_path',) !=
         SCRIPT_SETTINGS['credentials_path']
     ):
-        logging.info('Loading credentials because a new credentials path was provided')
+        logger.info('Loading credentials because a new credentials path was provided')
         SCRIPT_SETTINGS['credentials_path'] = obs.obs_data_get_string(
             settings,
             'credentials_file_path',

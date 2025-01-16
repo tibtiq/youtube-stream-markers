@@ -36,6 +36,7 @@ def setup_logging(log_level: int, log_dir: pathlib.Path) -> None:
         fmt='%(asctime)s |  %(levelname)s: %(message)s',
         datefmt='%Y-%m-%d %H:%M:%S',
     )
+    # todo cleanup logs
 
     global logger
     logger = logging.getLogger(__file__)
@@ -167,6 +168,7 @@ def script_description():
         'stream. '
         '<hr>'
     )
+    # todo add info that logs are created in script location
 
     return description
 

@@ -190,12 +190,10 @@ def script_description():
         'The marker is 00:00:00 and is required for chapters to work on Youtube.'
         " Defaults to 'Start'."
         '<br>'
-        '<b>Debug mode</b> enables debug settings and prints used for development. '
-        'When not streaming, stream markers will be added to the description of last '
-        'stream. '
+        '<b>Debug mode</b> enables debug settings and prints used for development. Regardless of '
+        'this setting the script will log to a file located in script repo root directory.'
         '<hr>'
     )
-    # todo add info that logs are created in script location
 
     return description
 

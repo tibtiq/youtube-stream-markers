@@ -30,13 +30,38 @@ SCRIPT_SETTINGS = {
 }
 
 
+def clean_up_logs(log_dir: pathlib.Path, max_log_limit: int = 10) -> None:
+    """Clean up log files. Delete oldest logs until number of logs matches max_log_limit.
+
+    Has an issue where it can't delete log files created during the current OBS session.
+    In normal use this should never be encountered, but is reproducible when refreshing
+    the OBS scripts enough to reach max number of logs.
+
+    Args:
+        log_dir: pathlib.Path
+            Directory containing logs.
+        max_log_number: int = 10
+            Max number of log files to keep.
+    """
+    log_paths = list(log_dir.rglob('*.log'))
+    if len(log_paths) <= max_log_limit:
+        return
+
+    while len(log_paths) > max_log_limit:
+        try:
+            log_paths.pop(0).unlink()
+        except PermissionError:
+            continue
+
+
 def setup_logging(log_level: int, log_dir: pathlib.Path) -> None:
+    clean_up_logs(log_dir)
+
     log_level = 50 - (log_level * 10)
     formatter = logging.Formatter(
         fmt='%(asctime)s |  %(levelname)s: %(message)s',
         datefmt='%Y-%m-%d %H:%M:%S',
     )
-    # todo cleanup logs
 
     global logger
     logger = logging.getLogger(__file__)

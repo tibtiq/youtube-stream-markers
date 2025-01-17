@@ -15,7 +15,7 @@ from stream_marker import StreamMarker
 from youtube_interface import (get_broadcast_data, get_youtube_credentials,
                                update_broadcast_description)
 
-logger = logging.getLogger(__file__)
+LOGGER = logging.getLogger(__file__)
 
 HOTKEY_ID_ARRAY = []
 HOTKEY_NAMES_BY_ID = {}
@@ -73,9 +73,9 @@ def setup_logging(log_level: int, log_dir: pathlib.Path) -> None:
         datefmt='%Y-%m-%d %H:%M:%S',
     )
 
-    global logger
-    logger = logging.getLogger(__file__)
-    logger.setLevel(logging.DEBUG)
+    global LOGGER
+    LOGGER = logging.getLogger(__file__)
+    LOGGER.setLevel(logging.DEBUG)
 
     stream_handler = logging.StreamHandler()
     stream_handler.setLevel(log_level)
@@ -90,8 +90,8 @@ def setup_logging(log_level: int, log_dir: pathlib.Path) -> None:
     file_handler.setFormatter(formatter)
     file_handler.setLevel(logging.DEBUG)
 
-    logger.addHandler(file_handler)
-    logger.addHandler(stream_handler)
+    LOGGER.addHandler(file_handler)
+    LOGGER.addHandler(stream_handler)
 
 
 # callback functions
@@ -111,10 +111,10 @@ def hotkey_callback(button_down: bool):
         current_stream_marker = StreamMarker()
 
         # todo replace this so it only applies if offset is not 0, same with the resulting log
-        logger.debug(f'stream_marker before offset: {current_stream_marker}')
+        LOGGER.debug(f'stream_marker before offset: {current_stream_marker}')
         current_stream_marker -= SCRIPT_SETTINGS['stream_marker_offset']
 
-        logger.info(f'stream_marker after offset: {current_stream_marker}')
+        LOGGER.info(f'stream_marker after offset: {current_stream_marker}')
 
         broadcast_data = get_broadcast_data(SCRIPT_SETTINGS['credentials'])
 
@@ -122,22 +122,22 @@ def hotkey_callback(button_down: bool):
         if SCRIPT_SETTINGS['last_stream_marker'] is not None:
             time_since_last_stream_marker = current_stream_marker - \
                 SCRIPT_SETTINGS['last_stream_marker']
-        logger.debug(
+        LOGGER.debug(
             f'stream_marker_group_range: {SCRIPT_SETTINGS["stream_marker_group_range"]}'
         )
-        logger.debug(
+        LOGGER.debug(
             f'seconds since last marker: {time_since_last_stream_marker}'
         )
 
         if 0 < time_since_last_stream_marker <= SCRIPT_SETTINGS['stream_marker_group_range']:
-            logger.info('Prevented writing stream marker, too close to previous marker')
+            LOGGER.info('Prevented writing stream marker, too close to previous marker')
             return
 
         new_description = (
             f'{broadcast_data.broadcast_description}\n'
             f'{current_stream_marker.as_playback_time(SCRIPT_SETTINGS["start_stream_marker"])} - \n'
         )
-        logger.info('Adding new stream marker to description')
+        LOGGER.info('Adding new stream marker to description')
         update_broadcast_description(
             SCRIPT_SETTINGS['credentials'],
             broadcast_data,
@@ -316,10 +316,10 @@ def script_update(settings):
     global SCRIPT_SETTINGS
 
     if obs.obs_data_get_bool(settings, 'debug_enabled'):
-        logger.setLevel(logging.DEBUG)
+        LOGGER.setLevel(logging.DEBUG)
         SCRIPT_SETTINGS['start_stream_marker'] = StreamMarker()
     else:
-        logger.setLevel(logging.CRITICAL)
+        LOGGER.setLevel(logging.CRITICAL)
         SCRIPT_SETTINGS['start_stream_marker'] = None
 
     SCRIPT_SETTINGS['stream_marker_group_range'] = obs.obs_data_get_int(
@@ -342,7 +342,7 @@ def script_update(settings):
         obs.obs_data_get_string(settings, 'credentials_file_path',) !=
         SCRIPT_SETTINGS['credentials_path']
     ):
-        logger.info('Loading credentials because a new credentials path was provided')
+        LOGGER.info('Loading credentials because a new credentials path was provided')
         SCRIPT_SETTINGS['credentials_path'] = obs.obs_data_get_string(
             settings,
             'credentials_file_path',

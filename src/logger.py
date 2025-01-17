@@ -51,7 +51,9 @@ def clean_up_logs(log_dir: pathlib.Path, max_log_limit: int = 10) -> None:
             continue
 
 
-def setup_logging(logger_name: str, log_dir: pathlib.Path, log_level: int = logging.DEBUG) -> logging.Logger:
+def setup_logging(
+    logger_name: str, log_dir: pathlib.Path, log_level: int = logging.DEBUG
+) -> logging.Logger:
     """Set up console and file logging.
 
     File logger is always set to DEBUG level.

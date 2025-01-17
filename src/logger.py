@@ -1,3 +1,18 @@
+"""This module handles all the setup for logging.
+
+Usage:
+1. Import the module
+    import logger
+
+2. Initialize the logger:
+    LOGGER = logger.setup_logging(pathlib.Path(__file__).name,
+                                pathlib.Path(__file__).parent.parent / 'logs')
+
+3. Use the logger in your code:
+    LOGGER.info("This is an informational message.")
+    LOGGER.error("This is an error message.")
+"""
+
 import logging
 import pathlib
 from datetime import datetime

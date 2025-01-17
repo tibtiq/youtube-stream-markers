@@ -87,11 +87,12 @@ def hotkey_callback(button_down: bool):
             time_since_last_stream_marker = current_stream_marker - \
                 SCRIPT_SETTINGS['last_stream_marker']
         logger.debug(
-            (
-                f'stream_marker_group_range: {SCRIPT_SETTINGS["stream_marker_group_range"]}\n'
-                f'seconds since last marker: {time_since_last_stream_marker}'
-            )
+            f'stream_marker_group_range: {SCRIPT_SETTINGS["stream_marker_group_range"]}'
         )
+        logger.debug(
+            f'seconds since last marker: {time_since_last_stream_marker}'
+        )
+
         if 0 < time_since_last_stream_marker <= SCRIPT_SETTINGS['stream_marker_group_range']:
             logger.info('Prevented writing stream marker, too close to previous marker')
             return

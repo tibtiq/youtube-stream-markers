@@ -4,18 +4,18 @@ The stream markers are placed in the description of the livestream.
 """
 
 
-import logging
 import pathlib
-from datetime import datetime
 
 # pylint: disable-next=import-error
 import obspython as obs
 
+import logger
 from stream_marker import StreamMarker
 from youtube_interface import (get_broadcast_data, get_youtube_credentials,
                                update_broadcast_description)
 
-LOGGER = logging.getLogger(__file__)
+LOGGER = logger.setup_logging(pathlib.Path(__file__).name,
+                              pathlib.Path(__file__).parent.parent / 'logs')
 
 HOTKEY_ID_ARRAY = []
 HOTKEY_NAMES_BY_ID = {}
@@ -28,71 +28,6 @@ SCRIPT_SETTINGS = {
     'stream_marker_offset': 0,
     'first_stream_marker_label': 'Start'
 }
-
-
-def clean_up_logs(log_dir: pathlib.Path, max_log_limit: int = 10) -> None:
-    """Clean up log files. Delete oldest logs until number of logs matches max_log_limit.
-
-    This function has an issue where it can't delete log files created during the application
-    session. In normal use this shouldn't be a problem. It is reproducible by refreshing the
-    script enough times to reach a log created during this session.
-
-    Args:
-        log_dir: pathlib.Path
-            Directory containing logs.
-        max_log_number: int = 10
-            Max number of log files to keep.
-    """
-    log_paths = list(log_dir.rglob('*.log'))
-    if len(log_paths) <= max_log_limit:
-        return
-
-    while len(log_paths) > max_log_limit:
-        try:
-            log_paths.pop(0).unlink()
-        except PermissionError:
-            continue
-
-
-def setup_logging(log_level: int, log_dir: pathlib.Path) -> None:
-    """Set up console and file logging.
-
-    File logger is always set to DEBUG level.
-
-    Args:
-        log_level: int
-            Log level to set console logger.
-        log_dir: pathlib.Path
-            Directory to place log files.
-    """
-    clean_up_logs(log_dir)
-
-    log_level = 50 - (log_level * 10)
-    formatter = logging.Formatter(
-        fmt='%(asctime)s |  %(levelname)s: %(message)s',
-        datefmt='%Y-%m-%d %H:%M:%S',
-    )
-
-    # pylint: disable-next=global-statement
-    global LOGGER
-    LOGGER = logging.getLogger(__file__)
-    LOGGER.setLevel(logging.DEBUG)
-
-    stream_handler = logging.StreamHandler()
-    stream_handler.setLevel(log_level)
-    stream_handler.setFormatter(formatter)
-
-    log_dir = log_dir.resolve()
-    log_dir.mkdir(parents=True, exist_ok=True)
-    now = datetime.now()
-    log_file = log_dir / f'{now.strftime("%Y-%m-%d %H-%M-%S")}.log'
-
-    file_handler = logging.FileHandler(filename=log_file)
-    file_handler.setFormatter(formatter)
-    file_handler.setLevel(logging.DEBUG)
-
-    LOGGER.addHandler(file_handler)
-    LOGGER.addHandler(stream_handler)
 
 
 # callback functions
@@ -275,7 +210,6 @@ def script_load(settings):
     global SCRIPT_SETTINGS
 
     print(f'--- {__file__} loaded ---')
-    setup_logging(logging.CRITICAL, pathlib.Path(__file__).parent.parent / 'logs')
 
     # handle OBS frontend events
     obs.obs_frontend_add_event_callback(on_event_callback)
@@ -317,10 +251,10 @@ def script_update(settings):
     global SCRIPT_SETTINGS
 
     if obs.obs_data_get_bool(settings, 'debug_enabled'):
-        LOGGER.setLevel(logging.DEBUG)
+        LOGGER.setLevel(logger.DEBUG)
         SCRIPT_SETTINGS['start_stream_marker'] = StreamMarker()
     else:
-        LOGGER.setLevel(logging.CRITICAL)
+        LOGGER.setLevel(logger.CRITICAL)
         SCRIPT_SETTINGS['start_stream_marker'] = None
 
     SCRIPT_SETTINGS['stream_marker_group_range'] = obs.obs_data_get_int(

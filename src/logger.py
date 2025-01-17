@@ -2,6 +2,15 @@ import logging
 import pathlib
 from datetime import datetime
 
+CRITICAL = 50
+FATAL = CRITICAL
+ERROR = 40
+WARNING = 30
+WARN = WARNING
+INFO = 20
+DEBUG = 10
+NOTSET = 0
+
 
 def clean_up_logs(log_dir: pathlib.Path, max_log_limit: int = 10) -> None:
     """Clean up log files. Delete oldest logs until number of logs matches max_log_limit.

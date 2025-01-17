@@ -252,12 +252,10 @@ def script_update(settings):
     global SCRIPT_SETTINGS
 
     if obs.obs_data_get_bool(settings, 'debug_enabled'):
-        # todo figure out how to do this without importing logging
-        LOGGER.setLevel(logging.DEBUG)
+        LOGGER.setLevel(logger.DEBUG)
         SCRIPT_SETTINGS['start_stream_marker'] = StreamMarker()
     else:
-        # todo figure out how to do this without importing logging
-        LOGGER.setLevel(logging.CRITICAL)
+        LOGGER.setLevel(logger.CRITICAL)
         SCRIPT_SETTINGS['start_stream_marker'] = None
 
     SCRIPT_SETTINGS['stream_marker_group_range'] = obs.obs_data_get_int(

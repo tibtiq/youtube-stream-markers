@@ -33,9 +33,9 @@ SCRIPT_SETTINGS = {
 def clean_up_logs(log_dir: pathlib.Path, max_log_limit: int = 10) -> None:
     """Clean up log files. Delete oldest logs until number of logs matches max_log_limit.
 
-    Has an issue where it can't delete log files created during the current OBS session.
-    In normal use this should never be encountered, but is reproducible when refreshing
-    the OBS scripts enough to reach max number of logs.
+    This function has an issue where it can't delete log files created during the application
+    session. In normal use this shouldn't be a problem. It is reproducible by refreshing the
+    script enough times to reach a log created during this session.
 
     Args:
         log_dir: pathlib.Path

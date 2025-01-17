@@ -1,7 +1,6 @@
 """This module interacts with youtube's api to update a livestream's description."""
 
 import json
-import logging
 import pathlib
 import pickle
 import sys
@@ -13,7 +12,11 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
+from logger import setup_logging
+
 # todo turn this code into a class
+
+LOGGER = setup_logging(pathlib.Path(__file__).name, pathlib.Path(__file__).parent.parent / 'logs')
 
 
 @dataclass
@@ -52,7 +55,7 @@ def get_youtube_credentials_from_file(youtube_credentials_path: pathlib.Path) ->
 
     # not sure if refresh ever works as expected
     if youtube_credentials.expired:
-        logging.debug('Youtube credentials are expired, refreshing')
+        LOGGER.debug('Youtube credentials are expired, refreshing')
         youtube_credentials.refresh(Request())
 
     return youtube_credentials
@@ -121,10 +124,10 @@ def get_youtube_credentials(oauth_credentials_path: pathlib.Path) -> Credentials
     ).parent.parent / '.config' / 'youtube_credentials.dat'
     youtube_credentials = None
     try:
-        logging.debug('loading youtube credentials from file')
+        LOGGER.debug('loading youtube credentials from file')
         youtube_credentials = get_youtube_credentials_from_file(youtube_credentials_path)
     except (google.auth.exceptions.RefreshError, FileNotFoundError):
-        logging.debug('loading youtube credentials from oauth')
+        LOGGER.debug('loading youtube credentials from oauth')
         youtube_credentials = get_youtube_credentials_from_oauth(oauth_credentials_path)
 
     return youtube_credentials

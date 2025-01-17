@@ -12,11 +12,12 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
-from logger import setup_logging
+import logger
 
 # todo turn this code into a class
 
-LOGGER = setup_logging(pathlib.Path(__file__).name, pathlib.Path(__file__).parent.parent / 'logs')
+LOGGER = logger.setup_logging(pathlib.Path(__file__).name,
+                              pathlib.Path(__file__).parent.parent / 'logs')
 
 
 @dataclass

@@ -10,12 +10,13 @@ import pathlib
 # pylint: disable-next=import-error
 import obspython as obs
 
-from logger import setup_logging
+import logger
 from stream_marker import StreamMarker
 from youtube_interface import (get_broadcast_data, get_youtube_credentials,
                                update_broadcast_description)
 
-LOGGER = setup_logging(pathlib.Path(__file__).name, pathlib.Path(__file__).parent.parent / 'logs')
+LOGGER = logger.setup_logging(pathlib.Path(__file__).name,
+                              pathlib.Path(__file__).parent.parent / 'logs')
 
 HOTKEY_ID_ARRAY = []
 HOTKEY_NAMES_BY_ID = {}

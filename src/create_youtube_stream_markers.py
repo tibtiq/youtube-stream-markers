@@ -4,7 +4,6 @@ The stream markers are placed in the description of the livestream.
 """
 
 
-import logging
 import pathlib
 
 # pylint: disable-next=import-error

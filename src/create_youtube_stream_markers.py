@@ -75,6 +75,7 @@ def hotkey_callback(button_down: bool):
 
         current_stream_marker = StreamMarker()
 
+        # todo replace this so it only applies if offset is not 0, same with the resulting log
         logger.debug(f'stream_marker before offset: {current_stream_marker}')
         current_stream_marker -= SCRIPT_SETTINGS['stream_marker_offset']
 

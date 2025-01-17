@@ -73,6 +73,7 @@ def setup_logging(log_level: int, log_dir: pathlib.Path) -> None:
         datefmt='%Y-%m-%d %H:%M:%S',
     )
 
+    # pylint: disable-next=global-statement
     global LOGGER
     LOGGER = logging.getLogger(__file__)
     LOGGER.setLevel(logging.DEBUG)

@@ -1,6 +1,6 @@
 # run script in repo root
 Push-Location "$PSScriptRoot/.."
 
-pytest --cov-report term-missing:skip-covered --cov=src "tests" -s -v
+uv run pytest --cov-report term-missing:skip-covered --cov=src "tests" -s -v
 
 Pop-Location

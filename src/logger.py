@@ -40,7 +40,7 @@ def clean_up_logs(log_dir: pathlib.Path, max_log_limit: int = 10) -> None:
         max_log_number: int = 10
             Max number of log files to keep.
     """
-    log_paths = list(log_dir.rglob('*.log'))
+    log_paths = list(log_dir.rglob("*.log"))
     if len(log_paths) <= max_log_limit:
         return
 
@@ -70,8 +70,8 @@ def setup_logging(
 
     log_level = 50 - (log_level * 10)
     formatter = logging.Formatter(
-        fmt=f'%(asctime)s {"| " + logger_name or ""} | %(levelname)s: %(message)s',
-        datefmt='%Y-%m-%d %H:%M:%S',
+        fmt=f"%(asctime)s {'| ' + logger_name or ''} | %(levelname)s: %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
     )
 
     logger = logging.getLogger(__file__)
@@ -84,7 +84,7 @@ def setup_logging(
     log_dir = log_dir.resolve()
     log_dir.mkdir(parents=True, exist_ok=True)
     now = datetime.now()
-    log_file = log_dir / f'{now.strftime("%Y-%m-%d %H-%M-%S")}.log'
+    log_file = log_dir / f"{now.strftime('%Y-%m-%d %H-%M-%S')}.log"
 
     file_handler = logging.FileHandler(filename=log_file)
     file_handler.setFormatter(formatter)

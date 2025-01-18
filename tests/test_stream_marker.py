@@ -11,7 +11,7 @@ class Test_StreamMarker:
     class Test_to_string:
         def test_HH_MM_SS(self):
             stream_marker = StreamMarker()
-            expected_format = '%H:%M:%S'
+            expected_format = "%H:%M:%S"
             stream_marker_str = stream_marker.as_str(expected_format)
 
             assert isinstance(stream_marker_str, str)
@@ -22,9 +22,7 @@ class Test_StreamMarker:
             stream_marker = StreamMarker()
             adjustment_seconds = 5
             other_stream_marker = StreamMarker(
-                datetime.datetime.now() + datetime.timedelta(
-                    seconds=adjustment_seconds
-                )
+                datetime.datetime.now() + datetime.timedelta(seconds=adjustment_seconds)
             )
 
             with pytest.raises(TypeError):
@@ -62,16 +60,14 @@ class Test_StreamMarker:
             stream_marker = StreamMarker()
 
             with pytest.raises(TypeError):
-                result_stream_marker = stream_marker + 'test'
+                result_stream_marker = stream_marker + "test"
 
     class Test_sub:
         def test_other_is_stream_marker(self):
             stream_marker = StreamMarker()
             adjustment_seconds = 5
             other_stream_marker = StreamMarker(
-                datetime.datetime.now() - datetime.timedelta(
-                    seconds=adjustment_seconds
-                )
+                datetime.datetime.now() - datetime.timedelta(seconds=adjustment_seconds)
             )
 
             time_diff_seconds = stream_marker - other_stream_marker
@@ -110,7 +106,7 @@ class Test_StreamMarker:
             stream_marker = StreamMarker()
 
             with pytest.raises(TypeError):
-                result_stream_marker = stream_marker - 'test'
+                result_stream_marker = stream_marker - "test"
 
     class Test_eq:
         def test_other_is_stream_marker(self):
@@ -152,7 +148,7 @@ class Test_StreamMarker:
             stream_marker = StreamMarker()
 
             with pytest.raises(TypeError):
-                result = stream_marker == 'test'
+                result = stream_marker == "test"
 
     class Test_le:
         def test_other_is_stream_marker(self):
@@ -194,7 +190,7 @@ class Test_StreamMarker:
             stream_marker = StreamMarker()
 
             with pytest.raises(TypeError):
-                result = stream_marker <= 'test'
+                result = stream_marker <= "test"
 
     class Test_ge:
         def test_other_is_stream_marker(self):
@@ -236,7 +232,7 @@ class Test_StreamMarker:
             stream_marker = StreamMarker()
 
             with pytest.raises(TypeError):
-                result = stream_marker >= 'test'
+                result = stream_marker >= "test"
 
     class Test_as_playback_time:
         def test_expected_use(self):
@@ -245,14 +241,14 @@ class Test_StreamMarker:
 
             playback_time = end_time.as_playback_time(start_time)
 
-            assert playback_time == '00:00:05'
+            assert playback_time == "00:00:05"
 
         def test_start_time_invalid_type(self):
             start_time = StreamMarker()
             end_time = start_time + 5
 
             with pytest.raises(TypeError):
-                playback_time = end_time.as_playback_time('test')
+                playback_time = end_time.as_playback_time("test")
 
         def test_time_format_invalid_type(self):
             start_time = StreamMarker()

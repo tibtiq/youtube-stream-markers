@@ -130,11 +130,13 @@ class StreamMarker:
             f"unsupported operand type(s) for >=: '{type(self)}' and '{type(other)}'"
         )
 
-    def as_str(self, str_format: str = '%H:%M:%S'):
+    def as_str(self, str_format: str = "%H:%M:%S"):
         """Return str representation of StreamMarker."""
         return self.datetime.strftime(str_format)
 
-    def as_playback_time(self, start_time: StreamMarker, time_format: str = '%H:%M:%S') -> str:
+    def as_playback_time(
+        self, start_time: StreamMarker, time_format: str = "%H:%M:%S"
+    ) -> str:
         """Convert StreamMarker to playback time (HOUR-MINUTE-SECONDS) given a start stream marker.
 
         The returned playback time will have padded zeros.

@@ -3,7 +3,6 @@
 The stream markers are placed in the description of the livestream.
 """
 
-
 import pathlib
 
 # pylint: disable-next=import-error
@@ -11,22 +10,26 @@ import obspython as obs
 
 import logger
 from stream_marker import StreamMarker
-from youtube_interface import (get_broadcast_data, get_youtube_credentials,
-                               update_broadcast_description)
+from youtube_interface import (
+    get_broadcast_data,
+    get_youtube_credentials,
+    update_broadcast_description,
+)
 
-LOGGER = logger.setup_logging(pathlib.Path(__file__).name,
-                              pathlib.Path(__file__).parent.parent / 'logs')
+LOGGER = logger.setup_logging(
+    pathlib.Path(__file__).name, pathlib.Path(__file__).parent.parent / "logs"
+)
 
 HOTKEY_ID_ARRAY = []
 HOTKEY_NAMES_BY_ID = {}
 SCRIPT_SETTINGS = {
-    'start_stream_marker': None,
-    'last_stream_marker': None,
-    'credentials': None,
-    'credentials_path': None,
-    'stream_marker_group_range': 0,
-    'stream_marker_offset': 0,
-    'first_stream_marker_label': 'Start'
+    "start_stream_marker": None,
+    "last_stream_marker": None,
+    "credentials": None,
+    "credentials_path": None,
+    "stream_marker_group_range": 0,
+    "stream_marker_offset": 0,
+    "first_stream_marker_label": "Start",
 }
 
 
@@ -40,47 +43,50 @@ def hotkey_callback(button_down: bool):
     global SCRIPT_SETTINGS
 
     if button_down:
-        if SCRIPT_SETTINGS['start_stream_marker'] is None:
-            print('Prevented creating stream marker, not streaming')
+        if SCRIPT_SETTINGS["start_stream_marker"] is None:
+            print("Prevented creating stream marker, not streaming")
             return
 
         current_stream_marker = StreamMarker()
 
         # todo replace this so it only applies if offset is not 0, same with the resulting log
-        LOGGER.debug(f'stream_marker before offset: {current_stream_marker}')
-        current_stream_marker -= SCRIPT_SETTINGS['stream_marker_offset']
+        LOGGER.debug(f"stream_marker before offset: {current_stream_marker}")
+        current_stream_marker -= SCRIPT_SETTINGS["stream_marker_offset"]
 
-        LOGGER.info(f'stream_marker after offset: {current_stream_marker}')
+        LOGGER.info(f"stream_marker after offset: {current_stream_marker}")
 
-        broadcast_data = get_broadcast_data(SCRIPT_SETTINGS['credentials'])
+        broadcast_data = get_broadcast_data(SCRIPT_SETTINGS["credentials"])
 
         time_since_last_stream_marker = 0
-        if SCRIPT_SETTINGS['last_stream_marker'] is not None:
-            time_since_last_stream_marker = current_stream_marker - \
-                SCRIPT_SETTINGS['last_stream_marker']
+        if SCRIPT_SETTINGS["last_stream_marker"] is not None:
+            time_since_last_stream_marker = (
+                current_stream_marker - SCRIPT_SETTINGS["last_stream_marker"]
+            )
         LOGGER.debug(
-            f'stream_marker_group_range: {SCRIPT_SETTINGS["stream_marker_group_range"]}'
+            f"stream_marker_group_range: {SCRIPT_SETTINGS['stream_marker_group_range']}"
         )
-        LOGGER.debug(
-            f'seconds since last marker: {time_since_last_stream_marker}'
-        )
+        LOGGER.debug(f"seconds since last marker: {time_since_last_stream_marker}")
 
-        if 0 < time_since_last_stream_marker <= SCRIPT_SETTINGS['stream_marker_group_range']:
-            LOGGER.info('Prevented writing stream marker, too close to previous marker')
+        if (
+            0
+            < time_since_last_stream_marker
+            <= SCRIPT_SETTINGS["stream_marker_group_range"]
+        ):
+            LOGGER.info("Prevented writing stream marker, too close to previous marker")
             return
 
         new_description = (
-            f'{broadcast_data.broadcast_description}\n'
-            f'{current_stream_marker.as_playback_time(SCRIPT_SETTINGS["start_stream_marker"])} - \n'
+            f"{broadcast_data.broadcast_description}\n"
+            f"{current_stream_marker.as_playback_time(SCRIPT_SETTINGS['start_stream_marker'])} - \n"
         )
-        LOGGER.info('Adding new stream marker to description')
+        LOGGER.info("Adding new stream marker to description")
         update_broadcast_description(
-            SCRIPT_SETTINGS['credentials'],
+            SCRIPT_SETTINGS["credentials"],
             broadcast_data,
             new_description,
         )
 
-        SCRIPT_SETTINGS['last_stream_marker'] = current_stream_marker
+        SCRIPT_SETTINGS["last_stream_marker"] = current_stream_marker
 
 
 def on_event_callback(event):
@@ -93,14 +99,14 @@ def on_event_callback(event):
 
     # determine if streaming or recording and started or stopped
     if event == obs.OBS_FRONTEND_EVENT_STREAMING_STARTED:
-        SCRIPT_SETTINGS['start_stream_marker'] = StreamMarker()
-        SCRIPT_SETTINGS['last_stream_marker'] = None
+        SCRIPT_SETTINGS["start_stream_marker"] = StreamMarker()
+        SCRIPT_SETTINGS["last_stream_marker"] = None
 
-        broadcast_data = get_broadcast_data(SCRIPT_SETTINGS['credentials'])
+        broadcast_data = get_broadcast_data(SCRIPT_SETTINGS["credentials"])
         update_broadcast_description(
-            SCRIPT_SETTINGS['credentials'],
+            SCRIPT_SETTINGS["credentials"],
             broadcast_data,
-            f'00:00:00 - {SCRIPT_SETTINGS["first_stream_marker_label"]}',
+            f"00:00:00 - {SCRIPT_SETTINGS['first_stream_marker_label']}",
         )
 
 
@@ -113,32 +119,32 @@ def on_event_callback(event):
 def script_description():
     """OBS hook that setups up script description in OBS UI."""
     description = (
-        '<b>Create Youtube stream markers</b>'
-        '<hr>'
-        'Script adds the ability to set a hotkey to save a stream marker in the description'
-        'of a Youtube livestream. '
-        '<hr>'
-        '<b>Settings</b>'
-        '<hr>'
-        '<b>Credentials file path</b> is the path to your Youtube API credentials file. '
-        'Refer to README.md regarding generating this file.'
-        '<br>'
-        '<b>Range to group stream markers</b> prevents creating stream markers too close to '
-        'each other. The value is in seconds and specifies the minimum time between '
-        'stream markers.'
-        '<br>'
-        '<b>stream marker offset</b> offsets stream markers from when they created by the '
+        "<b>Create Youtube stream markers</b>"
+        "<hr>"
+        "Script adds the ability to set a hotkey to save a stream marker in the description"
+        "of a Youtube livestream. "
+        "<hr>"
+        "<b>Settings</b>"
+        "<hr>"
+        "<b>Credentials file path</b> is the path to your Youtube API credentials file. "
+        "Refer to README.md regarding generating this file."
+        "<br>"
+        "<b>Range to group stream markers</b> prevents creating stream markers too close to "
+        "each other. The value is in seconds and specifies the minimum time between "
+        "stream markers."
+        "<br>"
+        "<b>stream marker offset</b> offsets stream markers from when they created by the "
         "specified number of seconds. This is helpful when processing stream markers as "
         "they're usually created after a 'moment' happens. The offset is towards before"
         "the 'moment' happens."
-        '<br>'
-        '<b>First stream marker label</b> Label to put for first auto generated stream marker.'
-        'The marker is 00:00:00 and is required for chapters to work on Youtube.'
+        "<br>"
+        "<b>First stream marker label</b> Label to put for first auto generated stream marker."
+        "The marker is 00:00:00 and is required for chapters to work on Youtube."
         " Defaults to 'Start'."
-        '<br>'
-        '<b>Debug mode</b> enables debug settings and prints used for development. Regardless of '
-        'this setting the script will log to a file located in script repo root directory.'
-        '<hr>'
+        "<br>"
+        "<b>Debug mode</b> enables debug settings and prints used for development. Regardless of "
+        "this setting the script will log to a file located in script repo root directory."
+        "<hr>"
     )
 
     return description
@@ -151,8 +157,8 @@ def script_properties():
     # file browse for youtube api credentials file
     obs.obs_properties_add_path(
         props,
-        'credentials_file_path',
-        'Credentials file path:',
+        "credentials_file_path",
+        "Credentials file path:",
         obs.OBS_PATH_FILE,
         "*.json",
         "",
@@ -161,8 +167,8 @@ def script_properties():
     # int input box determining how long to ignore stream markers if placed too close together
     obs.obs_properties_add_int(
         props,
-        'group_stream_marker_range',
-        'Range to group stream markers',
+        "group_stream_marker_range",
+        "Range to group stream markers",
         0,
         10000,
         1,
@@ -171,8 +177,8 @@ def script_properties():
     # int input box specifying the offset to subtract from when a stream marker is created
     obs.obs_properties_add_int(
         props,
-        'stream_marker_offset',
-        'stream_marker offset',
+        "stream_marker_offset",
+        "stream_marker offset",
         0,
         10000,
         1,
@@ -181,13 +187,13 @@ def script_properties():
     # str input box specifying the label for the auto generated stream marker
     obs.obs_properties_add_text(
         props,
-        'first_stream_marker_label',
-        'First stream marker label',
-        obs.OBS_TEXT_DEFAULT
+        "first_stream_marker_label",
+        "First stream marker label",
+        obs.OBS_TEXT_DEFAULT,
     )
 
     # checkbox to enable script's debug mode
-    obs.obs_properties_add_bool(props, 'debug_enabled', 'Debug mode')
+    obs.obs_properties_add_bool(props, "debug_enabled", "Debug mode")
 
     return props
 
@@ -209,18 +215,19 @@ def script_load(settings):
     # pylint: disable=global-variable-not-assigned
     global SCRIPT_SETTINGS
 
-    print(f'--- {__file__} loaded ---')
+    print(f"--- {__file__} loaded ---")
 
     # handle OBS frontend events
     obs.obs_frontend_add_event_callback(on_event_callback)
 
-    HOTKEY_ID_ARRAY.append(obs.obs_hotkey_register_frontend(
-        'SHORTCUT 1',
-        'Scripts - create_stream_markers.py - Push create stream marker',
-        hotkey_callback
+    HOTKEY_ID_ARRAY.append(
+        obs.obs_hotkey_register_frontend(
+            "SHORTCUT 1",
+            "Scripts - create_stream_markers.py - Push create stream marker",
+            hotkey_callback,
+        )
     )
-    )
-    HOTKEY_NAMES_BY_ID[HOTKEY_ID_ARRAY[len(HOTKEY_ID_ARRAY)-1]] = 'SHORTCUT 1'
+    HOTKEY_NAMES_BY_ID[HOTKEY_ID_ARRAY[len(HOTKEY_ID_ARRAY) - 1]] = "SHORTCUT 1"
 
     # load hotkeys from script save file
     for hotkey_id in HOTKEY_ID_ARRAY:
@@ -235,9 +242,11 @@ def script_load(settings):
 
         obs.obs_data_array_release(hotkey_data_array_from_settings)
 
-    SCRIPT_SETTINGS['credentials_path'] = obs.obs_data_get_string(settings, 'credentials_file_path')
-    SCRIPT_SETTINGS['credentials'] = get_youtube_credentials(
-        pathlib.Path(SCRIPT_SETTINGS['credentials_path'])
+    SCRIPT_SETTINGS["credentials_path"] = obs.obs_data_get_string(
+        settings, "credentials_file_path"
+    )
+    SCRIPT_SETTINGS["credentials"] = get_youtube_credentials(
+        pathlib.Path(SCRIPT_SETTINGS["credentials_path"])
     )
 
 
@@ -250,39 +259,41 @@ def script_update(settings):
     # pylint: disable=global-variable-not-assigned
     global SCRIPT_SETTINGS
 
-    if obs.obs_data_get_bool(settings, 'debug_enabled'):
+    if obs.obs_data_get_bool(settings, "debug_enabled"):
         LOGGER.setLevel(logger.DEBUG)
-        SCRIPT_SETTINGS['start_stream_marker'] = StreamMarker()
+        SCRIPT_SETTINGS["start_stream_marker"] = StreamMarker()
     else:
         LOGGER.setLevel(logger.CRITICAL)
-        SCRIPT_SETTINGS['start_stream_marker'] = None
+        SCRIPT_SETTINGS["start_stream_marker"] = None
 
-    SCRIPT_SETTINGS['stream_marker_group_range'] = obs.obs_data_get_int(
-        settings,
-        'group_stream_marker_range'
+    SCRIPT_SETTINGS["stream_marker_group_range"] = obs.obs_data_get_int(
+        settings, "group_stream_marker_range"
     )
 
-    SCRIPT_SETTINGS['stream_marker_offset'] = obs.obs_data_get_int(
-        settings,
-        'stream_marker_offset'
+    SCRIPT_SETTINGS["stream_marker_offset"] = obs.obs_data_get_int(
+        settings, "stream_marker_offset"
     )
 
-    SCRIPT_SETTINGS['first_stream_marker_label'] = obs.obs_data_get_string(
-        settings,
-        'first_stream_marker_label'
+    SCRIPT_SETTINGS["first_stream_marker_label"] = obs.obs_data_get_string(
+        settings, "first_stream_marker_label"
     )
 
     # only load new credentials if credentials path has changed
     if (
-        obs.obs_data_get_string(settings, 'credentials_file_path',) !=
-        SCRIPT_SETTINGS['credentials_path']
-    ):
-        LOGGER.info('Loading credentials because a new credentials path was provided')
-        SCRIPT_SETTINGS['credentials_path'] = obs.obs_data_get_string(
+        obs.obs_data_get_string(
             settings,
-            'credentials_file_path',
+            "credentials_file_path",
         )
-        SCRIPT_SETTINGS['credentials'] = get_youtube_credentials(
-            pathlib.Path(obs.obs_data_get_string(settings, 'credentials_file_path'))
+        != SCRIPT_SETTINGS["credentials_path"]
+    ):
+        LOGGER.info("Loading credentials because a new credentials path was provided")
+        SCRIPT_SETTINGS["credentials_path"] = obs.obs_data_get_string(
+            settings,
+            "credentials_file_path",
         )
+        SCRIPT_SETTINGS["credentials"] = get_youtube_credentials(
+            pathlib.Path(obs.obs_data_get_string(settings, "credentials_file_path"))
+        )
+
+
 # ------------------------------------------------------------

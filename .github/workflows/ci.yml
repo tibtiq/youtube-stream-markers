@@ -13,4 +13,4 @@ jobs:
     name: CI workflow
     steps:
       - name: linter and formatter
-        uses: tibtiq/python-linters@main
+        uses: tibtiq/python-linters/.github/workflows/ci.yml@main

@@ -8,9 +8,6 @@ on:
   pull_request:
 
 jobs:
-  python-lint:
+  linter-and-formatter:
     runs-on: ubuntu-latest
-    name: CI workflow
-    steps:
-      - name: linter and formatter
-        uses: tibtiq/python-linters/.github/workflows/ci.yml@main
+    uses: tibtiq/python-linters/.github/workflows/ci.yml@main

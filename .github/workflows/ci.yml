@@ -15,17 +15,12 @@ jobs:
       - name: Check out source repository
         uses: actions/checkout@v4
 
-      - name: Set up Python environment
-        uses: actions/setup-python@v5
+      - uses: astral-sh/ruff-action@v3
+        name: formatter
         with:
-          python-version: "3.8"
-          cache: 'pip' # caching pip dependencies
+          args: "format --check"
 
-      - name: Linter
-        uses: juissi-t/python-lint-annotate@ff09bc6bdd47de544b00cf57a9921c636a829909
+      - uses: astral-sh/ruff-action@v3
+        name: linter
         with:
-          python-root-list: "src/"
-          extra-pylint-options: "--disable=W1202,W1203,C0116"
-          extra-pycodestyle-options: "--config=.pycodestyle"
-          use-vulture: false
-          use-black: false
+          args: "check"

@@ -12,15 +12,5 @@ jobs:
     runs-on: ubuntu-latest
     name: CI workflow
     steps:
-      - name: Check out source repository
-        uses: actions/checkout@v4
-
-      - name: formatter
-        uses: astral-sh/ruff-action@v3
-        with:
-          args: "format --check"
-
-      - name: linter
-        uses: astral-sh/ruff-action@v3
-        with:
-          args: "check"
+      - name: linter and formatter
+        uses: tibtiq/python-linters

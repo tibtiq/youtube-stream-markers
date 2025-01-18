@@ -5,12 +5,13 @@ name: Linter
 on:
   # allows manual trigger
   workflow_dispatch:
+  # allows other workflows to call this workflow
+  workflow_call:
   pull_request:
 
 jobs:
-  python-lint:
+  formatter-and-linter:
     runs-on: ubuntu-latest
-    name: CI workflow
     steps:
       - name: Check out source repository
         uses: actions/checkout@v4

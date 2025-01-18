@@ -9,5 +9,4 @@ on:
 
 jobs:
   linter-and-formatter:
-    runs-on: ubuntu-latest
     uses: tibtiq/python-linters/.github/workflows/ci.yml@main

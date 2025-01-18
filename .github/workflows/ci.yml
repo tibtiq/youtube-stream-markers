@@ -8,5 +8,5 @@ on:
   pull_request:
 
 jobs:
-  linter-and-formatter:
+  formatter-and-linter:
     uses: tibtiq/python-linters/.github/workflows/ci.yml@main

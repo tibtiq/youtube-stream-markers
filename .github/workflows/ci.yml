@@ -3,6 +3,7 @@ name: CI
 on:
   # allows manual trigger
   workflow_dispatch:
+  push:
   pull_request:
 
 jobs:

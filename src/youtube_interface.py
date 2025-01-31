@@ -7,8 +7,12 @@ import sys
 from dataclasses import dataclass
 
 import google.auth.exceptions
+from google.auth.credentials import Credentials
+
+# from google.auth.external_account_authorized_user import Credentials
 from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
+
+# from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 

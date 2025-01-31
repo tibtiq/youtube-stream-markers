@@ -103,10 +103,12 @@ def on_event_callback(event):
         SCRIPT_SETTINGS["last_stream_marker"] = None
 
         broadcast_data = get_broadcast_data(SCRIPT_SETTINGS["credentials"])
+        new_description = (
+            f"{broadcast_data.broadcast_description}\n"
+            f"00:00:00 - {SCRIPT_SETTINGS['first_stream_marker_label']}\n"
+        )
         update_broadcast_description(
-            SCRIPT_SETTINGS["credentials"],
-            broadcast_data,
-            f"00:00:00 - {SCRIPT_SETTINGS['first_stream_marker_label']}",
+            SCRIPT_SETTINGS["credentials"], broadcast_data, new_description
         )
 
 

@@ -6,7 +6,7 @@ The stream markers are placed in the description of the livestream.
 import pathlib
 
 # pylint: disable-next=import-error
-import obspython as obs  # pyright: ignore
+import obspython as obs  # pyright: ignore [reportMissingImports]
 
 import logger
 from stream_marker import StreamMarker

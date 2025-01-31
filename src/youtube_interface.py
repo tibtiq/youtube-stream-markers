@@ -155,7 +155,6 @@ def get_broadcast_data(credentials: Credentials) -> BroadcastData:
         BroadcastData: Data containing relevant information to make API call.
     """
     with build("youtube", "v3", credentials=credentials) as service:
-        # pylint: disable=no-member
         response = (
             service.liveBroadcasts()
             .list(
@@ -188,7 +187,6 @@ def update_broadcast_description(
         new_description (str): Text to replace broadcast's current description.
     """
     with build("youtube", "v3", credentials=credentials) as service:
-        # pylint: disable=no-member
         _ = (
             service.liveBroadcasts()
             .update(

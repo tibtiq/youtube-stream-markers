@@ -5,7 +5,6 @@ The stream markers are placed in the description of the livestream.
 
 import pathlib
 
-# pylint: disable-next=import-error
 import obspython as obs  # pyright: ignore [reportMissingImports]
 
 import logger
@@ -39,7 +38,6 @@ SCRIPT_SETTINGS = {
 
 def hotkey_callback(button_down: bool):
     """Handle OBS hotkey press as callback function."""
-    # pylint: disable=global-variable-not-assigned
     global SCRIPT_SETTINGS
 
     if button_down:
@@ -94,7 +92,6 @@ def on_event_callback(event):
 
     List of events can be found here: https://docs.obsproject.com/reference-frontend-api
     """
-    # pylint: disable=global-variable-not-assigned
     global SCRIPT_SETTINGS
 
     # determine if streaming or recording and started or stopped
@@ -214,7 +211,6 @@ def script_save(settings):
 
 def script_load(settings):
     """OBS hook that runs when script first loads or reloaded."""
-    # pylint: disable=global-variable-not-assigned
     global SCRIPT_SETTINGS
 
     print(f"--- {__file__} loaded ---")
@@ -258,7 +254,6 @@ def script_update(settings):
     This function is also run immediately after script_load() when OBS is opening.
 
     """
-    # pylint: disable=global-variable-not-assigned
     global SCRIPT_SETTINGS
 
     if obs.obs_data_get_bool(settings, "debug_enabled"):

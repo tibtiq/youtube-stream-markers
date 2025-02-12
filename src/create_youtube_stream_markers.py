@@ -9,7 +9,7 @@ import obspython as obs  # pyright: ignore [reportMissingImports]
 
 import logger
 from stream_marker import StreamMarker
-from youtube_interface import (
+from youtube_interface_old import (
     get_broadcast_data,
     get_youtube_credentials,
     update_broadcast_description,

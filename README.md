@@ -2,6 +2,16 @@ Add stream markers to youtube VOD description
 
 
 # Setup
+
+## Cloning repo
+
+Clone the repo with the following command. Note the `--recurse-submodules` flag to include the
+submodule.
+
+```
+git clone --recurse-submodules -j8 https://github.com/tibtiq/youtube-stream-markers/
+```
+
 ## Setup Youtube API
 Create a Google Cloud Console project and now the project is selected
 

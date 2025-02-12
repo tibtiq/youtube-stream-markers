@@ -1,0 +1,3 @@
+[submodule "src/youtube-interface"]
+	path = src/youtube-interface
+	url = https://github.com/tibtiq/youtube-interface

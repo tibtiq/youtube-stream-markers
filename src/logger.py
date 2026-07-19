@@ -72,6 +72,10 @@ def setup_logging(
     )
 
     logger = logging.getLogger(__file__)
+    if logger.hasHandlers():
+        logger.handlers.clear()
+    logger.propagate = False
+
     logger.setLevel(logging.DEBUG)
 
     stream_handler = logging.StreamHandler()

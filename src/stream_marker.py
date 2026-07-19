@@ -130,7 +130,15 @@ class StreamMarker:
             f"unsupported operand type(s) for >=: '{type(self)}' and '{type(other)}'"
         )
 
-    def as_str(self, str_format: str = '%H:%M:%S'):
+    def __str__(self) -> str:
+        """Overloads the 'str' operator for user-friendly, human-readable string representation.
+
+        Returns:
+            Str: human-readable string representation.
+        """
+        return f"{self.datetime}"
+
+    def as_str(self, str_format: str = "%H:%M:%S"):
         """Return str representation of StreamMarker."""
         return self.datetime.strftime(str_format)
 

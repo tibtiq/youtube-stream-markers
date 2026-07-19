@@ -13,6 +13,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "icecream>=2.2.0",
     "pyright>=1.1.392.post0",
     "pytest>=8.3.4",
     "pytest-cov>=6.0.0",

@@ -70,7 +70,7 @@ def setup_logging(
 
     log_level = 50 - (log_level * 10)
     formatter = logging.Formatter(
-        fmt=f"%(asctime)s|%(levelname)s{'| ' + logger_name + ':%(lineno)d' or ''}|%(message)s",
+        fmt=f"%(asctime)s|%(levelname)s{'|' + logger_name + ':%(lineno)d' or ''}|%(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
     )
 

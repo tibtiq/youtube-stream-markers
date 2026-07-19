@@ -5,8 +5,7 @@ Usage:
     import logger
 
 2. Initialize the logger:
-    LOGGER = logger.setup_logging(pathlib.Path(__file__).name,
-                                pathlib.Path(__file__).parent.parent / 'logs')
+    LOGGER = logger.setup_logging(pathlib.Path(__file__).parent.parent / 'logs')
 
 3. Use the logger in your code:
     LOGGER.info("This is an informational message.")
@@ -52,15 +51,13 @@ def clean_up_logs(log_dir: pathlib.Path, max_log_limit: int = 10) -> None:
 
 
 def setup_logging(
-    logger_name: str, log_dir: pathlib.Path, log_level: int = logging.DEBUG
+    log_dir: pathlib.Path, log_level: int = logging.DEBUG
 ) -> logging.Logger:
     """Set up console and file logging.
 
     File logger is always set to DEBUG level.
 
     Args:
-        logger_name: str
-            Name of the logger.
         log_dir: pathlib.Path
             Directory to place log files.
         log_level: int = logging.DEBUG
@@ -70,7 +67,7 @@ def setup_logging(
 
     log_level = 50 - (log_level * 10)
     formatter = logging.Formatter(
-        fmt=f"%(asctime)s|%(levelname)s{'|' + logger_name + ':%(lineno)d' or ''}|%(message)s",
+        fmt=f"%(asctime)s|%(levelname)s{'|' + '%(filename)s:%(lineno)d' or ''}|%(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
     )
 

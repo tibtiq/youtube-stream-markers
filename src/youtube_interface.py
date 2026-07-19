@@ -20,9 +20,7 @@ import logger
 
 # todo turn this code into a class
 
-LOGGER = logger.setup_logging(
-    pathlib.Path(__file__).name, pathlib.Path(__file__).parent.parent / "logs"
-)
+LOGGER = logger.setup_logging(pathlib.Path(__file__).parent.parent / "logs")
 
 
 @dataclass

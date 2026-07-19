@@ -15,9 +15,7 @@ from youtube_interface import (
     update_broadcast_description,
 )
 
-LOGGER = logger.setup_logging(
-    pathlib.Path(__file__).name, pathlib.Path(__file__).parent.parent / "logs"
-)
+LOGGER = logger.setup_logging(pathlib.Path(__file__).parent.parent / "logs")
 
 HOTKEY_ID_ARRAY = []
 HOTKEY_NAMES_BY_ID = {}

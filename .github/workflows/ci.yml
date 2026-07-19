@@ -1,10 +1,11 @@
 name: CI
 
 on:
-  # allows manual trigger
-  workflow_dispatch:
+  workflow_dispatch: # allows manual trigger
   push:
+    branches: [ main ] # Only runs when code is merged/pushed directly to main
   pull_request:
+    branches: [ main ] # Only runs when a PR targets the main branch
 
 jobs:
   formatter-and-linter:

@@ -28,7 +28,7 @@ class StreamMarker:
         if isinstance(stream_marker_time, datetime.datetime):
             self.datetime = stream_marker_time
         else:
-            self.datetime = datetime.datetime.now()
+            self.datetime = datetime.datetime.now(datetime.UTC)
 
     def __add__(self, other) -> int | StreamMarker:
         """Overloads the '+' operator for addition.

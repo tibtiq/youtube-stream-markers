@@ -12,9 +12,9 @@ Usage:
     LOGGER.error("This is an error message.")
 """
 
+import datetime
 import logging
 import pathlib
-from datetime import datetime
 
 CRITICAL = 50
 FATAL = CRITICAL
@@ -84,7 +84,7 @@ def setup_logging(
 
     log_dir = log_dir.resolve()
     log_dir.mkdir(parents=True, exist_ok=True)
-    now = datetime.now()
+    now = datetime.datetime.now(tz=datetime.UTC)
     log_file = log_dir / f"{now.strftime('%Y-%m-%d %H-%M-%S')}.log"
 
     file_handler = logging.FileHandler(filename=log_file)

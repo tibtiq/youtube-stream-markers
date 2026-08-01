@@ -71,7 +71,7 @@ def setup_logging(
         datefmt="%Y-%m-%d %H:%M:%S",
     )
 
-    logger = logging.getLogger(__file__)
+    logger = logging.getLogger(__name__)
     if logger.hasHandlers():
         logger.handlers.clear()
     logger.propagate = False

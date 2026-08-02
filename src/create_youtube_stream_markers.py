@@ -36,8 +36,6 @@ SCRIPT_SETTINGS = {
 
 def hotkey_callback(button_down: bool):
     """Handle OBS hotkey press as callback function."""
-    global SCRIPT_SETTINGS
-
     if button_down:
         if SCRIPT_SETTINGS["start_stream_marker"] is None:
             print("Prevented creating stream marker, not streaming")
@@ -90,8 +88,6 @@ def on_event_callback(event):
 
     List of events can be found here: https://docs.obsproject.com/reference-frontend-api
     """
-    global SCRIPT_SETTINGS
-
     # determine if streaming or recording and started or stopped
     if event == obs.OBS_FRONTEND_EVENT_STREAMING_STARTED:
         SCRIPT_SETTINGS["start_stream_marker"] = StreamMarker()
@@ -209,8 +205,6 @@ def script_save(settings):
 
 def script_load(settings):
     """OBS hook that runs when script first loads or reloaded."""
-    global SCRIPT_SETTINGS
-
     print(f"--- {__file__} loaded ---")
 
     # handle OBS frontend events
@@ -252,8 +246,6 @@ def script_update(settings):
     This function is also run immediately after script_load() when OBS is opening.
 
     """
-    global SCRIPT_SETTINGS
-
     if obs.obs_data_get_bool(settings, "debug_enabled"):
         LOGGER.setLevel(logger.DEBUG)
         SCRIPT_SETTINGS["start_stream_marker"] = StreamMarker()

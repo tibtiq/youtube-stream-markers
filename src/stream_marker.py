@@ -7,7 +7,6 @@ from __future__ import annotations
 
 import datetime
 import time
-from typing import Optional, Union
 
 
 class StreamMarker:
@@ -18,7 +17,7 @@ class StreamMarker:
 
     def __init__(
         self,
-        stream_marker_time: Optional[datetime.datetime] = None,
+        stream_marker_time: datetime.datetime | None = None,
     ) -> None:
         """Create a StreamMarker class with an underlying datetime.datetime object of now.
 
@@ -29,9 +28,9 @@ class StreamMarker:
         if isinstance(stream_marker_time, datetime.datetime):
             self.datetime = stream_marker_time
         else:
-            self.datetime = datetime.datetime.now()
+            self.datetime = datetime.datetime.now(datetime.UTC)
 
-    def __add__(self, other) -> Union[int, StreamMarker]:
+    def __add__(self, other) -> int | StreamMarker:
         """Overloads the '+' operator for addition.
 
         Args:
@@ -51,7 +50,7 @@ class StreamMarker:
             f"unsupported operand type(s) for +: '{type(self)}' and '{type(other)}'"
         )
 
-    def __sub__(self, other) -> Union[int, StreamMarker]:
+    def __sub__(self, other) -> int | StreamMarker:
         """Overloads the '-' operator for subtraction.
 
         Args:

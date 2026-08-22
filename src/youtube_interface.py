@@ -49,9 +49,10 @@ def get_youtube_credentials_from_file(
     Returns:
         Credentials used to make Youtube API calls.
     """
-    assert youtube_credentials_path.exists(), (
-        f"The provided path for api credentials doesn't exist: {youtube_credentials_path}"
-    )
+    if not youtube_credentials_path.exists():
+        raise FileNotFoundError(
+            f"The provided path for api credentials doesn't exist: {youtube_credentials_path}"
+        )
     assert youtube_credentials_path.suffix == ".dat", (
         f"The provided path for api credentials appears to be incorrect file type. Expected file "
         f'type is "dat": {youtube_credentials_path}'

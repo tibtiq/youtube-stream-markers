@@ -33,7 +33,7 @@ Create a Google Cloud Console project and now the project is selected
 
 2. Download ouath credentials as json.
 
-   Save it as `oauth_credentials.json`. Create a folder `.config` in top level fodler of the repo and place it there.
+   Save it as `oauth_credentials.json`. Create a folder `.config` in top level folder of the repo and place it there.
 
 ## Setup script with OBS Studio
 1. Download source code in the latest release and extract it somewhere
